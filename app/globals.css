@@ -1,26 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Alice&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Domine:wght@400;700&family=IBM+Plex+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-brown-dark: #2d1506;
+  --color-brown-mid: #45220d;
+  --color-copper: #ce965a;
+  --color-tan: #efdfc3;
+  --color-olive-light: #82921c;
+  --color-olive-dark: #525421;
+  --color-yellow-green: #e8eeba;
+  --color-cream: #fbf4e9;
+  --color-cream-off: #faf9f5;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-instrument: 'Instrument Serif', serif;
+  --font-domine: 'Domine', serif;
+  --font-ibm: 'IBM Plex Sans', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-alice: 'Alice', serif;
+  --font-bodoni: 'Bodoni Moda', serif;
+  --font-cormorant: 'Cormorant Garamond', serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fbf4e9;
+  font-family: 'Inter', sans-serif;
+  color: #45220d;
+}
+
+.btn-primary {
+  display: inline-block;
+  background-color: #525421;
+  color: #fbf4e9;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  padding: 10px 16px;
+  border-radius: 3px;
+  border: 0px solid #2d1506;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.5s, border 0.5s;
+}
+.btn-primary:hover {
+  background-color: #45220d;
+  border: 1px solid #525421;
+}
+
+.btn-copper {
+  display: inline-block;
+  background-color: #ce965a;
+  color: #fbf4e9;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  padding: 10px 16px;
+  border-radius: 3px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-olive-light {
+  display: inline-block;
+  background-color: #82921c;
+  color: #fbf4e9;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  padding: 10px 16px;
+  border-radius: 3px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-yellow-green {
+  display: inline-block;
+  background-color: #e8eeba;
+  color: #45220d;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  padding: 10px 16px;
+  border-radius: 3px;
+  border: 1px solid #45220d;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  display: inline-block;
+  background-color: transparent;
+  color: #fbf4e9;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+  padding: 10px 17px;
+  border-radius: 3px;
+  border: 2px solid #fbf4e9;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.5s, color 0.5s;
+}
+.btn-secondary:hover {
+  border-color: rgba(45,21,6,0.7);
+  color: rgba(45,21,6,0.7);
+}
+
+.font-instrument { font-family: 'Instrument Serif', serif; }
+.font-domine     { font-family: 'Domine', serif; }
+.font-ibm        { font-family: 'IBM Plex Sans', sans-serif; }
+.font-inter      { font-family: 'Inter', sans-serif; }
+
+.subheading {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  line-height: 1.8;
+}
+
+.paragraph {
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: justify;
 }
