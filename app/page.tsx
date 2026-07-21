@@ -1,13 +1,30 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
-const Placeholder = ({ aspect = '3/2', className = '' }: { aspect?: string; className?: string }) => (
-  <div
-    className={`w-full bg-neutral-300 flex items-center justify-center ${className}`}
-    style={{ aspectRatio: aspect }}
-  >
-    <span style={{ color: '#999', fontFamily: 'Inter, sans-serif', fontSize: '13px', letterSpacing: '0.05em' }}>
-      photo
-    </span>
+const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
+
+const Photo = ({
+  src,
+  alt,
+  aspect = '3/2',
+  className = '',
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  aspect?: string;
+  className?: string;
+  priority?: boolean;
+}) => (
+  <div className={`relative w-full overflow-hidden ${className}`} style={{ aspectRatio: aspect }}>
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes="(max-width: 768px) 100vw, 50vw"
+      style={{ objectFit: 'cover' }}
+      priority={priority}
+    />
   </div>
 );
 
@@ -16,24 +33,40 @@ export default function Home() {
     <>
       {/* ── HERO ── */}
       <section
-        style={{ backgroundColor: '#fbf4e9', position: 'relative', overflow: 'hidden' }}
-        className="min-h-[499px] md:min-h-[858px] flex flex-col justify-center"
+        style={{ backgroundColor: '#fbf4e9', position: 'relative', overflow: 'hidden', isolation: 'isolate' }}
+        className="min-h-[499px] md:min-h-[890px] flex flex-col justify-center"
       >
-        {/* Background image placeholder */}
+        {/* Background photo */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <Placeholder aspect="1.49" className="h-full" />
+          <Image
+            src={img('BO1A8225.jpg')}
+            alt="Madison Griffin holding a fan among plants"
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+            priority
+          />
         </div>
 
         {/* "Body Unmuted" display text */}
-        <div style={{ position: 'relative', zIndex: 1, padding: '0 0', textAlign: 'center' }}>
+        <div
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            left: '50%',
+            top: '42%',
+            transform: 'translateY(-50%)',
+          }}
+        >
           <h1
+            className="animate-slide-in-right"
             style={{
               fontFamily: "'Instrument Serif', serif",
               color: '#e8eeba',
               lineHeight: '0.8',
               letterSpacing: '0em',
               fontSize: 'clamp(93px, 15.6vw, 187px)',
-              textAlign: 'center',
+              textAlign: 'left',
               fontWeight: 400,
               whiteSpace: 'nowrap',
             }}
@@ -145,7 +178,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-10 items-start mt-12">
             {/* Photo left */}
             <div className="w-full md:w-[45%] flex-shrink-0">
-              <Placeholder aspect="1/1" />
+              <Photo src={img('madison-balcony.png')} alt="Madison laughing on a wrought-iron balcony" aspect="1/1" />
             </div>
 
             {/* List right */}
@@ -243,7 +276,7 @@ export default function Home() {
 
             {/* Photo right */}
             <div className="w-full md:w-[35%]">
-              <Placeholder aspect="0.667" />
+              <Photo src={img('BO1A8912.jpg')} alt="Madison lying beside a Moroccan tiled pool" aspect="1" />
             </div>
           </div>
         </div>
@@ -255,7 +288,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row gap-10 items-start">
             {/* Photo left */}
             <div className="w-full md:w-[42%] flex-shrink-0">
-              <Placeholder aspect="0.667" />
+              <Photo src={img('BO1A9394.jpg')} alt="Madison in an olive dress leaning against a carved wood door" aspect="0.7" />
             </div>
 
             {/* Text right */}
@@ -295,9 +328,15 @@ export default function Home() {
         style={{ backgroundColor: '#2d1506', padding: '80px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[190px] md:min-h-[450px] flex items-center"
       >
-        {/* Background image at 40% opacity */}
+        {/* Background photo at 40% opacity */}
         <div style={{ position: 'absolute', inset: 0, opacity: 0.4, zIndex: 0 }}>
-          <Placeholder aspect="2.375" className="h-full" />
+          <Image
+            src={img('BO1A8336.jpg')}
+            alt="Madison walking through a courtyard, hair swinging"
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>

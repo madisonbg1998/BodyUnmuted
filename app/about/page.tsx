@@ -1,13 +1,21 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
-const Placeholder = ({ aspect = '3/2', className = '' }: { aspect?: string; className?: string }) => (
-  <div
-    className={`w-full bg-neutral-300 flex items-center justify-center ${className}`}
-    style={{ aspectRatio: aspect }}
-  >
-    <span style={{ color: '#999', fontFamily: 'Inter, sans-serif', fontSize: '13px', letterSpacing: '0.05em' }}>
-      photo
-    </span>
+const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
+
+const Photo = ({
+  src,
+  alt,
+  aspect = '3/2',
+  className = '',
+}: {
+  src: string;
+  alt: string;
+  aspect?: string;
+  className?: string;
+}) => (
+  <div className={`relative w-full overflow-hidden ${className}`} style={{ aspectRatio: aspect }}>
+    <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
   </div>
 );
 
@@ -24,7 +32,7 @@ export default function About() {
               style={{
                 fontFamily: "'Instrument Serif', serif",
                 color: '#82921c',
-                fontSize: 'clamp(72px, 20vw, 241px)',
+                fontSize: 'clamp(60px, 14.5vw, 180px)',
                 lineHeight: '0.8',
                 fontWeight: 400,
                 letterSpacing: '0em',
@@ -52,7 +60,7 @@ export default function About() {
 
             {/* Photo center */}
             <div className="w-full md:w-[40%] max-w-[370px] mx-auto">
-              <Placeholder aspect="0.667" />
+              <Photo src={img('BO1A8475.jpg')} alt="Madison laughing while opening her blazer" aspect="0.77" />
             </div>
 
             {/* Right labels */}
@@ -109,9 +117,15 @@ export default function About() {
         style={{ backgroundColor: '#2d1506', padding: '80px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[328px] md:min-h-[600px] flex items-center"
       >
-        {/* Background image 30% opacity */}
+        {/* Background photo 30% opacity */}
         <div style={{ position: 'absolute', inset: 0, opacity: 0.3, zIndex: 0 }}>
-          <Placeholder aspect="1.747" className="h-full" />
+          <Image
+            src={img('BO1A8370.jpg')}
+            alt="Madison leaning on a balcony railing"
+            fill
+            sizes="100vw"
+            style={{ objectFit: 'cover' }}
+          />
         </div>
 
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
@@ -136,7 +150,7 @@ export default function About() {
 
             {/* Photo left */}
             <div className="w-full md:w-[33%] flex-shrink-0">
-              <Placeholder aspect="0.75" />
+              <Photo src={img('Madison-73.jpg')} alt="Madison outdoors at golden hour in the mountains" aspect="0.75" />
             </div>
 
             {/* Text right */}

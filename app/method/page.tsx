@@ -1,13 +1,27 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
-const Placeholder = ({ aspect = '3/2', className = '' }: { aspect?: string; className?: string }) => (
-  <div
-    className={`w-full bg-neutral-300 flex items-center justify-center ${className}`}
-    style={{ aspectRatio: aspect }}
-  >
-    <span style={{ color: '#999', fontFamily: 'Inter, sans-serif', fontSize: '13px', letterSpacing: '0.05em' }}>
-      photo
-    </span>
+const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
+
+const Photo = ({
+  src,
+  alt,
+  aspect = '3/2',
+  className = '',
+}: {
+  src: string;
+  alt: string;
+  aspect?: string;
+  className?: string;
+}) => (
+  <div className={`relative w-full overflow-hidden ${className}`} style={{ aspectRatio: aspect }}>
+    <Image src={src} alt={alt} fill sizes="(max-width: 768px) 100vw, 50vw" style={{ objectFit: 'cover' }} />
+  </div>
+);
+
+const BgPhoto = ({ src, alt, opacity = 0.5 }: { src: string; alt: string; opacity?: number }) => (
+  <div style={{ position: 'absolute', inset: 0, opacity, zIndex: 0 }}>
+    <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: 'cover' }} />
   </div>
 );
 
@@ -27,7 +41,7 @@ export default function Method() {
             style={{
               fontFamily: "'Instrument Serif', serif",
               color: '#45220d',
-              fontSize: 'clamp(54px, 16.7vw, 200px)',
+              fontSize: 'clamp(54px, 13vw, 150px)',
               lineHeight: '0.9',
               fontWeight: 400,
               textTransform: 'uppercase',
@@ -67,7 +81,7 @@ export default function Method() {
 
             {/* Photo left */}
             <div className="w-full md:w-[47%] flex-shrink-0">
-              <Placeholder aspect="0.626" />
+              <Photo src={img('IMG_6544.jpg')} alt="Madison sitting on a cream sofa" aspect="0.626" />
             </div>
 
             {/* Text right */}
@@ -131,9 +145,7 @@ export default function Method() {
         style={{ backgroundColor: '#45220d', padding: '60px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[250px] md:min-h-[530px] flex items-center"
       >
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.5, zIndex: 0 }}>
-          <Placeholder aspect="1.3" className="h-full" />
-        </div>
+        <BgPhoto src={img('BO1A8972.jpg')} alt="Overhead view of Madison sitting at a tiled pool edge" opacity={0.85} />
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h2
             style={{
@@ -152,53 +164,62 @@ export default function Method() {
       {/* ── DETAILS — Fitness should make your life bigger ── */}
       <section style={{ backgroundColor: '#efdfc3', padding: '80px 20px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p
-            className="subheading"
-            style={{ color: '#45220d', fontSize: 'clamp(12px, 1.8vw, 22px)', marginBottom: '8px' }}
-          >
-            The point of fitness isn&apos;t to just give you a smaller waist
-          </p>
+          <div className="flex flex-col md:flex-row gap-10 items-start">
+            <div className="w-full md:w-[62%]">
+              <p
+                className="subheading"
+                style={{ color: '#45220d', fontSize: 'clamp(12px, 1.8vw, 22px)', marginBottom: '8px' }}
+              >
+                The point of fitness isn&apos;t to just give you a smaller waist
+              </p>
 
-          <h2
-            style={{
-              fontFamily: "'Instrument Serif', serif",
-              color: '#82921c',
-              fontSize: 'clamp(28px, 4.5vw, 54px)',
-              lineHeight: '1',
-              fontWeight: 400,
-              marginBottom: '40px',
-            }}
-          >
-            <br />It exists to give you a bigger life.
-          </h2>
+              <h2
+                style={{
+                  fontFamily: "'Instrument Serif', serif",
+                  color: '#82921c',
+                  fontSize: 'clamp(28px, 4.5vw, 54px)',
+                  lineHeight: '1',
+                  fontWeight: 400,
+                  marginBottom: '40px',
+                }}
+              >
+                <br />It exists to give you a bigger life.
+              </h2>
 
-          <p
-            className="paragraph"
-            style={{ color: '#45220d', fontSize: 'clamp(10px, 1.5vw, 18px)', maxWidth: '613px', marginBottom: '40px' }}
-          >
-            Yes, changing your body matters. But changing your body is part of the work. Changing the way you experience your life is the point.
-            <br /><br />
-            That&apos;s a very different way of thinking about fitness.
-            <br /><br />
-            Instead of just asking, &ldquo;How do I change my body?&rdquo;
-            <br /><br />
-            We ask, &ldquo;What kind of body do I want for the life I&apos;m trying to build?&rdquo;
-            <br /><br />
-            Because the answer isn&apos;t just leaner. Or stronger.
-            <br /><strong>It&apos;s more capable.</strong>
-            <br /><br />
-            A body that has the energy to build a business.
-            <br />The resilience to handle stressful seasons.
-            <br />The confidence to walk into any room feeling incredible.
-            <br />The capacity to travel, celebrate, recover, and still keep moving toward the life you want.
-            <br /><br />
-            <strong>I don&apos;t think fitness should ask you to make your life smaller.
-            <br />I think it should make your life bigger.</strong>
-          </p>
+              <p
+                className="paragraph"
+                style={{ color: '#45220d', fontSize: 'clamp(10px, 1.5vw, 18px)', maxWidth: '613px', marginBottom: '40px' }}
+              >
+                Yes, changing your body matters. But changing your body is part of the work. Changing the way you experience your life is the point.
+                <br /><br />
+                That&apos;s a very different way of thinking about fitness.
+                <br /><br />
+                Instead of just asking, &ldquo;How do I change my body?&rdquo;
+                <br /><br />
+                We ask, &ldquo;What kind of body do I want for the life I&apos;m trying to build?&rdquo;
+                <br /><br />
+                Because the answer isn&apos;t just leaner. Or stronger.
+                <br /><strong>It&apos;s more capable.</strong>
+                <br /><br />
+                A body that has the energy to build a business.
+                <br />The resilience to handle stressful seasons.
+                <br />The confidence to walk into any room feeling incredible.
+                <br />The capacity to travel, celebrate, recover, and still keep moving toward the life you want.
+                <br /><br />
+                <strong>I don&apos;t think fitness should ask you to make your life smaller.
+                <br />I think it should make your life bigger.</strong>
+              </p>
 
-          <Link href="/work-with-me" className="btn-yellow-green">
-            This is how we do it
-          </Link>
+              <Link href="/work-with-me" className="btn-yellow-green">
+                This is how we do it
+              </Link>
+            </div>
+
+            {/* Photo right */}
+            <div className="w-full md:w-[38%] flex-shrink-0">
+              <Photo src={img('Madison-73.jpg')} alt="Madison dancing outdoors at golden hour" aspect="0.72" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -207,9 +228,7 @@ export default function Method() {
         style={{ backgroundColor: '#2d1506', padding: '60px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[250px] md:min-h-[450px] flex items-center"
       >
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.5, zIndex: 0 }}>
-          <Placeholder aspect="1.98" className="h-full" />
-        </div>
+        <BgPhoto src={img('BO1A9394.jpg')} alt="Madison in an olive dress leaning against a carved wood door" opacity={0.55} />
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h2
             style={{
@@ -232,10 +251,9 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="flex flex-col md:flex-row gap-10 items-start">
 
-            {/* Photos left — two stacked */}
-            <div className="w-full md:w-[42%] flex-shrink-0 flex flex-col gap-4">
-              <Placeholder aspect="0.667" />
-              <Placeholder aspect="0.667" />
+            {/* Photo left */}
+            <div className="w-full md:w-[42%] flex-shrink-0">
+              <Photo src={img('Madison-243.jpg')} alt="Madison eating from a bowl on the beach at sunset" aspect="0.667" />
             </div>
 
             {/* Text right */}
@@ -278,9 +296,7 @@ export default function Method() {
         style={{ backgroundColor: '#525421', padding: '80px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[720px] md:min-h-[850px] flex items-center"
       >
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.1, zIndex: 0 }}>
-          <Placeholder aspect="0.667" className="h-full" />
-        </div>
+        <BgPhoto src={img('Madison-114.jpg')} alt="Madison standing outdoors with an arm raised" opacity={0.35} />
 
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
@@ -381,7 +397,7 @@ export default function Method() {
 
             {/* Photo right */}
             <div className="w-full md:w-[40%] flex-shrink-0">
-              <Placeholder aspect="0.667" />
+              <Photo src={img('Madison-114.jpg')} alt="Madison standing outdoors with an arm raised toward the sky" aspect="0.667" />
             </div>
           </div>
         </div>
@@ -392,9 +408,7 @@ export default function Method() {
         style={{ backgroundColor: '#45220d', padding: '80px 20px', position: 'relative', overflow: 'hidden' }}
         className="min-h-[250px] md:min-h-[450px] flex items-center"
       >
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.5, zIndex: 0 }}>
-          <Placeholder aspect="2.375" className="h-full" />
-        </div>
+        <BgPhoto src={img('BO1A8336.jpg')} alt="Madison walking through a courtyard, hair swinging" opacity={0.5} />
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
             style={{
