@@ -39,7 +39,7 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#45220d',
               fontSize: 'clamp(54px, 13vw, 150px)',
               lineHeight: '0.9',
@@ -88,7 +88,7 @@ export default function Method() {
             <div className="w-full md:w-[53%]">
               <h2
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#ce965a',
                   fontSize: 'clamp(28px, 5.5vw, 66px)',
                   lineHeight: '1',
@@ -149,7 +149,7 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h2
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#fbf4e9',
               fontSize: 'clamp(59px, 10.8vw, 130px)',
               lineHeight: '1',
@@ -175,7 +175,7 @@ export default function Method() {
 
               <h2
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#82921c',
                   fontSize: 'clamp(28px, 4.5vw, 54px)',
                   lineHeight: '1',
@@ -232,7 +232,7 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h2
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#e8eeba',
               fontSize: 'clamp(59px, 10.8vw, 130px)',
               lineHeight: '1',
@@ -260,7 +260,7 @@ export default function Method() {
             <div className="w-full md:w-[58%]">
               <h1
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#ce965a',
                   fontSize: 'clamp(26px, 4.2vw, 50px)',
                   lineHeight: '1',
@@ -301,7 +301,7 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#e8eeba',
               fontSize: 'clamp(25px, 5.6vw, 67px)',
               lineHeight: '1',
@@ -355,7 +355,7 @@ export default function Method() {
             <div className="w-full md:w-[60%]">
               <h1
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#82921c',
                   fontSize: 'clamp(29px, 5.6vw, 67px)',
                   lineHeight: '1',
@@ -412,7 +412,7 @@ export default function Method() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#fbf4e9',
               fontSize: 'clamp(27px, 8.3vw, 100px)',
               lineHeight: '1',

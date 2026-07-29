@@ -8,7 +8,7 @@ export default function WorkWithMe() {
       <div style={{ maxWidth: '600px', textAlign: 'center' }}>
         <h1
           style={{
-            fontFamily: "'Instrument Serif', serif",
+            fontFamily: "var(--font-instrument-serif), serif",
             color: '#2d1506',
             fontSize: 'clamp(36px, 5vw, 60px)',
             lineHeight: '1',
@@ -20,7 +20,7 @@ export default function WorkWithMe() {
         </h1>
         <p
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "var(--font-inter-sans), sans-serif",
             color: '#45220d',
             fontSize: '18px',
             lineHeight: '1.6',

@@ -30,7 +30,7 @@ export default function About() {
           <div style={{ textAlign: 'center', overflow: 'hidden', marginBottom: '40px' }}>
             <h1
               style={{
-                fontFamily: "'Instrument Serif', serif",
+                fontFamily: "var(--font-instrument-serif), serif",
                 color: '#82921c',
                 fontSize: 'clamp(60px, 14.5vw, 180px)',
                 lineHeight: '0.8',
@@ -92,7 +92,7 @@ export default function About() {
           <div style={{ maxWidth: '935px', margin: '0 auto' }}>
             <h2
               style={{
-                fontFamily: "'Domine', serif",
+                fontFamily: "var(--font-domine-serif), serif",
                 color: '#45220d',
                 fontSize: 'clamp(12px, 1.7vw, 20px)',
                 lineHeight: '1.4',
@@ -131,7 +131,7 @@ export default function About() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#e8eeba',
               fontSize: 'clamp(26px, 7.8vw, 94px)',
               lineHeight: '1',
@@ -157,7 +157,7 @@ export default function About() {
             <div className="w-full md:w-[67%]">
               <h2
                 style={{
-                  fontFamily: "'Domine', serif",
+                  fontFamily: "var(--font-domine-serif), serif",
                   color: '#82921c',
                   fontSize: 'clamp(15px, 2.75vw, 33px)',
                   lineHeight: '1.2',
@@ -185,7 +185,7 @@ export default function About() {
 
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-inter-sans), sans-serif",
                   color: '#82921c',
                   fontSize: 'clamp(14px, 2vw, 24px)',
                   lineHeight: '1.4',

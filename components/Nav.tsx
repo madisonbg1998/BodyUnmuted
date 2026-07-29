@@ -3,15 +3,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const navLinks = [
-  { label: 'HOME', href: '/' },
-  { label: 'about', href: '/about' },
-  { label: 'method', href: '/method' },
-  { label: 'work with me', href: '/work-with-me' },
-  { label: 'Blog', href: '/blog' },
+  { label: 'about me', href: '/about' },
+  { label: 'my method', href: '/method' },
+  { label: 'the membership', href: '/work-with-me' },
 ];
 
 const linkStyle: React.CSSProperties = {
-  fontFamily: "'IBM Plex Sans', sans-serif",
+  fontFamily: "var(--font-ibm-plex-sans), sans-serif",
   color: '#e8eeba',
   textTransform: 'uppercase',
   letterSpacing: '0.1em',
@@ -37,7 +35,7 @@ export default function Nav() {
           <Link
             href="/"
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               fontSize: 'clamp(22px, 3vw, 36px)',
               color: '#faf9f5',
               textTransform: 'uppercase',
@@ -56,8 +54,8 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/contact" className="btn-secondary" style={{ fontSize: '14px' }}>
-              Let&apos;s Start
+            <Link href="/work-with-me" className="btn-secondary" style={{ fontSize: '14px' }}>
+              Work With Me
             </Link>
           </nav>
 
@@ -110,7 +108,7 @@ export default function Nav() {
                 href={l.href}
                 onClick={() => setOpen(false)}
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#e8eeba',
                   textTransform: 'uppercase',
                   fontSize: '54px',
@@ -122,6 +120,14 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
+            <Link
+              href="/work-with-me"
+              onClick={() => setOpen(false)}
+              className="btn-secondary"
+              style={{ marginTop: '12px', display: 'inline-block', width: 'fit-content' }}
+            >
+              Work With Me
+            </Link>
           </nav>
         </div>
       )}

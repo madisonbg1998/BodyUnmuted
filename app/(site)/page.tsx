@@ -55,13 +55,13 @@ export default function Home() {
             zIndex: 1,
             left: '50%',
             top: '42%',
-            transform: 'translateY(-50%)',
+            transform: 'translate(-50%, -50%)',
           }}
         >
           <h1
             className="animate-slide-in-right"
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#e8eeba',
               lineHeight: '0.8',
               letterSpacing: '0em',
@@ -86,7 +86,7 @@ export default function Home() {
         <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
           <h2
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#faf9f5',
               fontSize: 'clamp(38px, 8.3vw, 100px)',
               lineHeight: '1',
@@ -100,7 +100,7 @@ export default function Home() {
 
           <h3
             style={{
-              fontFamily: "'Domine', serif",
+              fontFamily: "var(--font-domine-serif), serif",
               color: '#45220d',
               fontSize: 'clamp(15px, 2.9vw, 35px)',
               lineHeight: '1.2',
@@ -116,7 +116,7 @@ export default function Home() {
 
           <h3
             style={{
-              fontFamily: "'Domine', serif",
+              fontFamily: "var(--font-domine-serif), serif",
               color: '#2d1506',
               fontSize: 'clamp(13px, 1.8vw, 22px)',
               lineHeight: '1.2',
@@ -141,7 +141,7 @@ export default function Home() {
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <h2
               style={{
-                fontFamily: "'Instrument Serif', serif",
+                fontFamily: "var(--font-instrument-serif), serif",
                 color: '#45220d',
                 fontSize: 'clamp(27px, 4.3vw, 52px)',
                 lineHeight: '1',
@@ -161,7 +161,7 @@ export default function Home() {
 
             <h2
               style={{
-                fontFamily: "'Instrument Serif', serif",
+                fontFamily: "var(--font-instrument-serif), serif",
                 color: '#45220d',
                 fontSize: 'clamp(23px, 3.7vw, 44px)',
                 lineHeight: '1',
@@ -192,7 +192,7 @@ export default function Home() {
               </p>
               <ul
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-inter-sans), sans-serif",
                   color: '#45220d',
                   fontSize: 'clamp(13px, 1.6vw, 19px)',
                   lineHeight: '1.3',
@@ -208,7 +208,7 @@ export default function Home() {
               </ul>
               <p
                 style={{
-                  fontFamily: "'Inter', sans-serif",
+                  fontFamily: "var(--font-inter-sans), sans-serif",
                   color: '#45220d',
                   fontSize: 'clamp(13px, 1.6vw, 19px)',
                   lineHeight: '1.3',
@@ -237,7 +237,7 @@ export default function Home() {
             <div className="w-full md:w-[65%]">
               <h2
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#fbf4e9',
                   fontSize: 'clamp(30px, 4.3vw, 52px)',
                   lineHeight: '1',
@@ -250,7 +250,7 @@ export default function Home() {
 
               <h2
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#e8eeba',
                   fontSize: 'clamp(36px, 5.2vw, 62px)',
                   lineHeight: '1',
@@ -295,7 +295,7 @@ export default function Home() {
             <div className="w-full md:w-[58%]">
               <h2
                 style={{
-                  fontFamily: "'Instrument Serif', serif",
+                  fontFamily: "var(--font-instrument-serif), serif",
                   color: '#45220d',
                   fontSize: 'clamp(36px, 5.2vw, 62px)',
                   lineHeight: '1',
@@ -342,7 +342,7 @@ export default function Home() {
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1, width: '100%' }}>
           <h1
             style={{
-              fontFamily: "'Instrument Serif', serif",
+              fontFamily: "var(--font-instrument-serif), serif",
               color: '#fbf4e9',
               fontSize: 'clamp(27px, 8.3vw, 100px)',
               lineHeight: '1',
