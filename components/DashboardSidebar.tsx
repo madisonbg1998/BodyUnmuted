@@ -19,6 +19,26 @@ const navItems = [
       </svg>
     ),
   },
+  {
+    label: 'BRI AI',
+    href: '/dashboard/ai-coach',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
+        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" strokeLinecap="round" />
+        <circle cx="12" cy="12" r="4" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Course',
+    href: '/dashboard/course',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
+        <path d="M12 6.5C10.5 5.3 8 4.5 4 4.5v13c4 0 6.5.8 8 2 1.5-1.2 4-2 8-2v-13c-4 0-6.5.8-8 2Z" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 6.5v13" strokeLinecap="round" />
+      </svg>
+    ),
+  },
 ];
 
 const comingSoonItems = [
@@ -31,15 +51,6 @@ const comingSoonItems = [
     ),
   },
   {
-    label: 'Course',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
-        <path d="M12 6.5C10.5 5.3 8 4.5 4 4.5v13c4 0 6.5.8 8 2 1.5-1.2 4-2 8-2v-13c-4 0-6.5.8-8 2Z" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M12 6.5v13" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
     label: 'Community',
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
@@ -47,15 +58,6 @@ const comingSoonItems = [
         <path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" strokeLinecap="round" />
         <circle cx="17" cy="9" r="2.5" />
         <path d="M15.5 14c2.9.3 5.5 2.6 5.5 6" strokeLinecap="round" />
-      </svg>
-    ),
-  },
-  {
-    label: 'AI Coach',
-    icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
-        <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" strokeLinecap="round" />
-        <circle cx="12" cy="12" r="4" />
       </svg>
     ),
   },

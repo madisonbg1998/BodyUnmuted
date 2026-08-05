@@ -5,6 +5,7 @@ import Link from 'next/link';
 const navLinks = [
   { label: 'about me', href: '/about' },
   { label: 'my method', href: '/method' },
+  // 'take the quiz' link hidden from nav until the quiz is ready to announce — still live at /quiz
   { label: 'the membership', href: '/work-with-me' },
 ];
 

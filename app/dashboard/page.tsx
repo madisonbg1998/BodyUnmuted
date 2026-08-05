@@ -1,12 +1,13 @@
 import { verifySession } from '@/app/lib/dal';
 import DashboardGreeting from '@/components/DashboardGreeting';
-import MacroTrendChart from '@/components/MacroTrendChart';
+import MacroRing from '@/components/MacroRing';
 
 const panelStyle: React.CSSProperties = {
-  backgroundColor: '#fff',
-  border: '1px solid rgba(45,21,6,0.12)',
-  borderRadius: '10px',
+  backgroundColor: '#faf9f5',
+  border: '1px solid rgba(206,150,90,0.28)',
+  borderRadius: '12px',
   overflow: 'hidden',
+  boxShadow: '0 4px 24px rgba(45,21,6,0.05)',
 };
 
 const panelHeaderStyle: React.CSSProperties = {
@@ -161,20 +162,11 @@ const icons = {
 };
 
 const macros = [
-  { label: 'Calories', value: '1,540', target: '1,700', unit: 'kcal' },
-  { label: 'Protein', value: '112', target: '130', unit: 'g' },
-  { label: 'Carbs', value: '148', target: '160', unit: 'g' },
-  { label: 'Fat', value: '48', target: '55', unit: 'g' },
+  { label: 'Calories', value: 1540, target: 1700, unit: '' },
+  { label: 'Protein', value: 112, target: 130, unit: 'g' },
+  { label: 'Carbs', value: 148, target: 160, unit: 'g' },
+  { label: 'Fat', value: 48, target: 55, unit: 'g' },
 ];
-
-const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today'];
-
-const weekData = {
-  calories: days.map((day, i) => ({ day, value: [1620, 1750, 1680, 1590, 1710, 1660, 1540][i] })),
-  protein: days.map((day, i) => ({ day, value: [118, 125, 130, 121, 128, 115, 112][i] })),
-  carbs: days.map((day, i) => ({ day, value: [150, 162, 158, 140, 155, 149, 148][i] })),
-  fat: days.map((day, i) => ({ day, value: [50, 53, 57, 46, 52, 49, 48][i] })),
-};
 
 export default async function DashboardPage() {
   const { user } = await verifySession();
@@ -220,47 +212,10 @@ export default async function DashboardPage() {
             </div>
             <div style={rowIconStyle}>{icons.macro}</div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0' }}>
-            {macros.map((m, i) => (
-              <div
-                key={m.label}
-                style={{
-                  padding: '20px 24px',
-                  borderRight: i < macros.length - 1 ? '1px solid rgba(45,21,6,0.08)' : 'none',
-                }}
-              >
-                <p style={rowLabelStyle}>{m.label}</p>
-                <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: '28px', lineHeight: '1.1' }}>
-                  {m.value}
-                  <span style={{ fontSize: '15px', opacity: 0.5 }}> / {m.target}{m.unit}</span>
-                </p>
-              </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', gap: '24px', padding: '32px 24px' }}>
+            {macros.map((m) => (
+              <MacroRing key={m.label} label={m.label} value={m.value} target={m.target} unit={m.unit} />
             ))}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ maxWidth: '1100px', marginTop: '24px' }}>
-        <div style={panelStyle}>
-          <div style={panelHeaderStyle}>
-            <div>
-              <h2 style={panelTitleStyle}>Macro Trends</h2>
-              <p style={{ ...rowSubStyle, marginTop: '4px' }}>Last 7 days · synced from Trainerize once that&apos;s connected.</p>
-            </div>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))' }}>
-            <div style={{ borderRight: '1px solid rgba(45,21,6,0.08)', borderBottom: '1px solid rgba(45,21,6,0.08)' }}>
-              <MacroTrendChart label="Calories" unit="" target={1700} data={weekData.calories} />
-            </div>
-            <div style={{ borderBottom: '1px solid rgba(45,21,6,0.08)' }}>
-              <MacroTrendChart label="Protein" unit="g" target={130} data={weekData.protein} />
-            </div>
-            <div style={{ borderRight: '1px solid rgba(45,21,6,0.08)' }}>
-              <MacroTrendChart label="Carbs" unit="g" target={160} data={weekData.carbs} />
-            </div>
-            <div>
-              <MacroTrendChart label="Fat" unit="g" target={55} data={weekData.fat} />
-            </div>
           </div>
         </div>
       </div>

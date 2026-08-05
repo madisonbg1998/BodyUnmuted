@@ -2,10 +2,11 @@ import { verifySession } from '@/app/lib/dal';
 import ToggleSwitch from '@/components/ToggleSwitch';
 
 const panelStyle: React.CSSProperties = {
-  backgroundColor: '#fff',
-  border: '1px solid rgba(45,21,6,0.12)',
-  borderRadius: '10px',
+  backgroundColor: '#faf9f5',
+  border: '1px solid rgba(206,150,90,0.28)',
+  borderRadius: '12px',
   overflow: 'hidden',
+  boxShadow: '0 4px 24px rgba(45,21,6,0.05)',
 };
 
 const panelHeaderStyle: React.CSSProperties = {
