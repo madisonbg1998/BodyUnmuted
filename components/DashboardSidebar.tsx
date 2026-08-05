@@ -113,17 +113,18 @@ export default function DashboardSidebar() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px',
-                padding: '11px 14px',
-                borderRadius: '6px',
+                padding: '11px 14px 11px 12px',
+                borderRadius: '4px',
+                borderLeft: isActive ? '2px solid #ce965a' : '2px solid transparent',
                 fontFamily: 'var(--font-ibm-plex-sans), sans-serif',
                 fontSize: '13px',
                 fontWeight: 500,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 textDecoration: 'none',
-                color: isActive ? '#2d1506' : '#e8eeba',
-                backgroundColor: isActive ? '#e8eeba' : 'transparent',
-                transition: 'background-color 0.2s, color 0.2s',
+                color: isActive ? '#f3e4c4' : '#e8eeba',
+                backgroundColor: isActive ? 'rgba(206,150,90,0.1)' : 'transparent',
+                transition: 'background-color 0.2s, color 0.2s, border-color 0.2s',
               }}
             >
               {item.icon}
@@ -176,8 +177,9 @@ export default function DashboardSidebar() {
             display: 'flex',
             alignItems: 'center',
             gap: '12px',
-            padding: '11px 14px',
-            borderRadius: '6px',
+            padding: '11px 14px 11px 12px',
+            borderRadius: '4px',
+            borderLeft: pathname === '/dashboard/settings' ? '2px solid #ce965a' : '2px solid transparent',
             fontFamily: 'var(--font-ibm-plex-sans), sans-serif',
             fontSize: '13px',
             fontWeight: 500,
@@ -185,9 +187,9 @@ export default function DashboardSidebar() {
             textTransform: 'uppercase',
             textDecoration: 'none',
             marginBottom: '8px',
-            color: pathname === '/dashboard/settings' ? '#2d1506' : '#e8eeba',
-            backgroundColor: pathname === '/dashboard/settings' ? '#e8eeba' : 'transparent',
-            transition: 'background-color 0.2s, color 0.2s',
+            color: pathname === '/dashboard/settings' ? '#f3e4c4' : '#e8eeba',
+            backgroundColor: pathname === '/dashboard/settings' ? 'rgba(206,150,90,0.1)' : 'transparent',
+            transition: 'background-color 0.2s, color 0.2s, border-color 0.2s',
           }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>

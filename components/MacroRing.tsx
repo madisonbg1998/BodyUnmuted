@@ -17,6 +17,7 @@ export default function MacroRing({
   const pct = Math.min(value / target, 1);
   const offset = CIRCUMFERENCE * (1 - pct);
   const percentLabel = Math.round((value / target) * 100);
+  const gradientId = `macro-ring-${label.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
 
   return (
     <div
@@ -26,13 +27,19 @@ export default function MacroRing({
     >
       <div style={{ position: 'relative', width: SIZE, height: SIZE }}>
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ transform: 'rotate(-90deg)' }}>
-          <circle cx={SIZE / 2} cy={SIZE / 2} r={RADIUS} fill="none" stroke="#e8eeba" strokeWidth={STROKE} />
+          <defs>
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#ce965a" />
+              <stop offset="100%" stopColor="#525421" />
+            </linearGradient>
+          </defs>
+          <circle cx={SIZE / 2} cy={SIZE / 2} r={RADIUS} fill="none" stroke="#efe9d8" strokeWidth={STROKE} />
           <circle
             cx={SIZE / 2}
             cy={SIZE / 2}
             r={RADIUS}
             fill="none"
-            stroke="#525421"
+            stroke={`url(#${gradientId})`}
             strokeWidth={STROKE}
             strokeLinecap="round"
             strokeDasharray={CIRCUMFERENCE}
