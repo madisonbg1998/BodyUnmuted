@@ -334,7 +334,7 @@ export default function WorkWithMe() {
               lineHeight: '1.25',
             }}
           >
-            What if six weeks from now, you weren&rsquo;t still trying to figure out what works&mdash;you had a
+            What if twelve weeks from now, you weren&rsquo;t still trying to figure out what works&mdash;you had a
             system that was already working for you?
           </h2>
         </div>
