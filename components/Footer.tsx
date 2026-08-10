@@ -29,9 +29,7 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-6 md:gap-10 mb-8">
           <Link href="/" style={linkStyle}>Home</Link>
           <Link href="/about" style={linkStyle}>about</Link>
-          <Link href="/method" style={linkStyle}>Method</Link>
-          <Link href="/work-with-me" style={linkStyle}>work with me</Link>
-          <Link href="/blog" style={linkStyle}>blog</Link>
+          <Link href="/work-with-me" style={linkStyle}>the membership</Link>
         </div>
 
         {/* Contact form */}

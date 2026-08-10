@@ -5,7 +5,7 @@
   --color-brown-mid: #45220d;
   --color-copper: #ce965a;
   --color-tan: #efdfc3;
-  --color-olive-light: #82921c;
+  --color-olive-light: #7f8b32;
   --color-olive-dark: #525421;
   --color-yellow-green: #e8eeba;
   --color-cream: #fbf4e9;
@@ -110,7 +110,7 @@ select:focus {
 
 .btn-olive-light {
   display: inline-block;
-  background-color: #82921c;
+  background-color: #7f8b32;
   color: #fbf4e9;
   font-family: var(--font-inter-sans), sans-serif;
   font-size: 14px;
@@ -199,6 +199,25 @@ select:focus {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-slide-in-right {
+    animation: none;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
     animation: none;
   }
 }

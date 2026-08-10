@@ -3,9 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 const navLinks = [
-  { label: 'about me', href: '/about' },
-  { label: 'my method', href: '/method' },
-  // 'take the quiz' link hidden from nav until the quiz is ready to announce — still live at /quiz
+  { label: 'about', href: '/about' },
   { label: 'the membership', href: '/work-with-me' },
 ];
 
@@ -49,14 +47,14 @@ export default function Nav() {
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} style={linkStyle}>
                 {l.label}
               </Link>
             ))}
-            <Link href="/work-with-me" className="btn-secondary" style={{ fontSize: '14px' }}>
-              Work With Me
+            <Link href="/contact" className="btn-secondary" style={{ fontSize: '14px' }}>
+              Let&apos;s Start
             </Link>
           </nav>
 
@@ -122,12 +120,12 @@ export default function Nav() {
               </Link>
             ))}
             <Link
-              href="/work-with-me"
+              href="/contact"
               onClick={() => setOpen(false)}
               className="btn-secondary"
               style={{ marginTop: '12px', display: 'inline-block', width: 'fit-content' }}
             >
-              Work With Me
+              Let&apos;s Start
             </Link>
           </nav>
         </div>

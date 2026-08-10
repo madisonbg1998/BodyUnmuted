@@ -97,7 +97,7 @@ export default function QuizResults({
           style={{
             fontFamily: 'var(--font-instrument-serif), serif',
             fontStyle: 'italic',
-            color: '#82921c',
+            color: '#7f8b32',
             fontSize: 'clamp(18px, 2.4vw, 24px)',
             marginTop: '16px',
           }}
@@ -111,7 +111,7 @@ export default function QuizResults({
       </div>
 
       <div style={panelStyle}>
-        <p style={{ ...eyebrowStyle, color: '#82921c' }}>What you’re already doing well</p>
+        <p style={{ ...eyebrowStyle, color: '#7f8b32' }}>What you’re already doing well</p>
         <p style={{ ...bodyStyle, marginTop: '8px' }}>{primaryArchetype.doingWell}</p>
       </div>
 

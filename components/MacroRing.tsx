@@ -29,8 +29,8 @@ export default function MacroRing({
         <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ transform: 'rotate(-90deg)' }}>
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#ce965a" />
-              <stop offset="100%" stopColor="#525421" />
+              <stop offset="0%" stopColor="#525421" />
+              <stop offset="100%" stopColor="#a8b562" />
             </linearGradient>
           </defs>
           <circle cx={SIZE / 2} cy={SIZE / 2} r={RADIUS} fill="none" stroke="#efe9d8" strokeWidth={STROKE} />
