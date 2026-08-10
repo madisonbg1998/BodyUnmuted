@@ -28,11 +28,9 @@ type FormData = {
   fullName: string;
   email: string;
   phone: string;
-  instagram: string;
-  message: string;
 };
 
-const emptyForm: FormData = { fullName: '', email: '', phone: '', instagram: '', message: '' };
+const emptyForm: FormData = { fullName: '', email: '', phone: '' };
 
 export default function ContactPage() {
   const [formData, setFormData] = useState<FormData>(emptyForm);
@@ -52,7 +50,6 @@ export default function ContactPage() {
       if (!formData.fullName.trim()) return setError('Please enter your name.');
       if (!formData.email.trim()) return setError('Please enter your email.');
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return setError('Please enter a valid email address.');
-      if (!formData.message.trim()) return setError('Please enter a message.');
 
       setIsSubmitting(true);
       setError(null);
@@ -91,10 +88,10 @@ export default function ContactPage() {
               marginBottom: '20px',
             }}
           >
-            So good to meet you.
+            You&apos;re on the waitlist.
           </h1>
           <p className="paragraph" style={{ color: '#45220d', fontSize: '17px' }}>
-            I&apos;ll be in touch soon. In the meantime, feel free to explore the site or follow along on Instagram.
+            I&apos;ll reach out personally as spots open up. In the meantime, feel free to explore the site or follow along on Instagram.
           </p>
         </div>
       </section>
@@ -121,10 +118,10 @@ export default function ContactPage() {
               marginBottom: '16px',
             }}
           >
-            Let&apos;s start.
+            Join the waitlist.
           </h1>
           <p className="paragraph" style={{ color: '#45220d', fontSize: '16px' }}>
-            Drop your details and I&apos;ll be in touch.
+            Drop your details and I&apos;ll be in touch as founding member spots open up.
           </p>
         </div>
 
@@ -174,41 +171,12 @@ export default function ContactPage() {
             />
           </div>
 
-          <div>
-            <label htmlFor="instagram" style={labelStyle}>
-              Instagram <span style={{ color: 'rgba(45,21,6,0.4)', textTransform: 'none', letterSpacing: 'normal', fontWeight: 400 }}>(optional)</span>
-            </label>
-            <input
-              id="instagram"
-              type="text"
-              autoComplete="off"
-              value={formData.instagram}
-              onChange={(e) => updateField('instagram', e.target.value)}
-              placeholder="@yourhandle"
-              style={inputStyle}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" style={labelStyle}>
-              Message <span style={{ color: '#ce965a' }}>*</span>
-            </label>
-            <textarea
-              id="message"
-              rows={5}
-              value={formData.message}
-              onChange={(e) => updateField('message', e.target.value)}
-              placeholder="How can I help you?"
-              style={{ ...inputStyle, resize: 'vertical' }}
-            />
-          </div>
-
           {error && (
             <p style={{ color: '#b3261e', fontFamily: "var(--font-inter-sans), sans-serif", fontSize: '14px' }}>{error}</p>
           )}
 
           <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ opacity: isSubmitting ? 0.6 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer' }}>
-            {isSubmitting ? 'Sending…' : "Let's Start"}
+            {isSubmitting ? 'Sending…' : 'Join the Waitlist'}
           </button>
         </form>
       </div>

@@ -10,7 +10,7 @@ const FIELD_IDS = {
   message: 'oj6bc8us4',
 };
 
-const REQUIRED_FIELDS = ['fullName', 'email', 'message'] as const;
+const REQUIRED_FIELDS = ['fullName', 'email'] as const;
 
 function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

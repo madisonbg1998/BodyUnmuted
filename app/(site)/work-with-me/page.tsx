@@ -358,11 +358,11 @@ export default function WorkWithMe() {
         <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
           <div style={{ position: 'relative', minHeight: '460px', backgroundColor: '#e9e2d0' }}>
             <Image
-              src={img('BO1A8238.jpg')}
+              src={img('madison-fan-hero.webp')}
               alt="Madison laughing, holding a fan"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectFit: 'contain', objectPosition: '50% 50%' }}
+              style={{ objectFit: 'cover', objectPosition: '50% 50%' }}
             />
           </div>
           <div style={{ padding: '88px 56px' }}>
@@ -720,7 +720,7 @@ export default function WorkWithMe() {
 
       {/* ── 12-week course headline + phrase grid ── */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '90px 20px' }}>
-        <BgPhoto src={img('BO1A8912.jpg')} alt="Woman lying beside a Moroccan tiled pool" overlay="rgba(69,34,13,0.6)" position="62% 58%" />
+        <BgPhoto src={img('BO1A8912.jpg')} alt="Woman lying beside a Moroccan tiled pool" overlay="rgba(69,34,13,0.6)" position="62% 85%" />
         <div style={{ maxWidth: '1000px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
           <h2
             style={{
@@ -798,7 +798,7 @@ export default function WorkWithMe() {
           'Understand protein, carbohydrates, fats, and alcohol so you can make informed choices without expecting every meal to be perfect.',
           'Learn which nutrients and supplements genuinely support muscle, performance, and recovery and which ones are mostly expensive noise.',
         ]}
-        image="madison-243.jpg"
+        image="Madison-243.jpg"
         alt="Madison eating from a bowl on the beach at sunset"
         imageSide="left"
         bg="#fbf4e9"
