@@ -286,7 +286,7 @@ export default function WorkWithMe() {
     <>
       {/* ── HERO ── */}
       <section style={{ position: 'relative', overflow: 'hidden', padding: '120px 20px 80px' }} className="min-h-[520px] flex items-center">
-        <BgPhoto src={img('BO1A8370-small-crop.jpg')} alt="Balcony architecture, softly lit" overlay="rgba(251,244,233,0.55)" />
+        <BgPhoto src={img('BO1A8336.jpg')} alt="Madison walking through a courtyard" overlay="rgba(251,244,233,0.55)" />
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <h1
             style={{
