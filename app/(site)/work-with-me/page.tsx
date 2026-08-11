@@ -317,7 +317,7 @@ export default function WorkWithMe() {
             the GROUP FITNESS COACHING MEMBERSHIP for location-free female founders, built to flex with your life,
             not fight it.
           </p>
-          <Btn href="/contact" bg="#2d1506" color="#fbf4e9">
+          <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
           </Btn>
         </div>
@@ -399,7 +399,7 @@ export default function WorkWithMe() {
               zone, for long.
             </ArrowItem>
             <div style={{ marginTop: '56px' }}>
-              <Btn href="/contact" bg="#2d1506" color="#fbf4e9">
+              <Btn href="/join" bg="#2d1506" color="#fbf4e9">
                 get started now
               </Btn>
             </div>
@@ -454,7 +454,7 @@ export default function WorkWithMe() {
             decisions, your relationships, and your work. This is about the capacity you don&apos;t know you&apos;re
             missing until you get it back.
           </p>
-          <Btn href="/contact" bg="#525421" color="#fbf4e9">
+          <Btn href="/join" bg="#525421" color="#fbf4e9">
             i&rsquo;m in
           </Btn>
         </div>
@@ -488,7 +488,7 @@ export default function WorkWithMe() {
           <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#ce965a', fontSize: 'clamp(20px, 2.6vw, 30px)', marginBottom: '36px' }}>
             Body Reclaimed gives you a system that travels with you.
           </p>
-          <Btn href="/contact" bg="#2d1506" color="#fbf4e9">
+          <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
           </Btn>
         </div>
@@ -518,7 +518,7 @@ export default function WorkWithMe() {
             You need a system that helps you build muscle and transform your body efficiently, teaches you how to
             understand what she needs, and continues adapting as both your body and your life change.
           </p>
-          <Btn href="/contact" bg="#2d1506" color="#fbf4e9">
+          <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
           </Btn>
         </div>
@@ -559,7 +559,7 @@ export default function WorkWithMe() {
             You never receive just workouts but the system and the knowledge built to keep producing real results no
             matter where you are or how unpredictable your month gets.
           </p>
-          <Btn href="/contact" bg="#c8d199" color="#2d1506" large>
+          <Btn href="/join" bg="#c8d199" color="#2d1506" large>
             i need body unmuted
           </Btn>
         </div>
@@ -663,7 +663,7 @@ export default function WorkWithMe() {
             />
           </div>
           <div style={{ textAlign: 'center' }}>
-            <Btn href="/contact" bg="#525421" color="#fbf4e9">
+            <Btn href="/join" bg="#525421" color="#fbf4e9">
               join now
             </Btn>
           </div>
@@ -901,7 +901,7 @@ export default function WorkWithMe() {
                 Within 1 week you&apos;ll have your first set of personalized workouts and nutrition programming to
                 get started!
               </p>
-              <Btn href="/contact" bg="#525421" color="#fbf4e9">
+              <Btn href="/join" bg="#525421" color="#fbf4e9">
                 join body reclaimed
               </Btn>
             </div>
@@ -1044,7 +1044,7 @@ export default function WorkWithMe() {
             <span style={{ color: '#fbf4e9', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#fbf4e9' }}>$333</span>
           </p>
-          <Btn href="/contact" bg="#efdfc3" color="#2d1506">
+          <Btn href="/join" bg="#efdfc3" color="#2d1506">
             become a founding member
           </Btn>
         </div>
@@ -1099,7 +1099,7 @@ export default function WorkWithMe() {
                 It showed me that fitness shouldn&rsquo;t ask women to make their lives smaller. It can make them
                 bigger.
               </p>
-              <Btn href="/contact" bg="#fbf4e9" color="#2d1506" border="1px solid #2d1506">
+              <Btn href="/join" bg="#fbf4e9" color="#2d1506" border="1px solid #2d1506">
                 join body unmuted
               </Btn>
             </div>
@@ -1190,7 +1190,7 @@ export default function WorkWithMe() {
             Jumping to $555/month after the first 5 members. Available for the first five founding members only.
             Once those spots are filled, pricing increases.
           </p>
-          <Btn href="/contact" bg="#fbf4e9" color="#2d1506">
+          <Btn href="/join" bg="#fbf4e9" color="#2d1506">
             become a founding member
           </Btn>
         </div>
@@ -1244,7 +1244,7 @@ export default function WorkWithMe() {
             <br />
             your life bigger
           </h2>
-          <Btn href="/contact" bg="#e8eeba" color="#2d1506">
+          <Btn href="/join" bg="#e8eeba" color="#2d1506">
             join body unmuted
           </Btn>
         </div>
