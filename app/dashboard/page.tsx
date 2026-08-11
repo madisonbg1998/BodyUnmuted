@@ -181,7 +181,7 @@ const macros = [
 
 export default async function DashboardPage() {
   const { user } = await verifySession();
-  const firstName = user.full_name?.split(' ')[0] || 'there';
+  const firstName = user.name?.split(' ')[0] || 'there';
 
   return (
     <div style={{ padding: '48px 48px 64px' }}>

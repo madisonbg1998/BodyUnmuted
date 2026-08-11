@@ -69,7 +69,7 @@ const notificationOptions = [
 
 export default async function SettingsPage() {
   const { user } = await verifySession();
-  const initial = (user.full_name?.[0] || user.email[0] || '?').toUpperCase();
+  const initial = (user.name?.[0] || user.email[0] || '?').toUpperCase();
 
   return (
     <div style={{ padding: '48px 48px 64px' }}>
@@ -118,7 +118,7 @@ export default async function SettingsPage() {
           <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <div>
               <label style={labelStyle}>Name</label>
-              <input type="text" defaultValue={user.full_name} style={inputStyle} />
+              <input type="text" defaultValue={user.name ?? ''} style={inputStyle} />
             </div>
             <div>
               <label style={labelStyle}>Email</label>
@@ -129,8 +129,8 @@ export default async function SettingsPage() {
               <input type="tel" placeholder="+1 (555) 123-4567" style={inputStyle} />
             </div>
             <div>
-              <label style={labelStyle}>Timezone</label>
-              <input type="text" defaultValue={user.timezone || 'Not set'} style={inputStyle} />
+              <label style={labelStyle}>Location</label>
+              <input type="text" defaultValue={user.location ?? ''} placeholder="Not set" style={inputStyle} />
             </div>
             <div>
               <button type="button" className="btn-primary" style={{ width: 'fit-content' }}>

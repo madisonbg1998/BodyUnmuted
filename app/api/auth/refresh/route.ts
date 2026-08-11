@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { clearAuthCookies, getRefreshToken, refreshAdharaTokens, setAuthCookies } from '@/app/lib/adhara-auth';
+import { clearAuthCookies, getRefreshToken, refreshAdharaSession, setAuthCookies } from '@/app/lib/adhara-auth';
 
 export async function POST() {
   const refreshToken = await getRefreshToken();
@@ -8,13 +8,13 @@ export async function POST() {
     return NextResponse.json({ error: 'No session to refresh.' }, { status: 401 });
   }
 
-  const tokens = await refreshAdharaTokens(refreshToken);
+  const session = await refreshAdharaSession(refreshToken);
 
-  if (!tokens) {
+  if (!session) {
     await clearAuthCookies();
     return NextResponse.json({ error: 'Session expired. Please log in again.' }, { status: 401 });
   }
 
-  await setAuthCookies(tokens);
+  await setAuthCookies(session);
   return NextResponse.json({ success: true });
 }

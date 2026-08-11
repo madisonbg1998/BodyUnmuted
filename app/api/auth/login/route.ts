@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setAuthCookies } from '@/app/lib/adhara-auth';
+import { portalAuthUrl, setAuthCookies } from '@/app/lib/adhara-auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,16 +9,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 });
     }
 
-    const baseUrl = process.env.ADHARA_BASE_URL;
-    if (!baseUrl) {
-      console.error('Missing ADHARA_BASE_URL environment variable');
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
-    }
-
-    const response = await fetch(`${baseUrl}/api/v1/auth/login`, {
+    const response = await fetch(portalAuthUrl('/login'), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ username: email, password }),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
     });
 
     if (!response.ok) {
@@ -27,8 +21,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Incorrect email or password.' }, { status: 401 });
     }
 
-    const tokens = await response.json();
-    await setAuthCookies(tokens);
+    const session = await response.json();
+    await setAuthCookies(session);
 
     return NextResponse.json({ success: true });
   } catch (error) {

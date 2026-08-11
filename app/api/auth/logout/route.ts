@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server';
-import { clearAuthCookies, getAccessToken } from '@/app/lib/adhara-auth';
+import { clearAuthCookies, getSessionToken, portalAuthUrl } from '@/app/lib/adhara-auth';
 
 export async function POST() {
-  const baseUrl = process.env.ADHARA_BASE_URL;
-  const accessToken = await getAccessToken();
+  const sessionToken = await getSessionToken();
 
-  if (baseUrl && accessToken) {
+  if (sessionToken) {
     try {
-      await fetch(`${baseUrl}/api/v1/auth/logout`, {
+      await fetch(portalAuthUrl('/logout'), {
         method: 'POST',
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${sessionToken}` },
       });
     } catch (error) {
       console.error('Adhara logout call failed (clearing local session anyway):', error);

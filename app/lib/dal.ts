@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
-import { fetchAdharaUser, getAccessToken, type AdharaUser } from './adhara-auth';
+import { fetchAdharaCustomer, getSessionToken, type AdharaCustomer } from './adhara-auth';
 
 /**
  * Verifies the current session against Adhara (a real API call — this is the
@@ -9,26 +9,26 @@ import { fetchAdharaUser, getAccessToken, type AdharaUser } from './adhara-auth'
  * /login if there's no valid session. Cached per-request so calling it from
  * multiple places in a render pass only hits Adhara once.
  */
-export const verifySession = cache(async (): Promise<{ user: AdharaUser }> => {
-  const accessToken = await getAccessToken();
+export const verifySession = cache(async (): Promise<{ user: AdharaCustomer }> => {
+  const sessionToken = await getSessionToken();
 
-  if (!accessToken) {
-    // TEMPORARY: preview the dashboard locally while Adhara login is still
-    // being sorted out. Only ever active in `next dev` — never in a
-    // production build/deploy. Remove once real login works end-to-end.
+  if (!sessionToken) {
+    // Lets the dashboard be previewed locally without signing up first.
+    // Only ever active in `next dev` — never in a production build/deploy.
     if (process.env.NODE_ENV !== 'production') {
       return {
         user: {
           id: 'preview-user',
           email: 'preview@bodyunmuted.local',
-          full_name: 'Madison (Preview)',
+          name: 'Madison (Preview)',
+          onboarding_completed: true,
         },
       };
     }
     redirect('/login');
   }
 
-  const user = await fetchAdharaUser(accessToken);
+  const user = await fetchAdharaCustomer(sessionToken);
 
   if (!user) {
     redirect('/login');

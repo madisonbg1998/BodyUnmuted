@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PasswordInput from '@/components/PasswordInput';
+import { isStrongPassword, PASSWORD_REQUIREMENTS_MESSAGE } from '@/app/lib/password';
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -40,8 +41,8 @@ export default function SignupPage() {
       e.preventDefault();
       setError(null);
 
-      if (password.length < 8) {
-        setError('Password must be at least 8 characters.');
+      if (!isStrongPassword(password)) {
+        setError(PASSWORD_REQUIREMENTS_MESSAGE);
         return;
       }
 
@@ -122,7 +123,7 @@ export default function SignupPage() {
               autoComplete="new-password"
               value={password}
               onChange={setPassword}
-              placeholder="At least 8 characters"
+              placeholder="At least 12 characters"
               required
             />
           </div>
