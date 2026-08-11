@@ -97,7 +97,7 @@ export default function JoinPage() {
           fill
           priority
           sizes="(max-width: 768px) 100vw, 44vw"
-          style={{ objectFit: 'cover', objectPosition: '50% 20%' }}
+          style={{ objectFit: 'cover', objectPosition: '50% 42%' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(45,21,6,0.35) 0%, rgba(45,21,6,0) 30%, rgba(45,21,6,0) 55%, rgba(45,21,6,0.82) 100%)' }} />
 
