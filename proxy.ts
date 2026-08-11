@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { SESSION_TOKEN_COOKIE } from '@/app/lib/adhara-auth';
+import { SESSION_TOKEN_COOKIE, isAuthBypassEnabled } from '@/app/lib/adhara-auth';
 
 const protectedRoutes = ['/dashboard'];
 const authRoutes = ['/login', '/signup'];
@@ -13,10 +13,7 @@ export default function proxy(request: NextRequest) {
 
   // Optimistic check only (cookie presence) — the dashboard page itself does
   // the real verification against Adhara. See app/lib/dal.ts.
-  // Lets /dashboard be previewed locally without signing up first. Never
-  // active in prod, since dal.ts's preview fallback also only applies in dev.
-  const devPreview = process.env.NODE_ENV !== 'production';
-  if (isProtectedRoute && !hasSession && !devPreview) {
+  if (isProtectedRoute && !hasSession && !isAuthBypassEnabled()) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

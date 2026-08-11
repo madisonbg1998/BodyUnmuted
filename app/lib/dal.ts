@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
 import { redirect } from 'next/navigation';
-import { fetchAdharaCustomer, getSessionToken, type AdharaCustomer } from './adhara-auth';
+import { fetchAdharaCustomer, getSessionToken, isAuthBypassEnabled, type AdharaCustomer } from './adhara-auth';
 
 /**
  * Verifies the current session against Adhara (a real API call — this is the
@@ -13,9 +13,9 @@ export const verifySession = cache(async (): Promise<{ user: AdharaCustomer }> =
   const sessionToken = await getSessionToken();
 
   if (!sessionToken) {
-    // Lets the dashboard be previewed locally without signing up first.
-    // Only ever active in `next dev` — never in a production build/deploy.
-    if (process.env.NODE_ENV !== 'production') {
+    // Lets the dashboard be previewed without signing up first. See
+    // isAuthBypassEnabled's doc comment for exactly when this applies.
+    if (isAuthBypassEnabled()) {
       return {
         user: {
           id: 'preview-user',

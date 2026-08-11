@@ -25,6 +25,19 @@ export interface AdharaCustomer {
   onboarding_completed: boolean;
 }
 
+/**
+ * True when the dashboard should be viewable without a real Adhara session:
+ * always in `next dev`, or in any build where AUTH_BYPASS=true was set
+ * explicitly (e.g. a preview deployment for a stakeholder demo). A real
+ * session cookie still takes priority over this wherever it's checked, so
+ * bypass never hides the actual login flow — it only fills the gap when
+ * nobody's logged in. Defaults to off, so a real production deploy is never
+ * bypassed unless someone deliberately sets the env var there.
+ */
+export function isAuthBypassEnabled(): boolean {
+  return process.env.AUTH_BYPASS === 'true' || process.env.NODE_ENV !== 'production';
+}
+
 function adharaBaseUrl() {
   const baseUrl = process.env.ADHARA_BASE_URL;
   if (!baseUrl) throw new Error('Missing ADHARA_BASE_URL environment variable');
