@@ -1,4 +1,6 @@
 import { verifySession } from '@/app/lib/dal';
+import { getSessionToken } from '@/app/lib/adhara-auth';
+import { fetchCertificates, fetchMyEnrollments } from '@/app/lib/adhara-portal';
 import DashboardGreeting from '@/components/DashboardGreeting';
 import MacroRing from '@/components/MacroRing';
 
@@ -179,15 +181,90 @@ const macros = [
   { label: 'Fat', value: 48, target: 55, unit: 'g' },
 ];
 
+const statCardStyle: React.CSSProperties = {
+  backgroundColor: '#faf9f5',
+  border: '1px solid rgba(206,150,90,0.28)',
+  borderRadius: '12px',
+  boxShadow: '0 4px 24px rgba(45,21,6,0.05)',
+  padding: '20px 24px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+};
+
+const statIconStyle: React.CSSProperties = {
+  width: '44px',
+  height: '44px',
+  borderRadius: '10px',
+  backgroundColor: 'rgba(82,84,33,0.12)',
+  color: '#525421',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+};
+
+const statIcons = {
+  enrolled: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M12 6.5C10.5 5.3 8 4.5 4 4.5v13c4 0 6.5.8 8 2 1.5-1.2 4-2 8-2v-13c-4 0-6.5.8-8 2Z" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 6.5v13" strokeLinecap="round" />
+    </svg>
+  ),
+  completed: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8 12.5l2.5 2.5L16 9" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  lessons: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <path d="M9 3h6a1 1 0 0 1 1 1v1h1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1V4a1 1 0 0 1 1-1Z" />
+    </svg>
+  ),
+  certificates: (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <circle cx="12" cy="9" r="6" />
+      <path d="M9 14.5 7.5 21l4.5-2.5 4.5 2.5-1.5-6.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+};
+
+function StatCard({ icon, value, label }: { icon: React.ReactNode; value: number; label: string }) {
+  return (
+    <div style={statCardStyle}>
+      <div style={statIconStyle}>{icon}</div>
+      <div>
+        <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: '26px', lineHeight: '1' }}>{value}</p>
+        <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: 'rgba(45,21,6,0.6)', fontSize: '13px', marginTop: '2px' }}>{label}</p>
+      </div>
+    </div>
+  );
+}
+
 export default async function DashboardPage() {
   const { user } = await verifySession();
   const firstName = user.name?.split(' ')[0] || 'there';
+
+  const sessionToken = await getSessionToken();
+  const [enrollments, certificates] = sessionToken
+    ? await Promise.all([fetchMyEnrollments(sessionToken), fetchCertificates(sessionToken)])
+    : [[], []];
+  const completedCourses = enrollments.filter((e) => e.completed_at).length;
+  const lessonsDone = enrollments.reduce((sum, e) => sum + e.completed_lessons, 0);
 
   return (
     <div style={{ padding: '48px 48px 64px' }}>
       <div style={{ marginBottom: '40px' }}>
         <p style={eyebrowStyle}>Your Dashboard</p>
         <DashboardGreeting firstName={firstName} />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', maxWidth: '1100px', marginBottom: '24px' }}>
+        <StatCard icon={statIcons.enrolled} value={enrollments.length} label="Enrolled Courses" />
+        <StatCard icon={statIcons.completed} value={completedCourses} label="Completed" />
+        <StatCard icon={statIcons.lessons} value={lessonsDone} label="Lessons Done" />
+        <StatCard icon={statIcons.certificates} value={certificates.length} label="Certificates" />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px', maxWidth: '1100px', marginBottom: '24px' }}>

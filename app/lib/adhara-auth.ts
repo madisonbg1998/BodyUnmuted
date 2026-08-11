@@ -22,6 +22,9 @@ export interface AdharaCustomer {
   headline?: string | null;
   bio?: string | null;
   location?: string | null;
+  social_links?: Record<string, string>;
+  profile_visibility?: string;
+  show_in_directory?: boolean;
   onboarding_completed: boolean;
 }
 
@@ -50,12 +53,17 @@ function adharaWorkspace() {
   return workspace;
 }
 
-// Adhara's customer-portal API splits in two: the pre-session auth endpoints
-// are scoped by workspace in the URL (there's no token yet to imply which
-// workspace), while everything after login is scoped by the session token
-// itself, so those endpoints take no workspace segment.
+// Adhara's customer-portal API splits in three: pre-session auth endpoints and
+// a handful of others (community, resources, announcements) are scoped by
+// workspace in the URL, while everything resolved via the session token
+// itself (me, onboarding, courses, enrollments, certificates) takes no
+// workspace segment at all.
+export function portalWorkspaceUrl(path: string) {
+  return `${adharaBaseUrl()}/api/v1/portal/${encodeURIComponent(adharaWorkspace())}${path}`;
+}
+
 export function portalAuthUrl(path: string) {
-  return `${adharaBaseUrl()}/api/v1/portal/${encodeURIComponent(adharaWorkspace())}/auth${path}`;
+  return portalWorkspaceUrl(`/auth${path}`);
 }
 
 export function portalUrl(path: string) {
