@@ -1,18 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
 
-// Adhara "Contact Us" form (dfcd42ea-bc46-453b-8309-035f99521b50) field IDs,
-// from GET /api/v1/forms/{id}/schema — reused here as a lead-capture backup
-// in case someone abandons Stripe checkout.
-const CONTACT_FIELD_IDS = {
-  fullName: 's13tdw5rr',
-  email: 'xc0p0a88h',
-  phone: 'dwl6pv89k',
-  message: 'oj6bc8us4',
+// Adhara "Founding Membership Checkout Started" form field IDs, set at
+// creation time — reused here as a lead-capture backup in case someone
+// abandons Stripe checkout.
+const CHECKOUT_FIELD_IDS = {
+  fullName: 'full_name',
+  email: 'email',
+  phone: 'phone',
 };
-
-function validateEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +25,7 @@ export async function POST(request: NextRequest) {
     const baseUrl = process.env.ADHARA_BASE_URL;
     const apiKey = process.env.ADHARA_API_KEY;
     const workspaceId = process.env.ADHARA_WORKSPACE_ID;
-    const contactFormId = process.env.ADHARA_CONTACT_FORM_ID;
+    const checkoutFormId = process.env.ADHARA_CHECKOUT_STARTED_FORM_ID;
     const priceId = process.env.ADHARA_MEMBERSHIP_PRICE_ID;
 
     if (!baseUrl || !apiKey || !workspaceId || !priceId) {
@@ -41,23 +37,16 @@ export async function POST(request: NextRequest) {
 
     // Capture the lead in the CRM before sending them to Stripe, so an
     // abandoned checkout is still a lead, not a lost one.
-    if (contactFormId) {
+    if (checkoutFormId) {
       const response_data: Record<string, string> = {
-        [CONTACT_FIELD_IDS.fullName]: fullName,
-        [CONTACT_FIELD_IDS.email]: email,
-        [CONTACT_FIELD_IDS.message]: 'Started Founding Membership checkout',
+        [CHECKOUT_FIELD_IDS.fullName]: fullName,
+        [CHECKOUT_FIELD_IDS.email]: email,
       };
-      if (phone) response_data[CONTACT_FIELD_IDS.phone] = phone;
+      if (phone) response_data[CHECKOUT_FIELD_IDS.phone] = phone;
 
-      fetch(`${baseUrl}/api/v1/forms/${contactFormId}/submit`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': apiKey,
-          'X-Workspace-ID': workspaceId,
-        },
-        body: JSON.stringify({ response_data, source_url: body.sourceUrl }),
-      }).catch((err) => console.error('Adhara lead-capture submission failed:', err));
+      submitAdharaForm(checkoutFormId, response_data, body.sourceUrl).catch((err) =>
+        console.error('Adhara lead-capture submission failed:', err)
+      );
     }
 
     const checkoutResponse = await fetch(`${baseUrl}/api/v1/commerce/checkout?workspace_id=${workspaceId}`, {

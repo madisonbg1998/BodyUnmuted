@@ -13,7 +13,7 @@ export default function JoinSuccessPage() {
           fill
           priority
           sizes="(max-width: 768px) 100vw, 44vw"
-          style={{ objectFit: 'cover', objectPosition: '50% 42%' }}
+          style={{ objectFit: 'cover', objectPosition: '50% 55%' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(45,21,6,0.3)' }} />
         <Link

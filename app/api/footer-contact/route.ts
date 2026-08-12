@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
 
-// Adhara "General Question" form field IDs — set at creation time via
-// POST /api/v1/workspaces/{id}/forms, so they're the literal ids below,
-// not opaque generated strings.
+// Adhara "Footer Quick Contact" form field IDs, set at creation time.
 const FIELD_IDS = {
   fullName: 'full_name',
   email: 'email',
@@ -24,9 +22,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Please enter a message.' }, { status: 400 });
     }
 
-    const formId = process.env.ADHARA_QUESTION_FORM_ID;
+    const formId = process.env.ADHARA_FOOTER_CONTACT_FORM_ID;
     if (!formId) {
-      console.error('Missing ADHARA_QUESTION_FORM_ID');
+      console.error('Missing ADHARA_FOOTER_CONTACT_FORM_ID');
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
@@ -41,13 +39,13 @@ export async function POST(request: NextRequest) {
     );
 
     if (!result.ok) {
-      console.error('Adhara question submission failed:', result.status, result.body);
+      console.error('Adhara footer contact submission failed:', result.status, result.body);
       return NextResponse.json({ error: 'Failed to send message' }, { status: result.status });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Contact submission error:', error);
+    console.error('Footer contact submission error:', error);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }

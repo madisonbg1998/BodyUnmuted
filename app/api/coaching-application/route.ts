@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
 
-// Adhara "General Question" form field IDs — set at creation time via
-// POST /api/v1/workspaces/{id}/forms, so they're the literal ids below,
-// not opaque generated strings.
+// Adhara "1:1 Coaching Application" form field IDs, set at creation time.
 const FIELD_IDS = {
   fullName: 'full_name',
   email: 'email',
+  instagram: 'instagram',
   message: 'message',
 };
 
@@ -21,33 +20,36 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Please enter a valid email address.' }, { status: 400 });
     }
     if (!body.message || !body.message.trim()) {
-      return NextResponse.json({ error: 'Please enter a message.' }, { status: 400 });
+      return NextResponse.json({ error: 'Tell me a little about why you want to work together.' }, { status: 400 });
     }
 
-    const formId = process.env.ADHARA_QUESTION_FORM_ID;
+    const formId = process.env.ADHARA_COACHING_APPLICATION_FORM_ID;
     if (!formId) {
-      console.error('Missing ADHARA_QUESTION_FORM_ID');
+      console.error('Missing ADHARA_COACHING_APPLICATION_FORM_ID');
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
+    const response_data: Record<string, string> = {
+      [FIELD_IDS.fullName]: body.fullName,
+      [FIELD_IDS.email]: body.email,
+      [FIELD_IDS.message]: body.message,
+    };
+    if (body.instagram) response_data[FIELD_IDS.instagram] = body.instagram;
+
     const result = await submitAdharaForm(
       formId,
-      {
-        [FIELD_IDS.fullName]: body.fullName,
-        [FIELD_IDS.email]: body.email,
-        [FIELD_IDS.message]: body.message,
-      },
+      response_data,
       body.sourceUrl || request.headers.get('referer') || undefined
     );
 
     if (!result.ok) {
-      console.error('Adhara question submission failed:', result.status, result.body);
-      return NextResponse.json({ error: 'Failed to send message' }, { status: result.status });
+      console.error('Adhara coaching application failed:', result.status, result.body);
+      return NextResponse.json({ error: 'Failed to send your application' }, { status: result.status });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Contact submission error:', error);
+    console.error('Coaching application error:', error);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
   }
 }
