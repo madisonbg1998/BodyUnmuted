@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
 
-// Adhara "Market Research Survey" form (ec414e4d-9f98-479b-96ab-da4d87f8697f)
-// field IDs, from the create-form response (GET /api/v1/forms/{id}/schema also works).
+// Adhara "Market Research Survey" form field IDs, set at creation time via
+// POST /api/v1/workspaces/{id}/forms.
 const FIELD_IDS = {
-  name: 'field-name',
-  email: 'field-email',
-  biggestChallenge: 'field-challenge',
-  alreadyTried: 'field-tried',
-  sustainableVision: 'field-vision',
-  topThreeHelp: 'field-help',
-  supportPreferences: 'field-support',
-  emailOptIn: 'field-optin',
+  name: 'name',
+  email: 'email',
+  biggestChallenge: 'biggest_challenge',
+  alreadyTried: 'already_tried',
+  sustainableVision: 'sustainable_vision',
+  topThreeHelp: 'top_three_help',
+  supportPreferences: 'support_preferences',
+  emailOptIn: 'email_opt_in',
 };
 
 const REQUIRED_FIELDS = [
@@ -23,10 +24,6 @@ const REQUIRED_FIELDS = [
   'supportPreferences',
   'emailOptIn',
 ] as const;
-
-function validateEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,13 +48,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid opt-in value' }, { status: 400 });
     }
 
-    const baseUrl = process.env.ADHARA_BASE_URL;
     const formId = process.env.ADHARA_SURVEY_FORM_ID;
-    const apiKey = process.env.ADHARA_API_KEY;
-    const workspaceId = process.env.ADHARA_WORKSPACE_ID;
-
-    if (!baseUrl || !formId || !apiKey) {
-      console.error('Missing Adhara environment variables for survey form');
+    if (!formId) {
+      console.error('Missing ADHARA_SURVEY_FORM_ID');
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
@@ -67,27 +60,18 @@ export async function POST(request: NextRequest) {
       if (value) response_data[fieldId] = value;
     }
 
-    const response = await fetch(`${baseUrl}/api/v1/forms/${formId}/submit`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': apiKey,
-        ...(workspaceId ? { 'X-Workspace-ID': workspaceId } : {}),
-      },
-      body: JSON.stringify({
-        response_data,
-        source_url: body.sourceUrl || request.headers.get('referer') || undefined,
-      }),
-    });
+    const result = await submitAdharaForm(
+      formId,
+      response_data,
+      body.sourceUrl || request.headers.get('referer') || undefined
+    );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Adhara survey submission failed:', response.status, errorText);
-      return NextResponse.json({ error: 'Failed to submit survey' }, { status: response.status });
+    if (!result.ok) {
+      console.error('Adhara survey submission failed:', result.status, result.body);
+      return NextResponse.json({ error: 'Failed to submit survey' }, { status: result.status });
     }
 
-    const data = await response.json();
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Survey submission error:', error);
     return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
