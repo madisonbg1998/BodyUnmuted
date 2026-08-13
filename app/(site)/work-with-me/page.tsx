@@ -3,6 +3,7 @@ import Image from 'next/image';
 import MembershipFaq from '@/components/MembershipFaq';
 import OneOnOneForm from '@/components/OneOnOneForm';
 import LightContactForm from '@/components/LightContactForm';
+import CountdownTimer from '@/components/CountdownTimer';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
@@ -320,6 +321,9 @@ export default function WorkWithMe() {
           <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
           </Btn>
+          <div style={{ marginTop: '48px' }}>
+            <CountdownTimer variant="light" />
+          </div>
         </div>
       </section>
 
@@ -948,6 +952,9 @@ export default function WorkWithMe() {
             <span style={{ color: '#45220d', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#45220d' }}>$333</span>
           </p>
+          <div style={{ marginBottom: '36px' }}>
+            <CountdownTimer variant="light" />
+          </div>
           <p style={{ ...bodyP, color: '#45220d', marginBottom: '4px' }}>
             That means you lock in the founding member pricing of $333/month for as long as you stay a member.
           </p>
@@ -1044,6 +1051,9 @@ export default function WorkWithMe() {
             <span style={{ color: '#fbf4e9', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#fbf4e9' }}>$333</span>
           </p>
+          <div style={{ marginBottom: '36px' }}>
+            <CountdownTimer variant="dark" />
+          </div>
           <Btn href="/join" bg="#efdfc3" color="#2d1506">
             become a founding member
           </Btn>
@@ -1186,6 +1196,9 @@ export default function WorkWithMe() {
             <span style={{ color: '#a67c52', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#fbf4e9' }}>$333/month</span>
           </p>
+          <div style={{ marginBottom: '32px' }}>
+            <CountdownTimer variant="dark" />
+          </div>
           <p style={{ ...bodyP, fontStyle: 'italic', color: '#e8eeba', marginBottom: '32px' }}>
             Jumping to $555/month after the first 5 members. Available for the first five founding members only.
             Once those spots are filled, pricing increases.
