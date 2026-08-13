@@ -49,7 +49,7 @@ export default function Home() {
       {/* ── HERO ── */}
       <section
         style={{ position: 'relative', overflow: 'hidden', isolation: 'isolate' }}
-        className="min-h-[620px] md:min-h-[1040px] flex flex-col justify-end"
+        className="min-h-[620px] md:min-h-[800px] flex flex-col justify-center"
       >
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <Image
@@ -64,7 +64,7 @@ export default function Home() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to bottom, rgba(251,244,233,0.15) 0%, rgba(82,84,33,0.75) 100%)',
+              background: 'linear-gradient(to bottom, rgba(82,84,33,0.82) 0%, rgba(251,244,233,0.68) 100%)',
             }}
           />
         </div>
@@ -79,7 +79,7 @@ export default function Home() {
                 lineHeight: '0.85',
                 fontSize: 'clamp(70px, 12vw, 150px)',
                 fontWeight: 400,
-                textAlign: 'right',
+                textAlign: 'center',
                 marginBottom: '8px',
               }}
             >
@@ -92,13 +92,15 @@ export default function Home() {
                 fontSize: 'clamp(30px, 5.5vw, 83px)',
                 lineHeight: '1.05',
                 fontWeight: 400,
-                marginBottom: '32px',
+                textAlign: 'center',
+                marginTop: '74px',
+                marginBottom: '74px',
               }}
             >
               Make your body your best business asset
             </h2>
 
-            <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ maxWidth: '960px', margin: '0 auto', textAlign: 'center' }}>
               <p
                 style={{
                   fontFamily: 'var(--font-ibm-plex-sans), sans-serif',

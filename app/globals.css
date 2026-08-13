@@ -194,7 +194,7 @@ select:focus {
 }
 
 .animate-slide-in-right {
-  animation: slide-in-right 9s linear both;
+  animation: slide-in-right 7s linear both;
 }
 
 @media (prefers-reduced-motion: reduce) {
