@@ -136,7 +136,7 @@ export default function Home() {
               >
                 (consistent schedule, time zone, and equipment not required)
               </p>
-              <Link href="/contact" className="btn-primary">
+              <Link href="/about" className="btn-primary">
                 tell me more
               </Link>
             </div>
@@ -515,7 +515,7 @@ export default function Home() {
             It should give you the energy to build, the confidence to be seen, the strength to keep expanding, and
             the capacity to be fully inside the life you worked so hard to create.
           </p>
-          <Link href="/contact" className="btn-copper">
+          <Link href="/work-with-me" className="btn-copper">
             explore how we do it
           </Link>
         </div>
@@ -574,7 +574,7 @@ export default function Home() {
               </h3>
 
               <Link
-                href="/contact"
+                href="/work-with-me"
                 className="inline-block"
                 style={{
                   backgroundColor: 'transparent',
@@ -617,7 +617,7 @@ export default function Home() {
           >
             It&apos;s to make your life bigger.
           </h2>
-          <Link href="/contact" className="btn-yellow-green" style={{ backgroundColor: '#fbf4e9' }}>
+          <Link href="/get-in-touch" className="btn-yellow-green" style={{ backgroundColor: '#fbf4e9' }}>
             let&apos;s talk
           </Link>
         </div>

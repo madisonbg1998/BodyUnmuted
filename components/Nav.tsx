@@ -53,7 +53,7 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/contact" className="btn-secondary" style={{ fontSize: '14px' }}>
+            <Link href="/get-in-touch" className="btn-secondary" style={{ fontSize: '14px' }}>
               Let&apos;s Start
             </Link>
           </nav>
@@ -120,7 +120,7 @@ export default function Nav() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href="/get-in-touch"
               onClick={() => setOpen(false)}
               className="btn-secondary"
               style={{ marginTop: '12px', display: 'inline-block', width: 'fit-content' }}
