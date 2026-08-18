@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
+import { subscribeToConvertKit } from '@/app/lib/convertkit';
 
 // Adhara "Market Research Survey" form field IDs, set at creation time via
 // POST /api/v1/workspaces/{id}/forms.
@@ -69,6 +70,12 @@ export async function POST(request: NextRequest) {
     if (!result.ok) {
       console.error('Adhara survey submission failed:', result.status, result.body);
       return NextResponse.json({ error: 'Failed to submit survey' }, { status: result.status });
+    }
+
+    if (body.emailOptIn === 'yes') {
+      subscribeToConvertKit(body.email, body.name, process.env.CONVERTKIT_SURVEY_FORM_ID).catch((err) =>
+        console.error('ConvertKit subscribe error:', err)
+      );
     }
 
     return NextResponse.json({ success: true });

@@ -17,6 +17,10 @@
   --font-inter: var(--font-inter-sans), sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #fbf4e9;
   font-family: var(--font-inter-sans), sans-serif;
