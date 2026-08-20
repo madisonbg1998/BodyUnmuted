@@ -34,6 +34,9 @@ export async function POST(request: NextRequest) {
     }
 
     const siteUrl = body.sourceUrl ? new URL(body.sourceUrl).origin : request.nextUrl.origin;
+    const successUrl = new URL('/join/success', siteUrl);
+    successUrl.searchParams.set('email', email);
+    successUrl.searchParams.set('name', fullName);
 
     // Capture the lead in the CRM before sending them to Stripe, so an
     // abandoned checkout is still a lead, not a lost one.
@@ -59,7 +62,7 @@ export async function POST(request: NextRequest) {
         mode: 'subscription',
         line_items: [{ price_id: priceId, quantity: 1 }],
         customer_email: email,
-        success_url: `${siteUrl}/join/success`,
+        success_url: successUrl.toString(),
         cancel_url: `${siteUrl}/join`,
       }),
     });

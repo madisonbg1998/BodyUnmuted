@@ -1,9 +1,24 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { subscribeToConvertKit } from '@/app/lib/convertkit';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
-export default function JoinSuccessPage() {
+export default async function JoinSuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string; name?: string }>;
+}) {
+  const { email, name } = await searchParams;
+
+  if (email) {
+    try {
+      await subscribeToConvertKit(email, name, process.env.CONVERTKIT_MEMBERSHIP_FORM_ID);
+    } catch (err) {
+      console.error('ConvertKit subscribe error:', err);
+    }
+  }
+
   return (
     <div className="flex flex-col md:flex-row" style={{ minHeight: '100vh', backgroundColor: '#fbf4e9' }}>
       <div className="w-full h-[220px] md:h-screen md:w-[44%] md:sticky md:top-0" style={{ position: 'relative', flexShrink: 0 }}>
