@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { submitAdharaForm, validateEmail } from '@/app/lib/adhara-forms';
+import { resolveDiscountCode } from '@/app/lib/discount-codes';
 
 // Adhara "Founding Membership Checkout Started" form field IDs, set at
 // creation time — reused here as a lead-capture backup in case someone
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
     const apiKey = process.env.ADHARA_API_KEY;
     const workspaceId = process.env.ADHARA_WORKSPACE_ID;
     const checkoutFormId = process.env.ADHARA_CHECKOUT_STARTED_FORM_ID;
-    const priceId = process.env.ADHARA_MEMBERSHIP_PRICE_ID;
+    const priceId = resolveDiscountCode(body.code) || process.env.ADHARA_MEMBERSHIP_PRICE_ID;
 
     if (!baseUrl || !apiKey || !workspaceId || !priceId) {
       console.error('Missing Adhara environment variables for join checkout');

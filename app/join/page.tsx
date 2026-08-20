@@ -38,8 +38,8 @@ const eyebrow: React.CSSProperties = {
   color: '#ce965a',
 };
 
-type FormData = { fullName: string; email: string; phone: string };
-const emptyForm: FormData = { fullName: '', email: '', phone: '' };
+type FormData = { fullName: string; email: string; phone: string; code: string };
+const emptyForm: FormData = { fullName: '', email: '', phone: '', code: '' };
 
 function LockIcon() {
   return (
@@ -54,6 +54,7 @@ export default function JoinPage() {
   const [formData, setFormData] = useState<FormData>(emptyForm);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showCode, setShowCode] = useState(false);
 
   const updateField = useCallback((field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -246,6 +247,44 @@ export default function JoinPage() {
                 style={inputStyle}
               />
             </div>
+
+            {showCode ? (
+              <div>
+                <label htmlFor="code" style={labelStyle}>
+                  Discount Code{' '}
+                  <span style={{ color: 'rgba(45,21,6,0.4)', textTransform: 'none', letterSpacing: 'normal', fontWeight: 400 }}>
+                    (optional)
+                  </span>
+                </label>
+                <input
+                  id="code"
+                  type="text"
+                  autoCapitalize="characters"
+                  value={formData.code}
+                  onChange={(e) => updateField('code', e.target.value)}
+                  placeholder="Enter code"
+                  style={inputStyle}
+                />
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowCode(true)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  fontFamily: 'var(--font-inter-sans), sans-serif',
+                  color: '#a67c52',
+                  fontSize: '13px',
+                  textDecoration: 'underline',
+                }}
+              >
+                Have a discount code?
+              </button>
+            )}
 
             {error && (
               <p style={{ color: '#b3261e', fontFamily: 'var(--font-inter-sans), sans-serif', fontSize: '14px' }}>{error}</p>
