@@ -1,6 +1,4 @@
-'use client';
-
-import { useCallback, useState } from 'react';
+const LUMA_URL = 'https://luma.com/numw8n89';
 
 const bodyP: React.CSSProperties = {
   fontFamily: 'var(--font-inter-sans), sans-serif',
@@ -13,17 +11,6 @@ const eyebrow: React.CSSProperties = {
   fontSize: 'clamp(12px, 1.3vw, 15px)',
   letterSpacing: '0.08em',
   textTransform: 'uppercase',
-};
-
-const inputStyle: React.CSSProperties = {
-  width: '100%',
-  backgroundColor: '#fff',
-  border: '1px solid rgba(45,21,6,0.16)',
-  borderRadius: '6px',
-  padding: '13px 16px',
-  color: '#2d1506',
-  fontFamily: 'var(--font-inter-sans), sans-serif',
-  fontSize: '15px',
 };
 
 function ArrowIcon() {
@@ -68,79 +55,10 @@ function CheckItem({ children, color = '#2d1506' }: { children: React.ReactNode;
   );
 }
 
-type FormData = { fullName: string; email: string };
-const emptyForm: FormData = { fullName: '', email: '' };
-
-function RegisterForm({ id, bg = '#faf9f5' }: { id: string; bg?: string }) {
-  const [formData, setFormData] = useState<FormData>(emptyForm);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const updateField = useCallback((field: keyof FormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    setError(null);
-  }, []);
-
-  const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!formData.fullName.trim()) return setError('Please enter your name.');
-      if (!formData.email.trim()) return setError('Please enter your email.');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) return setError('Please enter a valid email address.');
-
-      setIsSubmitting(true);
-      setError(null);
-
-      try {
-        const response = await fetch('/api/workshop-registration', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...formData, sourceUrl: window.location.href }),
-        });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Something went wrong.');
-        setIsSubmitted(true);
-        setFormData(emptyForm);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [formData]
-  );
-
-  if (isSubmitted) {
-    return (
-      <div
-        id={id}
-        style={{
-          backgroundColor: bg,
-          border: '1px solid rgba(206,150,90,0.28)',
-          borderRadius: '12px',
-          padding: '40px',
-          textAlign: 'center',
-          boxShadow: '0 4px 24px rgba(45,21,6,0.05)',
-          maxWidth: '480px',
-          margin: '0 auto',
-          scrollMarginTop: '40px',
-        }}
-      >
-        <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: '24px', marginBottom: '8px' }}>
-          You&apos;re in.
-        </p>
-        <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#45220d', fontSize: '15px' }}>
-          Watch your inbox &mdash; details for September 29&ndash;October 1 are on their way.
-        </p>
-      </div>
-    );
-  }
-
+function LumaButton({ id, bg = '#faf9f5' }: { id: string; bg?: string }) {
   return (
-    <form
+    <div
       id={id}
-      onSubmit={handleSubmit}
       style={{
         backgroundColor: bg,
         border: '1px solid rgba(206,150,90,0.28)',
@@ -155,39 +73,19 @@ function RegisterForm({ id, bg = '#faf9f5' }: { id: string; bg?: string }) {
         scrollMarginTop: '40px',
       }}
     >
-      <input
-        type="text"
-        aria-label="Name"
-        autoComplete="name"
-        value={formData.fullName}
-        onChange={(e) => updateField('fullName', e.target.value)}
-        placeholder="Your name"
-        style={inputStyle}
-      />
-      <input
-        type="email"
-        aria-label="Email"
-        autoComplete="email"
-        value={formData.email}
-        onChange={(e) => updateField('email', e.target.value)}
-        placeholder="you@example.com"
-        style={inputStyle}
-      />
-      {error && (
-        <p style={{ color: '#b3261e', fontFamily: 'var(--font-inter-sans), sans-serif', fontSize: '13px' }}>{error}</p>
-      )}
-      <button
-        type="submit"
-        disabled={isSubmitting}
+      <a
+        href={LUMA_URL}
+        target="_blank"
+        rel="noopener noreferrer"
         className="btn-primary"
-        style={{ opacity: isSubmitting ? 0.6 : 1, cursor: isSubmitting ? 'not-allowed' : 'pointer', textAlign: 'center' }}
+        style={{ textAlign: 'center', textDecoration: 'none' }}
       >
-        {isSubmitting ? 'Saving your spot…' : 'Save My Free Spot'}
-      </button>
+        Save My Free Spot
+      </a>
       <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: 'rgba(45,21,6,0.5)', fontSize: '12px', textAlign: 'center' }}>
         Free &middot; Live Online &middot; September 29&ndash;October 1
       </p>
-    </form>
+    </div>
   );
 }
 
@@ -195,6 +93,8 @@ function AnchorBtn({ href, bg, color, children }: { href: string; bg: string; co
   return (
     <a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       style={{
         display: 'inline-flex',
         alignItems: 'center',
@@ -304,7 +204,7 @@ export default function WorkshopPage() {
           <p style={{ ...eyebrow, color: '#525421', fontWeight: 700, marginBottom: '48px' }}>
             September 29 through October 1 &nbsp;|&nbsp; Live Online
           </p>
-          <RegisterForm id="register-top" />
+          <LumaButton id="register-top" />
         </div>
       </section>
 
@@ -381,7 +281,7 @@ export default function WorkshopPage() {
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <AnchorBtn href="#register-top" bg="#2d1506" color="#fbf4e9">
+            <AnchorBtn href={LUMA_URL} bg="#2d1506" color="#fbf4e9">
               build my plan
             </AnchorBtn>
           </div>
@@ -445,7 +345,7 @@ export default function WorkshopPage() {
         </section>
       ))}
       <section style={{ backgroundColor: '#e8eeba', padding: '0 20px 80px', textAlign: 'center' }}>
-        <AnchorBtn href="#register-bottom" bg="#525421" color="#fbf4e9">
+        <AnchorBtn href={LUMA_URL} bg="#525421" color="#fbf4e9">
           join the three-day workshop
         </AnchorBtn>
       </section>
@@ -538,7 +438,7 @@ export default function WorkshopPage() {
           <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#45220d', fontSize: 'clamp(20px, 2.6vw, 30px)', marginBottom: '48px' }}>
             Come build one that actually works.
           </p>
-          <RegisterForm id="register-bottom" />
+          <LumaButton id="register-bottom" />
         </div>
       </section>
     </>
