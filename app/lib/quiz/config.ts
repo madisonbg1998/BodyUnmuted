@@ -52,7 +52,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Build a simple way to track that you actually started (and stuck with it) — because right now, “did I even begin” is the real data you’re missing.',
     ],
     bridge:
-      'You need a clear place to begin and a structured path forward — not one more thing to research. Body Reclaimed gives you that starting line, and a way to keep moving instead of re-deciding.',
+      'You need a clear place to begin and a structured path forward — not one more thing to research. Body Unmuted gives you that starting line, and a way to keep moving instead of re-deciding.',
     tiebreakDescription: 'I don’t have a clear enough path to begin and keep moving forward confidently.',
   },
   'pilates-princess': {
@@ -77,7 +77,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Track something beyond how a class made you feel — a number that tells you whether your body is actually being asked to change.',
     ],
     bridge:
-      'You need progressive strength training and intentional nutrition that complement the movement you already enjoy — not replace it. That’s exactly what Body Reclaimed is built to add.',
+      'You need progressive strength training and intentional nutrition that complement the movement you already enjoy — not replace it. That’s exactly what Body Unmuted is built to add.',
     tiebreakDescription:
       'I’m moving my body, but my current approach isn’t specific enough to create the physical transformation I want.',
   },
@@ -104,7 +104,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Pair training with nutrition that supports the specific change you want — training alone won’t finish the job.',
     ],
     bridge:
-      'You need intentional programming, measurable progression, and enough intensity to give your body an actual reason to change. Body Reclaimed replaces “showing up” with a plan that keeps working.',
+      'You need intentional programming, measurable progression, and enough intensity to give your body an actual reason to change. Body Unmuted replaces “showing up” with a plan that keeps working.',
     tiebreakDescription: 'I’m strength training, but I’m not giving my body enough progression to keep adapting.',
   },
   'fresh-start-frequent-flyer': {
@@ -128,7 +128,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Stop waiting for the “next trip” to pass before starting — build the system assuming disruption is coming, because it always is.',
     ],
     bridge:
-      'You need a system that can adapt to travel and changing schedules — not another routine that only works when your life stays still. Body Reclaimed is built to move with you.',
+      'You need a system that can adapt to travel and changing schedules — not another routine that only works when your life stays still. Body Unmuted is built to move with you.',
     tiebreakDescription: 'My approach only feels consistent when my environment and schedule cooperate.',
   },
   'pretty-healthy-girl': {
@@ -153,7 +153,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Adjust intentionally — not by eating less across the board, but by structuring what you already eat well toward the outcome you want.',
     ],
     bridge:
-      'You need nutritional clarity tied to your actual goal — not just more “healthy” food. Body Reclaimed helps you close that gap.',
+      'You need nutritional clarity tied to your actual goal — not just more “healthy” food. Body Unmuted helps you close that gap.',
     tiebreakDescription: 'I make healthy choices, but I don’t understand how to align my nutrition with the result I want.',
   },
   'perfect-plan-chaser': {
@@ -178,7 +178,7 @@ export const ARCHETYPES: Record<ArchetypeId, ArchetypeContent> = {
       'Build a basic understanding of your own training and nutrition data, so the next disruption is a decision instead of a crisis.',
     ],
     bridge:
-      'You need body literacy, understanding, and the ability to make confident decisions as your body and life change — not another plan to follow blindly. Body Reclaimed is built to teach you that, not just hand you instructions.',
+      'You need body literacy, understanding, and the ability to make confident decisions as your body and life change — not another plan to follow blindly. Body Unmuted is built to teach you that, not just hand you instructions.',
     tiebreakDescription:
       'I can follow instructions, but I don’t yet trust myself to understand and adjust for my own body.',
   },

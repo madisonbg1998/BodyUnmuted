@@ -2,10 +2,15 @@ export default function QuizProgress({
   current,
   total,
   label,
+  accentColor = '#ce965a',
 }: {
   current: number;
   total: number;
   label?: string;
+  /** Label text color. Defaults to the original quiz's copper accent — pass
+   * a darker shade where the label sits directly on a light background and
+   * needs to meet WCAG AA contrast (see components/ffa/FfaQuestionScreen.tsx). */
+  accentColor?: string;
 }) {
   const pct = Math.round((current / total) * 100);
 
@@ -20,7 +25,7 @@ export default function QuizProgress({
           fontWeight: 500,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: '#ce965a',
+          color: accentColor,
           marginBottom: '8px',
         }}
       >
@@ -32,6 +37,7 @@ export default function QuizProgress({
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
+        aria-label={label || `Question ${current} of ${total}`}
         style={{
           height: '6px',
           borderRadius: '999px',

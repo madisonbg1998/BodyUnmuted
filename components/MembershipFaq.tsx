@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "I've bought coaching before and didn't stick with it.",
-    a: "You're not alone. Most people don't fail because they aren't capable. They struggle because the plan they were given only works under perfect conditions. Body Reclaimed is built around real life. When life changes, your coaching changes too.",
+    a: "You're not alone. Most people don't fail because they aren't capable. They struggle because the plan they were given only works under perfect conditions. Body Unmuted is built around real life. When life changes, your coaching changes too.",
   },
   {
     q: "What if I don't want my whole life to revolve around fitness?",

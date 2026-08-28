@@ -3,7 +3,6 @@
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import CountdownTimer from '@/components/CountdownTimer';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
@@ -193,10 +192,6 @@ export default function JoinPage() {
               $555
             </span>
             <span style={{ ...eyebrow, color: '#7f8b32', marginLeft: 'auto', fontSize: '11px' }}>Locked in for life</span>
-          </div>
-
-          <div style={{ marginBottom: '32px' }}>
-            <CountdownTimer variant="light" />
           </div>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>

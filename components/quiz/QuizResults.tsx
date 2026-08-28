@@ -174,7 +174,7 @@ export default function QuizResults({
         </ol>
       </div>
 
-      {/* Body Reclaimed bridge */}
+      {/* Body Unmuted bridge */}
       <div
         style={{
           marginTop: '48px',
@@ -198,7 +198,7 @@ export default function QuizResults({
             margin: '12px 0 16px',
           }}
         >
-          Body Reclaimed
+          Body Unmuted
         </h2>
         <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: '15px', lineHeight: '1.55', maxWidth: '520px', margin: '0 auto 28px' }}>
           {primaryArchetype.bridge}
@@ -209,7 +209,7 @@ export default function QuizResults({
           className="btn-yellow-green"
           style={{ textDecoration: 'none' }}
         >
-          Explore Body Reclaimed
+          Explore Body Unmuted
         </a>
       </div>
 

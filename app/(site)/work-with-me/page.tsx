@@ -3,7 +3,6 @@ import Image from 'next/image';
 import MembershipFaq from '@/components/MembershipFaq';
 import OneOnOneForm from '@/components/OneOnOneForm';
 import LightContactForm from '@/components/LightContactForm';
-import CountdownTimer from '@/components/CountdownTimer';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
@@ -321,9 +320,6 @@ export default function WorkWithMe() {
           <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
           </Btn>
-          <div style={{ marginTop: '48px' }}>
-            <CountdownTimer variant="light" />
-          </div>
         </div>
       </section>
 
@@ -490,7 +486,7 @@ export default function WorkWithMe() {
             Most fitness coaching gives you a plan to follow.
           </p>
           <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#ce965a', fontSize: 'clamp(20px, 2.6vw, 30px)', marginBottom: '36px' }}>
-            Body Reclaimed gives you a system that travels with you.
+            Body Unmuted gives you a system that travels with you.
           </p>
           <Btn href="/join" bg="#2d1506" color="#fbf4e9">
             join now
@@ -906,7 +902,7 @@ export default function WorkWithMe() {
                 get started!
               </p>
               <Btn href="/join" bg="#525421" color="#fbf4e9">
-                join body reclaimed
+                join body unmuted
               </Btn>
             </div>
             <div className="w-full md:w-[42%]">
@@ -952,9 +948,6 @@ export default function WorkWithMe() {
             <span style={{ color: '#45220d', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#45220d' }}>$333</span>
           </p>
-          <div style={{ marginBottom: '36px' }}>
-            <CountdownTimer variant="light" />
-          </div>
           <p style={{ ...bodyP, color: '#45220d', marginBottom: '4px' }}>
             That means you lock in the founding member pricing of $333/month for as long as you stay a member.
           </p>
@@ -1051,9 +1044,6 @@ export default function WorkWithMe() {
             <span style={{ color: '#fbf4e9', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#fbf4e9' }}>$333</span>
           </p>
-          <div style={{ marginBottom: '36px' }}>
-            <CountdownTimer variant="dark" />
-          </div>
           <Btn href="/join" bg="#efdfc3" color="#2d1506">
             become a founding member
           </Btn>
@@ -1081,7 +1071,7 @@ export default function WorkWithMe() {
             </div>
             <div className="w-full md:w-[62%]" style={{ textAlign: 'right' }}>
               <p style={{ ...bodyP, color: '#2d1506', marginBottom: '16px' }}>
-                I didn&apos;t create Body Reclaimed because I couldn&apos;t get results, for myself or my clients. I
+                I didn&apos;t create Body Unmuted because I couldn&apos;t get results, for myself or my clients. I
                 could, and I did. But my life changed.
               </p>
               <p style={{ ...bodyP, color: '#2d1506', marginBottom: '16px' }}>
@@ -1196,9 +1186,6 @@ export default function WorkWithMe() {
             <span style={{ color: '#a67c52', textDecoration: 'line-through' }}>$555</span>{' '}
             <span style={{ color: '#fbf4e9' }}>$333/month</span>
           </p>
-          <div style={{ marginBottom: '32px' }}>
-            <CountdownTimer variant="dark" />
-          </div>
           <p style={{ ...bodyP, fontStyle: 'italic', color: '#e8eeba', marginBottom: '32px' }}>
             Jumping to $555/month after the first 5 members. Available for the first five founding members only.
             Once those spots are filled, pricing increases.
