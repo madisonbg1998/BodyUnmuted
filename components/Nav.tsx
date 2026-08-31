@@ -53,8 +53,8 @@ export default function Nav() {
                 {l.label}
               </Link>
             ))}
-            <Link href="/get-in-touch" className="btn-secondary" style={{ fontSize: '14px' }}>
-              Let&apos;s Start
+            <Link href="/freedom-fitness-audit" className="btn-secondary" style={{ fontSize: '14px' }}>
+              Take the Audit
             </Link>
           </nav>
 
@@ -120,12 +120,12 @@ export default function Nav() {
               </Link>
             ))}
             <Link
-              href="/get-in-touch"
+              href="/freedom-fitness-audit"
               onClick={() => setOpen(false)}
               className="btn-secondary"
               style={{ marginTop: '12px', display: 'inline-block', width: 'fit-content' }}
             >
-              Let&apos;s Start
+              Take the Audit
             </Link>
           </nav>
         </div>

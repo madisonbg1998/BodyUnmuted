@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { LANDING_BODY, LANDING_BUTTON, LANDING_EYEBROW, LANDING_HEADLINE, LANDING_MICROCOPY, PRE_QUIZ_INSTRUCTIONS } from '@/app/lib/ffa/config';
 import type { LandingBlock } from '@/app/lib/ffa/config';
 
+const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
+
 // Breaks a section out of whatever centered/padded container it's rendered
 // inside so its background can run the full width of the viewport, matching
 // the alternating full-bleed sections used on the rest of the site (see
@@ -14,6 +16,16 @@ const fullBleed: React.CSSProperties = {
   marginRight: '-50vw',
   width: '100vw',
 };
+
+// Same recipe as the tinted-photo sections on app/(site)/work-with-me —
+// a translucent wash over the photo so the section's own text color still
+// reads clearly, instead of a flat background color.
+const BgPhoto = ({ src, alt, overlay, position = '50% 50%' }: { src: string; alt: string; overlay: string; position?: string }) => (
+  <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+    <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: 'cover', objectPosition: position }} />
+    <div style={{ position: 'absolute', inset: 0, background: overlay }} />
+  </div>
+);
 
 const bodyStyle: React.CSSProperties = {
   fontFamily: 'var(--font-inter-sans), sans-serif',
@@ -167,8 +179,11 @@ export default function FfaLanding({ onStart }: { onStart: () => void }) {
       </section>
 
       {/* ── Section 2: the case ── */}
-      <section style={{ ...fullBleed, backgroundColor: '#faf9f5', padding: '56px 20px' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto' }}>{bySection(2).map((block, i) => renderBlock(block, i))}</div>
+      <section style={{ ...fullBleed, position: 'relative', overflow: 'hidden', padding: '56px 20px' }}>
+        <BgPhoto src={img('BO1A8972.jpg')} alt="Aerial view of a Moroccan tiled pool" overlay="rgba(251,244,233,0.85)" position="50% 65%" />
+        <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {bySection(2).map((block, i) => renderBlock(block, i))}
+        </div>
       </section>
 
       {/* ── Section 3: the reframe ── */}
@@ -177,8 +192,11 @@ export default function FfaLanding({ onStart }: { onStart: () => void }) {
       </section>
 
       {/* ── Section 4: the pattern ── */}
-      <section style={{ ...fullBleed, backgroundColor: '#faf9f5', padding: '64px 20px' }}>
-        <div style={{ maxWidth: '860px', margin: '0 auto' }}>{bySection(4).map((block, i) => renderBlock(block, i))}</div>
+      <section style={{ ...fullBleed, position: 'relative', overflow: 'hidden', padding: '64px 20px' }}>
+        <BgPhoto src={img('BO1A9059.jpg')} alt="Green ceramic pot with a fern on a bed" overlay="rgba(251,244,233,0.88)" />
+        <div style={{ maxWidth: '860px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          {bySection(4).map((block, i) => renderBlock(block, i))}
+        </div>
       </section>
 
       {/* ── Section 5: the promise + CTA ── */}
