@@ -7,7 +7,6 @@ function samplePayload(): LeadCapturePayload {
     primaryResult: 'A',
     secondaryResult: 'B',
     scores: { A: 6, B: 5, C: 0, D: 0 },
-    goal: 'fat_loss',
     firstName: 'Jamie',
     email: 'jamie@example.com',
     consent: true,

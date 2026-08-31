@@ -2,11 +2,11 @@
  * ============================================================================
  * THE FREEDOM FITNESS AUDIT — types
  * ============================================================================
- * This file is the contract. `QuizOutcome`, `LeadCapturePayload`, and
- * `LeadCaptureAdapter` are defined exactly as specified in the build brief —
- * do not change their shape casually. The future email-integration phase
- * will implement `LeadCaptureAdapter` against a real backend without needing
- * any other file in this module to change.
+ * `QuizOutcome`, `LeadCapturePayload`, and `LeadCaptureAdapter` are the
+ * contract every other file in this module builds on — do not change their
+ * shape casually. (The original build brief's `QuizOutcome` also had a
+ * `goal: GoalType` field, sourced from a Q6 "what's your goal" question —
+ * both were removed after launch since the goal question wasn't needed.)
  * ============================================================================
  */
 
@@ -14,15 +14,10 @@ export type ResultType = 'A' | 'B' | 'C' | 'D';
 
 export const RESULT_TYPES: ResultType[] = ['A', 'B', 'C', 'D'];
 
-export type GoalType = 'fat_loss' | 'muscle' | 'body_recomposition' | 'strength_confidence' | 'energy_wellbeing';
-
-export const GOAL_TYPES: GoalType[] = ['fat_loss', 'muscle', 'body_recomposition', 'strength_confidence', 'energy_wellbeing'];
-
 export type QuizOutcome = {
   primaryResult: ResultType;
   secondaryResult?: ResultType;
   scores: Record<ResultType, number>;
-  goal: GoalType;
 };
 
 export type LeadCapturePayload = QuizOutcome & {
@@ -44,7 +39,7 @@ export interface LeadCaptureAdapter {
 
 // --- content model ----------------------------------------------------------
 
-/** An answer on one of the 11 scored questions (all except Q6). */
+/** An answer on one of the 11 scored questions. */
 export interface ScoredAnswerOption {
   /** Stable, unique ID — never shown to the quiz taker, never re-derived from position. */
   id: string;
@@ -54,29 +49,14 @@ export interface ScoredAnswerOption {
 
 export interface ScoredQuestion {
   id: string;
-  /** 1-12 display order. */
+  /** 1-11 display order. */
   number: number;
   kind: 'scored';
   prompt: string;
   answers: ScoredAnswerOption[];
 }
 
-/** Q6 — records her goal but never contributes to the diagnostic score. */
-export interface GoalAnswerOption {
-  id: string;
-  text: string;
-  goal: GoalType;
-}
-
-export interface GoalQuestion {
-  id: string;
-  number: number;
-  kind: 'goal';
-  prompt: string;
-  answers: GoalAnswerOption[];
-}
-
-export type FfaQuestion = ScoredQuestion | GoalQuestion;
+export type FfaQuestion = ScoredQuestion;
 
 /** questionId -> selected answerId. */
 export type FfaAnswers = Record<string, string>;
@@ -93,7 +73,7 @@ export interface FfaState {
   answerOrder: Record<string, string[]>;
   /** Whether the email-capture popup is currently open (only meaningful during 'email-gate'). */
   modalOpen: boolean;
-  /** Computed once at the end of Q12. Kept out of view until mock submission succeeds. */
+  /** Computed once at the end of the last question. Kept out of view until submission succeeds. */
   outcome?: QuizOutcome;
   startedAt: string;
   completedAt?: string;

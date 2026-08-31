@@ -13,7 +13,7 @@ import { convertkitLeadAdapter } from './adapters/convertkitLeadAdapter';
  *
  * To go live:
  *   1. In Kit, create a form for the audit and (optionally) custom fields
- *      named `quiz_result`, `quiz_goal`, `quiz_secondary_result` — see
+ *      named `quiz_result`, `quiz_secondary_result` — see
  *      app/api/ffa-lead/route.ts's doc comment.
  *   2. Set `CONVERTKIT_FFA_FORM_ID` in .env.local to that form's ID.
  *   3. Flip `MOCK_ADAPTER_ACTIVE` below to `false`. This also lifts the

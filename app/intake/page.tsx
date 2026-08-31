@@ -23,7 +23,6 @@ interface FieldDef {
 
 interface StepDef {
   title: string;
-  description: string;
   fields: FieldDef[];
 }
 
@@ -52,8 +51,7 @@ const TIMEZONE_OPTIONS = [
 
 const STEPS: StepDef[] = [
   {
-    title: 'Client Intake',
-    description: 'Take your time — there are no wrong answers. The more honest you are, the better I can support you.',
+    title: 'About You',
     fields: [
       { id: 'full_name', label: 'Full name', type: 'text', required: true, placeholder: 'Your name' },
       { id: 'email', label: 'Email address', type: 'email', required: true, placeholder: 'you@example.com' },
@@ -72,8 +70,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: "Where you've been.",
-    description: "Your history tells me a lot about what's going to work for you. Don't hold back.",
+    title: 'Training History',
     fields: [
       {
         id: 'training_background',
@@ -94,8 +91,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: "Where you're going.",
-    description: "The more specific you are here, the better. Vague goals get vague results — let's get clear.",
+    title: 'Your Goals',
     fields: [
       {
         id: 'primary_goal',
@@ -118,8 +114,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: "Your body's story.",
-    description: 'Everything here stays between us. The more I know, the safer and smarter your programming will be.',
+    title: 'Health',
     fields: [
       { id: 'injuries', label: 'Any injuries, chronic pain, or physical limitations?', type: 'textarea', help: 'Past or present — anything that affects how you move or train.', placeholder: 'None, or describe...' },
       { id: 'health_conditions', label: 'Any diagnosed health conditions?', type: 'textarea', help: 'PCOS, thyroid issues, diabetes, autoimmune conditions, anything relevant.', placeholder: 'None, or describe...' },
@@ -143,8 +138,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: "What's happening under the hood.",
-    description: "This is the stuff most coaches never ask about — and exactly why we're asking. No TMI here, I promise.",
+    title: 'Nutrition & Digestion',
     fields: [
       {
         id: 'bowel_movements',
@@ -178,8 +172,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: 'How you actually live.',
-    description: 'Your programme needs to fit your life — not the other way around. Tell me what real life looks like.',
+    title: 'Lifestyle',
     fields: [
       { id: 'occupation', label: 'What do you do for work?', type: 'text', help: 'This helps me understand your schedule, activity level, and stress profile.', placeholder: 'Your job or what you do day-to-day...' },
       {
@@ -216,8 +209,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: 'Your head space.',
-    description: "This is the part most people skip. We're not skipping it. The more honest you are, the more I can actually help.",
+    title: 'Mindset',
     fields: [
       {
         id: 'eating_patterns',
@@ -249,8 +241,7 @@ const STEPS: StepDef[] = [
     ],
   },
   {
-    title: 'Making it work.',
-    description: "Last page! Let's talk about the practical stuff so your programme actually fits into your real life.",
+    title: 'Training Preferences',
     fields: [
       {
         id: 'equipment_access',
@@ -642,14 +633,9 @@ export default function IntakePage() {
           <Stepper current={stepIndex + 1} total={STEPS.length} />
 
           {stepIndex > 0 && (
-            <>
-              <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: 'clamp(22px, 2.6vw, 28px)', marginBottom: '8px' }}>
-                {step.title}
-              </p>
-              <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: 'rgba(45,21,6,0.65)', fontSize: '15px', lineHeight: '1.5', marginBottom: '32px' }}>
-                {step.description}
-              </p>
-            </>
+            <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: 'clamp(22px, 2.6vw, 28px)', marginBottom: '32px' }}>
+              {step.title}
+            </p>
           )}
 
           {step.fields.map((field, i) => (

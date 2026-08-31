@@ -13,7 +13,7 @@
  * the quiz needs to change.
  *
  * NEVER pass firstName, email, or any free-text answer content into
- * `properties` — only result types, goal, and question IDs.
+ * `properties` — only result types and question IDs.
  * ============================================================================
  */
 

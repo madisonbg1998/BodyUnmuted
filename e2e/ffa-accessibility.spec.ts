@@ -29,7 +29,7 @@ test('landing page has no automatically detectable accessibility violations', as
 test('a question screen has no automatically detectable accessibility violations', async ({ page }) => {
   await goToLanding(page);
   await page.getByRole('button', { name: 'Find my freedom pattern', exact: true }).first().click();
-  await expect(page.getByText('Question 1 of 12')).toBeVisible();
+  await expect(page.getByText('Question 1 of 11')).toBeVisible();
   await waitForStableRender(page);
   const results = await new AxeBuilder({ page }).analyze();
   expect(results.violations).toEqual([]);
@@ -40,7 +40,7 @@ test('the email modal has no automatically detectable accessibility violations',
   await page.getByRole('button', { name: 'Find my freedom pattern', exact: true }).first().click();
   for (let i = 0; i < QUESTIONS.length; i++) {
     const question = QUESTIONS[i];
-    const answerId = question.kind === 'goal' ? question.answers[0].id : answerIdForLetter(question.id, 'A');
+    const answerId = answerIdForLetter(question.id, 'A');
     await page.locator(`input[value="${answerId}"]`).locator('xpath=ancestor::label').click();
     const isLast = i === QUESTIONS.length - 1;
     await page.getByRole('button', { name: isLast ? 'See My Result' : 'Next', exact: true }).click();
@@ -56,7 +56,7 @@ test('the result reveal screen has no automatically detectable accessibility vio
   await page.getByRole('button', { name: 'Find my freedom pattern', exact: true }).first().click();
   for (let i = 0; i < QUESTIONS.length; i++) {
     const question = QUESTIONS[i];
-    const answerId = question.kind === 'goal' ? question.answers[0].id : answerIdForLetter(question.id, 'A');
+    const answerId = answerIdForLetter(question.id, 'A');
     await page.locator(`input[value="${answerId}"]`).locator('xpath=ancestor::label').click();
     const isLast = i === QUESTIONS.length - 1;
     await page.getByRole('button', { name: isLast ? 'See My Result' : 'Next', exact: true }).click();
@@ -81,11 +81,11 @@ test('the whole quiz is completable with keyboard only, including the trapped mo
   await startButton.focus();
   await expect(startButton).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page.getByText('Question 1 of 12')).toBeVisible();
+  await expect(page.getByText('Question 1 of 11')).toBeVisible();
 
   for (let i = 0; i < QUESTIONS.length; i++) {
     const question = QUESTIONS[i];
-    const answerId = question.kind === 'goal' ? question.answers[0].id : answerIdForLetter(question.id, 'A');
+    const answerId = answerIdForLetter(question.id, 'A');
     const input = page.locator(`input[value="${answerId}"]`);
     await input.focus();
     await page.keyboard.press('Space');

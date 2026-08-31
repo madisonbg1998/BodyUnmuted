@@ -1,23 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { QUESTIONS } from './config';
-import { computeOutcome, computeScores, getGoal, resolveResult, resolveTie, shuffle, zeroScores } from './scoring';
-import type { FfaAnswers, FfaQuestion, ResultType, ScoredQuestion } from './types';
+import { computeOutcome, computeScores, resolveResult, resolveTie, shuffle, zeroScores } from './scoring';
+import type { FfaAnswers, ResultType } from './types';
 
-const SCORED_QUESTIONS = QUESTIONS.filter((q): q is ScoredQuestion => q.kind === 'scored');
-const GOAL_QUESTION = QUESTIONS.find((q) => q.kind === 'goal')!;
-
-/** Finds the answer ID on a scored question whose answer maps to `result`. */
-function answerIdFor(question: FfaQuestion, result: ResultType): string {
-  if (question.kind !== 'scored') throw new Error(`${question.id} is not a scored question`);
+/** Finds the answer ID on a question whose answer maps to `result`. */
+function answerIdFor(question: (typeof QUESTIONS)[number], result: ResultType): string {
   const option = question.answers.find((a) => a.result === result);
   if (!option) throw new Error(`No ${result} answer on ${question.id}`);
   return option.id;
 }
 
-/** Builds a complete 12-answer set: every scored question answers `result`, plus a fixed goal. */
+/** Builds a complete answer set: every question answers `result`. */
 function fullAnswerSetFor(result: ResultType, overrides: FfaAnswers = {}): FfaAnswers {
-  const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-  for (const q of SCORED_QUESTIONS) {
+  const answers: FfaAnswers = {};
+  for (const q of QUESTIONS) {
     answers[q.id] = answerIdFor(q, result);
   }
   return { ...answers, ...overrides };
@@ -30,19 +26,12 @@ const q12 = QUESTIONS.find((q) => q.id === 'q12')!;
 // --- content integrity ------------------------------------------------------
 
 describe('question content', () => {
-  it('has exactly 12 questions', () => {
-    expect(QUESTIONS).toHaveLength(12);
+  it('has exactly 11 questions', () => {
+    expect(QUESTIONS).toHaveLength(11);
   });
 
-  it('has 11 scored questions (1-5, 7-12) and exactly one goal question (6)', () => {
-    expect(SCORED_QUESTIONS).toHaveLength(11);
-    expect(QUESTIONS.filter((q) => q.kind === 'goal')).toHaveLength(1);
-    expect(GOAL_QUESTION.id).toBe('q6');
-    expect(GOAL_QUESTION.number).toBe(6);
-  });
-
-  it('every scored question has exactly one answer per result type A/B/C/D', () => {
-    for (const q of SCORED_QUESTIONS) {
+  it('every question has exactly one answer per result type A/B/C/D', () => {
+    for (const q of QUESTIONS) {
       const results = q.answers.map((a) => a.result).sort();
       expect(results).toEqual(['A', 'B', 'C', 'D']);
     }
@@ -51,12 +40,6 @@ describe('question content', () => {
   it('every answer ID is unique across the whole quiz', () => {
     const allIds = QUESTIONS.flatMap((q) => q.answers.map((a) => a.id));
     expect(new Set(allIds).size).toBe(allIds.length);
-  });
-
-  it('the goal question has one answer per GoalType, all five', () => {
-    if (GOAL_QUESTION.kind !== 'goal') throw new Error('expected goal question');
-    const goals = GOAL_QUESTION.answers.map((a) => a.goal).sort();
-    expect(goals).toEqual(['body_recomposition', 'energy_wellbeing', 'fat_loss', 'muscle', 'strength_confidence'].sort());
   });
 });
 
@@ -74,8 +57,8 @@ describe('computeScores', () => {
     expect(scores.B).toBe(0);
   });
 
-  it('every individual answer on every scored question maps to the correct result', () => {
-    for (const q of SCORED_QUESTIONS) {
+  it('every individual answer on every question maps to the correct result', () => {
+    for (const q of QUESTIONS) {
       for (const result of ['A', 'B', 'C', 'D'] as ResultType[]) {
         const answers: FfaAnswers = { [q.id]: answerIdFor(q, result) };
         const scores = computeScores(QUESTIONS, answers);
@@ -100,36 +83,6 @@ describe('computeScores', () => {
   });
 });
 
-// --- Q6 never scores ---------------------------------------------------------
-
-describe('Question 6 (goal) never affects the diagnostic score', () => {
-  it('answering every goal option leaves all scores at zero', () => {
-    if (GOAL_QUESTION.kind !== 'goal') throw new Error('expected goal question');
-    for (const goalAnswer of GOAL_QUESTION.answers) {
-      const scores = computeScores(QUESTIONS, { [GOAL_QUESTION.id]: goalAnswer.id });
-      expect(scores).toEqual(zeroScores());
-    }
-  });
-
-  it('changing the Q6 answer does not change an otherwise-identical score total', () => {
-    if (GOAL_QUESTION.kind !== 'goal') throw new Error('expected goal question');
-    const base = fullAnswerSetFor('A');
-    const scoresWithGoal1 = computeScores(QUESTIONS, { ...base, [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id });
-    const scoresWithGoal2 = computeScores(QUESTIONS, { ...base, [GOAL_QUESTION.id]: GOAL_QUESTION.answers[4].id });
-    expect(scoresWithGoal1).toEqual(scoresWithGoal2);
-  });
-
-  it('getGoal reads the correct GoalType regardless of scored answers', () => {
-    if (GOAL_QUESTION.kind !== 'goal') throw new Error('expected goal question');
-    const answers = fullAnswerSetFor('B', { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[2].id });
-    expect(getGoal(QUESTIONS, answers)).toBe(GOAL_QUESTION.answers[2].goal);
-  });
-
-  it('getGoal returns undefined when Q6 is unanswered', () => {
-    expect(getGoal(QUESTIONS, {})).toBeUndefined();
-  });
-});
-
 // --- all four types can win --------------------------------------------------
 
 describe('all four result types can win outright', () => {
@@ -146,11 +99,11 @@ describe('all four result types can win outright', () => {
 
 describe('tie-breaking order: Q12, then Q9, then Q4', () => {
   it('resolves via Q12 when Q12 belongs to one of the tied types', () => {
-    // Q12 itself is one of the 11 scored questions, so to make it the
-    // deciding vote: 4 other questions + Q12 = 5 for A, 5 questions for B,
-    // and the 1 remaining question goes to C (keeping A/B tied at the top).
-    const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-    const pool = SCORED_QUESTIONS.filter((q) => q.id !== 'q12');
+    // Q12 itself is one of the 11 questions, so to make it the deciding
+    // vote: 4 other questions + Q12 = 5 for A, 5 questions for B, and the 1
+    // remaining question goes to C (keeping A/B tied at the top).
+    const answers: FfaAnswers = {};
+    const pool = QUESTIONS.filter((q) => q.id !== 'q12');
     const groupA = pool.slice(0, 4);
     const groupB = pool.slice(4, 9);
     const leftover = pool.slice(9, 10);
@@ -166,14 +119,13 @@ describe('tie-breaking order: Q12, then Q9, then Q4', () => {
 
   it('falls through to Q9 when Q12 does not belong to the tied set', () => {
     const answers: FfaAnswers = {};
-    const halfA = SCORED_QUESTIONS.filter((q) => q.id !== 'q9').slice(0, 5);
-    const halfB = SCORED_QUESTIONS.filter((q) => q.id !== 'q9' && !halfA.includes(q)).slice(0, 5);
+    const halfA = QUESTIONS.filter((q) => q.id !== 'q9').slice(0, 5);
+    const halfB = QUESTIONS.filter((q) => q.id !== 'q9' && !halfA.includes(q)).slice(0, 5);
     for (const q of halfA) answers[q.id] = answerIdFor(q, 'A');
     for (const q of halfB) answers[q.id] = answerIdFor(q, 'B');
     // Q12 (part of one of the halves already) — force it to a third, untied type.
     answers[q12.id] = answerIdFor(q12, 'D');
     answers[q9.id] = answerIdFor(q9, 'B');
-    answers[GOAL_QUESTION.id] = GOAL_QUESTION.answers[0].id;
 
     const scores = computeScores(QUESTIONS, answers);
     const tied = scores.A === scores.B ? ['A', 'B'] : [];
@@ -187,8 +139,8 @@ describe('tie-breaking order: Q12, then Q9, then Q4', () => {
     // 8 remaining questions (excluding q4/q9/q12): 3 -> A, 4 -> B, 1 -> C.
     // Plus q4 -> A (making A=4, tied with B=4), with q9 and q12 both parked
     // on D so neither can resolve the tie before Q4 gets a chance to.
-    const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-    const pool = SCORED_QUESTIONS.filter((q) => !['q12', 'q9', 'q4'].includes(q.id));
+    const answers: FfaAnswers = {};
+    const pool = QUESTIONS.filter((q) => !['q12', 'q9', 'q4'].includes(q.id));
     const groupA = pool.slice(0, 3);
     const groupB = pool.slice(3, 7);
     const leftover = pool.slice(7, 8);
@@ -210,7 +162,7 @@ describe('tie-breaking order: Q12, then Q9, then Q4', () => {
     // Tie between C and D, using only questions other than q12/q9/q4, and
     // point q12/q9/q4 at A/B (outside the tied set) so none of them apply.
     const answers: FfaAnswers = {};
-    const pool = SCORED_QUESTIONS.filter((q) => !['q12', 'q9', 'q4'].includes(q.id));
+    const pool = QUESTIONS.filter((q) => !['q12', 'q9', 'q4'].includes(q.id));
     const halfC = pool.slice(0, 4);
     const halfD = pool.slice(4, 8);
     for (const q of halfC) answers[q.id] = answerIdFor(q, 'C');
@@ -218,7 +170,6 @@ describe('tie-breaking order: Q12, then Q9, then Q4', () => {
     answers[q12.id] = answerIdFor(q12, 'A');
     answers[q9.id] = answerIdFor(q9, 'B');
     answers[q4.id] = answerIdFor(q4, 'A');
-    answers[GOAL_QUESTION.id] = GOAL_QUESTION.answers[0].id;
 
     const scores = computeScores(QUESTIONS, answers);
     expect(scores.C).toBe(scores.D);
@@ -242,11 +193,10 @@ describe('tie-breaking order: Q12, then Q9, then Q4', () => {
 
 describe('secondary result qualification', () => {
   it('sets secondary when the runner-up is exactly one point behind primary', () => {
-    const pool = SCORED_QUESTIONS;
-    const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
+    const answers: FfaAnswers = {};
     // 6 points to A, 5 points to B -> 1-point gap.
-    pool.slice(0, 6).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
-    pool.slice(6, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
+    QUESTIONS.slice(0, 6).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
+    QUESTIONS.slice(6, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
 
     const result = resolveResult(QUESTIONS, answers);
     expect(result.primary).toBe('A');
@@ -255,11 +205,10 @@ describe('secondary result qualification', () => {
   });
 
   it('omits secondary when the runner-up is two or more points behind', () => {
-    const pool = SCORED_QUESTIONS;
-    const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
+    const answers: FfaAnswers = {};
     // 8 points to A, 3 points to B -> 5-point gap.
-    pool.slice(0, 8).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
-    pool.slice(8, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
+    QUESTIONS.slice(0, 8).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
+    QUESTIONS.slice(8, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
 
     const result = resolveResult(QUESTIONS, answers);
     expect(result.primary).toBe('A');
@@ -268,27 +217,16 @@ describe('secondary result qualification', () => {
   });
 
   it('sets secondary when primary and runner-up are exactly tied (0-point gap)', () => {
-    const answers = fullAnswerSetFor('A');
-    // Sweep is 11-0-0-0; instead build an exact secondary tie: 6 A, 6 B is
-    // impossible (only 11 questions), so use 6 A / 5 B, then bump B to 6 by
-    // reassigning one A question to B — leaving 5 A / 6 B, a clean primary
-    // flip. Use a genuine even split across two disjoint question sets instead.
-    const pool = SCORED_QUESTIONS;
-    const evenAnswers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-    pool.slice(0, 6).forEach((q) => (evenAnswers[q.id] = answerIdFor(q, 'A')));
-    pool.slice(6, 11).forEach((q) => (evenAnswers[q.id] = answerIdFor(q, 'A')));
-    // Overwrite to force a true A/B tie at 5-5 with one spare answered C.
-    const tiedAnswers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-    pool.slice(0, 5).forEach((q) => (tiedAnswers[q.id] = answerIdFor(q, 'A')));
-    pool.slice(5, 10).forEach((q) => (tiedAnswers[q.id] = answerIdFor(q, 'B')));
-    tiedAnswers[pool[10].id] = answerIdFor(pool[10], 'C');
+    // A true A/B tie at 5-5 with one spare answered C.
+    const tiedAnswers: FfaAnswers = {};
+    QUESTIONS.slice(0, 5).forEach((q) => (tiedAnswers[q.id] = answerIdFor(q, 'A')));
+    QUESTIONS.slice(5, 10).forEach((q) => (tiedAnswers[q.id] = answerIdFor(q, 'B')));
+    tiedAnswers[QUESTIONS[10].id] = answerIdFor(QUESTIONS[10], 'C');
 
     const result = resolveResult(QUESTIONS, tiedAnswers);
     expect(result.scores.A).toBe(result.scores.B);
     expect(result.secondary).toBeDefined();
     expect(new Set(['A', 'B'])).toContain(result.primary);
-    void answers;
-    void evenAnswers;
   });
 });
 
@@ -300,7 +238,7 @@ describe('editing a previous answer recalculates the outcome', () => {
     const before = computeScores(QUESTIONS, answers);
     expect(before.A).toBe(11);
 
-    const changed = { ...answers, q1: answerIdFor(SCORED_QUESTIONS[0], 'D') };
+    const changed = { ...answers, q1: answerIdFor(QUESTIONS[0], 'D') };
     const after = computeScores(QUESTIONS, changed);
 
     expect(after.A).toBe(10);
@@ -308,17 +246,16 @@ describe('editing a previous answer recalculates the outcome', () => {
   });
 
   it('changing an answer can flip the primary result entirely', () => {
-    const pool = SCORED_QUESTIONS;
-    const answers: FfaAnswers = { [GOAL_QUESTION.id]: GOAL_QUESTION.answers[0].id };
-    pool.slice(0, 6).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
-    pool.slice(6, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
+    const answers: FfaAnswers = {};
+    QUESTIONS.slice(0, 6).forEach((q) => (answers[q.id] = answerIdFor(q, 'A')));
+    QUESTIONS.slice(6, 11).forEach((q) => (answers[q.id] = answerIdFor(q, 'B')));
     expect(resolveResult(QUESTIONS, answers).primary).toBe('A');
 
     // Flip two of A's questions to B, making B the outright leader (7 vs 4).
     const revised = {
       ...answers,
-      [pool[0].id]: answerIdFor(pool[0], 'B'),
-      [pool[1].id]: answerIdFor(pool[1], 'B'),
+      [QUESTIONS[0].id]: answerIdFor(QUESTIONS[0], 'B'),
+      [QUESTIONS[1].id]: answerIdFor(QUESTIONS[1], 'B'),
     };
     expect(resolveResult(QUESTIONS, revised).primary).toBe('B');
   });
@@ -343,16 +280,9 @@ describe('shuffle', () => {
 // --- computeOutcome integration ------------------------------------------------
 
 describe('computeOutcome', () => {
-  it('throws if called before Q6 is answered', () => {
-    const answers = fullAnswerSetFor('A');
-    delete answers[GOAL_QUESTION.id];
-    expect(() => computeOutcome(QUESTIONS, answers)).toThrow();
-  });
-
   it('returns a fully-formed QuizOutcome for a complete answer set', () => {
     const outcome = computeOutcome(QUESTIONS, fullAnswerSetFor('D'));
     expect(outcome.primaryResult).toBe('D');
-    expect(outcome.goal).toBe('fat_loss');
     expect(outcome.scores).toEqual({ A: 0, B: 0, C: 0, D: 11 });
   });
 });

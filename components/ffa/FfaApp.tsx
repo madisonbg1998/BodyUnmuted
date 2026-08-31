@@ -84,11 +84,11 @@ export default function FfaApp() {
       return;
     }
 
-    // Q12 answered — compute the outcome privately now. It is stored in
-    // state (so a refresh doesn't lose it) but nothing renders it until the
-    // mock submission succeeds.
+    // Last question answered — compute the outcome privately now. It is
+    // stored in state (so a refresh doesn't lose it) but nothing renders it
+    // until the mock submission succeeds.
     const outcome = computeOutcome(QUESTIONS, state!.answers);
-    track('quiz_complete', { primaryResult: outcome.primaryResult, goal: outcome.goal });
+    track('quiz_complete', { primaryResult: outcome.primaryResult });
     update({ phase: 'calculating', completedAt: new Date().toISOString(), outcome });
 
     setTimeout(() => {
@@ -135,7 +135,7 @@ export default function FfaApp() {
 
       const trimmed = clearProgressKeepOutcome(state!);
       setState(trimmed);
-      track('quiz_result_reveal', { primaryResult: trimmed.outcome!.primaryResult, goal: trimmed.outcome!.goal });
+      track('quiz_result_reveal', { primaryResult: trimmed.outcome!.primaryResult });
     } catch {
       // The mock adapter never throws; the real Kit adapter can (network
       // error, Kit outage, etc.). Keep the modal open with her answers

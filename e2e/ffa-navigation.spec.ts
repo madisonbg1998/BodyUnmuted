@@ -10,11 +10,11 @@ test('Back preserves earlier answers, and editing an answer changes the final re
   const q1a = answerIdForLetter('q1', 'A');
   await page.locator(`input[value="${q1a}"]`).locator('xpath=ancestor::label').click();
   await page.getByRole('button', { name: 'Next', exact: true }).click();
-  await expect(page.getByText('Question 2 of 12')).toBeVisible();
+  await expect(page.getByText('Question 2 of 11')).toBeVisible();
 
   // Go back — Q1's selection must still be checked.
   await page.getByRole('button', { name: 'Previous', exact: true }).click();
-  await expect(page.getByText('Question 1 of 12')).toBeVisible();
+  await expect(page.getByText('Question 1 of 11')).toBeVisible();
   await expect(page.locator(`input[value="${q1a}"]`)).toBeChecked();
 
   // Change the answer to D instead, then complete the rest of the quiz as D.
@@ -24,7 +24,7 @@ test('Back preserves earlier answers, and editing an answer changes the final re
 
   for (let i = 1; i < QUESTIONS.length; i++) {
     const question = QUESTIONS[i];
-    const answerId = question.kind === 'goal' ? question.answers[0].id : answerIdForLetter(question.id, 'D');
+    const answerId = answerIdForLetter(question.id, 'D');
     await page.locator(`input[value="${answerId}"]`).locator('xpath=ancestor::label').click();
     const isLast = i === QUESTIONS.length - 1;
     await page.getByRole('button', { name: isLast ? 'See My Result' : 'Next', exact: true }).click();
@@ -75,7 +75,7 @@ test('refreshing mid-quiz restores progress before the popup ever opens', async 
   const q1a = answerIdForLetter('q1', 'A');
   await page.locator(`input[value="${q1a}"]`).locator('xpath=ancestor::label').click();
   await page.getByRole('button', { name: 'Next', exact: true }).click();
-  await expect(page.getByText('Question 2 of 12')).toBeVisible();
+  await expect(page.getByText('Question 2 of 11')).toBeVisible();
 
   const q2a = answerIdForLetter('q2', 'A');
   await page.locator(`input[value="${q2a}"]`).locator('xpath=ancestor::label').click();
@@ -86,7 +86,7 @@ test('refreshing mid-quiz restores progress before the popup ever opens', async 
   await page.reload();
 
   // Still on Q2, with the Q2 selection intact.
-  await expect(page.getByText('Question 2 of 12')).toBeVisible();
+  await expect(page.getByText('Question 2 of 11')).toBeVisible();
   await expect(page.locator(`input[value="${q2a}"]`)).toBeChecked();
 
   // Going back still shows the Q1 answer from before the reload.

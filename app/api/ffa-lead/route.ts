@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateEmail } from '@/app/lib/adhara-forms';
 import { subscribeToConvertKit, subscribeToConvertKitSequence } from '@/app/lib/convertkit';
-import { GOAL_TYPES, RESULT_TYPES } from '@/app/lib/ffa/types';
+import { RESULT_TYPES } from '@/app/lib/ffa/types';
 import type { ResultType } from '@/app/lib/ffa/types';
 
 /**
@@ -10,8 +10,8 @@ import type { ResultType } from '@/app/lib/ffa/types';
  * caller).
  *
  * Two things happen on submit:
- *   1. Subscribe to one shared Kit form, with the quiz result/goal sent as
- *      custom fields (`quiz_result`, `quiz_goal`, `quiz_secondary_result`) —
+ *   1. Subscribe to one shared Kit form, with the quiz result sent as a
+ *      custom field (`quiz_result`, and `quiz_secondary_result` when set) —
  *      create matching custom fields in the Kit account first, or Kit will
  *      silently ignore unrecognized field keys.
  *   2. Enroll directly into the Kit sequence matching her primary result, if
@@ -44,9 +44,6 @@ export async function POST(request: NextRequest) {
     if (body.secondaryResult !== undefined && !RESULT_TYPES.includes(body.secondaryResult)) {
       return NextResponse.json({ error: 'Invalid secondaryResult' }, { status: 400 });
     }
-    if (!GOAL_TYPES.includes(body.goal)) {
-      return NextResponse.json({ error: 'Invalid goal' }, { status: 400 });
-    }
 
     const formId = process.env.CONVERTKIT_FFA_FORM_ID;
     if (!formId) {
@@ -56,7 +53,6 @@ export async function POST(request: NextRequest) {
 
     const fields: Record<string, string> = {
       quiz_result: body.primaryResult,
-      quiz_goal: body.goal,
     };
     if (body.secondaryResult) fields.quiz_secondary_result = body.secondaryResult;
 

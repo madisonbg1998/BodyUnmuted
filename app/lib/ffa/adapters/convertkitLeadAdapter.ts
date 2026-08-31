@@ -3,7 +3,7 @@ import type { LeadCaptureAdapter, LeadCapturePayload } from '../types';
 /**
  * Real `LeadCaptureAdapter` implementation — subscribes the visitor to Kit
  * (ConvertKit) via app/api/ffa-lead/route.ts, which holds the API key
- * server-side and forwards the quiz result/goal as custom fields. See that
+ * server-side and forwards the quiz result as a custom field. See that
  * route's doc comment for the required Kit-side setup (form + custom
  * fields).
  *

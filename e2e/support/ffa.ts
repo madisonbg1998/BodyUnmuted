@@ -23,7 +23,7 @@ export async function startQuiz(page: Page) {
   // The landing page has two "Find my freedom pattern" buttons (hero + bottom
   // CTA) — either one starts the quiz, so just use the first.
   await page.getByRole('button', { name: 'Find my freedom pattern', exact: true }).first().click();
-  await expect(page.getByText('Question 1 of 12')).toBeVisible();
+  await expect(page.getByText('Question 1 of 11')).toBeVisible();
 }
 
 async function selectAnswer(page: Page, answerId: string) {
@@ -38,8 +38,7 @@ async function clickNext(page: Page, isLast: boolean) {
 }
 
 /**
- * Answers every question with the option that scores the given letter
- * (Q6 always takes the first goal option — the goal never affects scoring).
+ * Answers every question with the option that scores the given letter.
  * Produces an 11-0-0-0 result, so `letter` always wins outright with no
  * secondary — deterministic for e2e without duplicating the tie-break math
  * already covered by app/lib/ffa/scoring.test.ts.
@@ -47,7 +46,7 @@ async function clickNext(page: Page, isLast: boolean) {
 export async function completeQuizWithLetter(page: Page, letter: ResultType, { upTo = TOTAL_QUESTIONS }: { upTo?: number } = {}) {
   for (let i = 0; i < upTo; i++) {
     const question = QUESTIONS[i];
-    const answerId = question.kind === 'goal' ? question.answers[0].id : answerIdForLetter(question.id, letter);
+    const answerId = answerIdForLetter(question.id, letter);
     await selectAnswer(page, answerId);
     if (i < upTo - 1) {
       await clickNext(page, false);

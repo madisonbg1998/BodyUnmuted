@@ -1,4 +1,4 @@
-import { RESULT_TYPES, type FfaAnswers, type FfaQuestion, type GoalType, type QuizOutcome, type ResultType } from './types';
+import { RESULT_TYPES, type FfaAnswers, type FfaQuestion, type QuizOutcome, type ResultType } from './types';
 import { TIEBREAK_QUESTION_ORDER } from './config';
 
 /**
@@ -17,12 +17,11 @@ export function zeroScores(): Record<ResultType, number> {
   );
 }
 
-/** Questions 1–5 and 7–12 each add one point. Q6 (kind: 'goal') never contributes. */
+/** Every question adds one point to its answer's result type. */
 export function computeScores(questions: FfaQuestion[], answers: FfaAnswers): Record<ResultType, number> {
   const scores = zeroScores();
 
   for (const question of questions) {
-    if (question.kind !== 'scored') continue;
     const answerId = answers[question.id];
     if (!answerId) continue;
     const option = question.answers.find((a) => a.id === answerId);
@@ -32,14 +31,6 @@ export function computeScores(questions: FfaQuestion[], answers: FfaAnswers): Re
   return scores;
 }
 
-export function getGoal(questions: FfaQuestion[], answers: FfaAnswers): GoalType | undefined {
-  const goalQuestion = questions.find((q) => q.kind === 'goal');
-  if (!goalQuestion || goalQuestion.kind !== 'goal') return undefined;
-  const answerId = answers[goalQuestion.id];
-  if (!answerId) return undefined;
-  return goalQuestion.answers.find((a) => a.id === answerId)?.goal;
-}
-
 /** All result types (excluding any in `excluding`) tied for the highest score among them. */
 export function getTiedTop(scores: Record<ResultType, number>, excluding: ResultType[] = []): ResultType[] {
   const candidates = RESULT_TYPES.filter((t) => !excluding.includes(t));
@@ -47,10 +38,10 @@ export function getTiedTop(scores: Record<ResultType, number>, excluding: Result
   return candidates.filter((t) => scores[t] === max);
 }
 
-/** Which result type her answer on a given (scored) question belongs to, if any. */
+/** Which result type her answer on a given question belongs to, if any. */
 function resultForQuestion(questionId: string, questions: FfaQuestion[], answers: FfaAnswers): ResultType | undefined {
   const question = questions.find((q) => q.id === questionId);
-  if (!question || question.kind !== 'scored') return undefined;
+  if (!question) return undefined;
   const answerId = answers[question.id];
   if (!answerId) return undefined;
   return question.answers.find((a) => a.id === answerId)?.result;
@@ -95,14 +86,10 @@ export function resolveResult(questions: FfaQuestion[], answers: FfaAnswers): Re
   return { primary, secondary, scores };
 }
 
-/** Assembles the full, privately-computed outcome once all 12 questions are answered. */
+/** Assembles the full, privately-computed outcome once every question is answered. */
 export function computeOutcome(questions: FfaQuestion[], answers: FfaAnswers): QuizOutcome {
   const { primary, secondary, scores } = resolveResult(questions, answers);
-  const goal = getGoal(questions, answers);
-  if (!goal) {
-    throw new Error('computeOutcome called before Q6 (goal) was answered — this indicates a UI gating bug.');
-  }
-  return { primaryResult: primary, secondaryResult: secondary, scores, goal };
+  return { primaryResult: primary, secondaryResult: secondary, scores };
 }
 
 /** Fisher-Yates. Accepts an injectable RNG so tests can be deterministic. */

@@ -15,9 +15,12 @@ import type { FfaQuestion } from './types';
  * a session with content that no longer matches.
  * ============================================================================
  */
-export const QUIZ_VERSION = 'ffa-1';
+// Bumped from ffa-1 after removing the Q6 goal question — discards any
+// in-progress quiz stored before this change instead of resuming into
+// mismatched content.
+export const QUIZ_VERSION = 'ffa-2';
 
-export const TOTAL_QUESTIONS = 12;
+export const TOTAL_QUESTIONS = 11;
 
 // --- landing page -------------------------------------------------------
 
@@ -76,7 +79,7 @@ export const LANDING_BODY: LandingBlock[] = [
 
 export const LANDING_BUTTON = 'Find my freedom pattern';
 
-export const LANDING_MICROCOPY = '2 minutes • 12 questions • One eerily specific result';
+export const LANDING_MICROCOPY = '2 minutes • 11 questions • One eerily specific result';
 
 export const PRE_QUIZ_INSTRUCTIONS = [
   'Choose the answer that most closely reflects what you actually do—not what you think you should do.',
@@ -149,21 +152,8 @@ export const QUESTIONS: FfaQuestion[] = [
     ],
   },
   {
-    id: 'q6',
-    number: 6,
-    kind: 'goal',
-    prompt: 'What would you most like to change about your body or fitness over the next six months?',
-    answers: [
-      { id: 'q6-fat-loss', text: 'Lose body fat and feel leaner.', goal: 'fat_loss' },
-      { id: 'q6-muscle', text: 'Build visible muscle and shape.', goal: 'muscle' },
-      { id: 'q6-recomp', text: 'Lose fat while building or maintaining muscle.', goal: 'body_recomposition' },
-      { id: 'q6-strength', text: 'Feel stronger and more confident in the gym.', goal: 'strength_confidence' },
-      { id: 'q6-energy', text: 'Have more energy and feel better inside my body.', goal: 'energy_wellbeing' },
-    ],
-  },
-  {
     id: 'q7',
-    number: 7,
+    number: 6,
     kind: 'scored',
     prompt: 'You have three dinners, an event, or a weekend away coming up. What thought appears first?',
     answers: [
@@ -175,7 +165,7 @@ export const QUESTIONS: FfaQuestion[] = [
   },
   {
     id: 'q8',
-    number: 8,
+    number: 7,
     kind: 'scored',
     prompt: 'How do you decide that a workout was effective?',
     answers: [
@@ -187,7 +177,7 @@ export const QUESTIONS: FfaQuestion[] = [
   },
   {
     id: 'q9',
-    number: 9,
+    number: 8,
     kind: 'scored',
     prompt: 'You miss two workouts and eat differently than planned for several days. What are you most likely to do next?',
     answers: [
@@ -199,7 +189,7 @@ export const QUESTIONS: FfaQuestion[] = [
   },
   {
     id: 'q10',
-    number: 10,
+    number: 9,
     kind: 'scored',
     prompt: 'When you receive a new fitness plan, what gives you the most confidence?',
     answers: [
@@ -211,7 +201,7 @@ export const QUESTIONS: FfaQuestion[] = [
   },
   {
     id: 'q11',
-    number: 11,
+    number: 10,
     kind: 'scored',
     prompt: 'What is most likely to make you abandon an approach that had been working?',
     answers: [
@@ -223,7 +213,7 @@ export const QUESTIONS: FfaQuestion[] = [
   },
   {
     id: 'q12',
-    number: 12,
+    number: 11,
     kind: 'scored',
     prompt: 'Six months from now, what would feel most freeing?',
     answers: [

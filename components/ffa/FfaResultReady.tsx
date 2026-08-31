@@ -1,11 +1,11 @@
 import { POPUP_HEADING, POPUP_REOPEN_BUTTON } from '@/app/lib/ffa/config';
 
 /**
- * Shown when she's answered all 12 questions and closed the email popup
- * without submitting. Per spec: "return to completed Question 12 with a
- * See my result button that reopens it" — this is that screen. Her result
- * has already been computed (see app/lib/ffa/scoring.ts) but stays hidden
- * until the popup is reopened and the mock submission succeeds.
+ * Shown when she's answered every question and closed the email popup
+ * without submitting. Per spec: "return to the completed quiz with a See my
+ * result button that reopens it" — this is that screen. Her result has
+ * already been computed (see app/lib/ffa/scoring.ts) but stays hidden until
+ * the popup is reopened and submission succeeds.
  */
 export default function FfaResultReady({ onReopen, onRestart }: { onReopen: () => void; onRestart: () => void }) {
   return (
@@ -31,7 +31,7 @@ export default function FfaResultReady({ onReopen, onRestart }: { onReopen: () =
           marginBottom: '28px',
         }}
       >
-        You’ve finished all 12 questions. Enter your name and email to see your Freedom Fitness type.
+        You’ve finished the audit. Enter your name and email to see your Freedom Fitness type.
       </p>
       <button type="button" onClick={onReopen} className="btn-primary" style={{ fontSize: '15px', padding: '14px 32px' }}>
         {POPUP_REOPEN_BUTTON}
