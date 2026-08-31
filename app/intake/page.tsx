@@ -602,11 +602,11 @@ export default function IntakePage() {
               Thank you.
             </p>
             <h1 style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: 'clamp(36px, 4.6vw, 52px)', lineHeight: '1.05', fontWeight: 400, marginBottom: '20px' }}>
-              Got it all.
+              Thank you for submitting.
             </h1>
             <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#45220d', fontSize: '17px', lineHeight: '1.6' }}>
-              Thank you for taking the time to share all of that with me — it genuinely helps. I&rsquo;ll review your
-              answers and be in touch soon.
+              I can&rsquo;t wait to chat deeper with you on our strategy call. I&rsquo;ll review your answers beforehand
+              so we can make the most of our time together.
             </p>
           </div>
         </div>
