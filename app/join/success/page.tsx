@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { subscribeToConvertKit } from '@/app/lib/convertkit';
+import { subscribeToConvertKit, subscribeToConvertKitSequence } from '@/app/lib/convertkit';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
@@ -16,6 +16,14 @@ export default async function JoinSuccessPage({
       await subscribeToConvertKit(email, name, process.env.CONVERTKIT_MEMBERSHIP_FORM_ID);
     } catch (err) {
       console.error('ConvertKit subscribe error:', err);
+    }
+
+    const sequenceId = process.env.CONVERTKIT_INTAKE_SEQUENCE_ID;
+    if (sequenceId) {
+      const sequenceResult = await subscribeToConvertKitSequence(email, name, sequenceId);
+      if (!sequenceResult.ok) {
+        console.error('Failed to enroll new member in ConvertKit welcome sequence');
+      }
     }
   }
 
