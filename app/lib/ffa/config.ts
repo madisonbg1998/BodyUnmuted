@@ -15,10 +15,11 @@ import type { FfaQuestion } from './types';
  * a session with content that no longer matches.
  * ============================================================================
  */
-// Bumped from ffa-1 after removing the Q6 goal question — discards any
-// in-progress quiz stored before this change instead of resuming into
-// mismatched content.
-export const QUIZ_VERSION = 'ffa-2';
+// Bumped from ffa-2 after rewriting every question/answer around the
+// founder-specific outcomes (life_happened / monday_rebrand /
+// im_fine_founder / tab_spiral) — discards any in-progress quiz stored
+// before this change instead of resuming into mismatched content.
+export const QUIZ_VERSION = 'ffa-3';
 
 export const TOTAL_QUESTIONS = 11;
 
@@ -90,6 +91,10 @@ export const PRE_QUIZ_INSTRUCTIONS = [
 // IDs are stable and never change once content ships — scoring, storage,
 // analytics, and tests all bind to these, never to display position.
 
+// Answer `result` is the hidden outcome id, expressed as a ResultType letter
+// rather than the raw outcome-id string — it is never rendered to the quiz
+// taker (see components/ffa/*), only used by scoring.ts. Letter mapping:
+// A = life_happened, B = monday_rebrand, C = im_fine_founder, D = tab_spiral.
 export const QUESTIONS: FfaQuestion[] = [
   {
     id: 'q1',
@@ -97,34 +102,34 @@ export const QUESTIONS: FfaQuestion[] = [
     kind: 'scored',
     prompt: 'Your week becomes much busier than expected. What usually happens to your fitness?',
     answers: [
-      { id: 'q1-a', text: 'I struggle to make the original plan fit, so workouts or nutrition often fall away.', result: 'A' },
+      { id: 'q1-a', text: 'I try to make the original routine fit, but it becomes difficult when my schedule changes.', result: 'A' },
       { id: 'q1-b', text: 'Once I miss a few things, the week feels off track and I wait for a clean restart.', result: 'B' },
-      { id: 'q1-c', text: 'I keep pushing through the plan, even when my energy or stress suggests I need to adjust.', result: 'C' },
-      { id: 'q1-d', text: 'I try to adjust, but I am unsure which parts matter most and what I can safely change.', result: 'D' },
+      { id: 'q1-c', text: 'I handle whatever feels most urgent and tell myself I’ll focus on fitness when work calms down.', result: 'C' },
+      { id: 'q1-d', text: 'I consider several ways to adjust, but I’m not sure which option will still get me the result I want.', result: 'D' },
     ],
   },
   {
     id: 'q2',
     number: 2,
     kind: 'scored',
-    prompt: 'You arrive at a gym with unfamiliar equipment. What is your most likely reaction?',
+    prompt: 'You’re traveling for work and the gym has unfamiliar or limited equipment. What is your most likely reaction?',
     answers: [
-      { id: 'q2-a', text: 'I find it difficult to follow the workout when the exact equipment is unavailable.', result: 'A' },
-      { id: 'q2-b', text: 'I am tempted to treat the trip as a break and resume properly when I get home.', result: 'B' },
-      { id: 'q2-c', text: 'I create a hard workout so I still feel as if I have done enough.', result: 'C' },
-      { id: 'q2-d', text: 'I make substitutions, but question whether they are equally effective.', result: 'D' },
+      { id: 'q2-a', text: 'I struggle to follow the workout when the setup I normally use isn’t available.', result: 'A' },
+      { id: 'q2-b', text: 'The trip starts to feel like a break from my routine, and I plan to resume properly when I get home.', result: 'B' },
+      { id: 'q2-c', text: 'Between work and travel, the workout becomes the easiest thing to remove from the day.', result: 'C' },
+      { id: 'q2-d', text: 'I make substitutions, but spend the workout wondering whether they’re equally effective.', result: 'D' },
     ],
   },
   {
     id: 'q3',
     number: 3,
     kind: 'scored',
-    prompt: 'The scale rises unexpectedly. What happens next?',
+    prompt: 'Your progress slows during a month when your schedule or routine has changed. What happens next?',
     answers: [
-      { id: 'q3-b', text: 'I tighten my food or exercise for a few days so I can feel back in control.', result: 'B' },
-      { id: 'q3-a', text: 'I wonder whether my routine has stopped working because my circumstances have changed.', result: 'A' },
-      { id: 'q3-c', text: 'I ignore the concern and keep following the plan, even if I feel tired, hungry, or stressed.', result: 'C' },
-      { id: 'q3-d', text: 'I know several factors could explain it, but I cannot tell which explanation applies.', result: 'D' },
+      { id: 'q3-a', text: 'I try to recreate the routine that was working before, even if it no longer fits particularly well.', result: 'A' },
+      { id: 'q3-b', text: 'I feel like I’ve fallen off and start thinking about a stricter reset.', result: 'B' },
+      { id: 'q3-c', text: 'I decide this probably isn’t the best month to focus on my body and move the goal to later.', result: 'C' },
+      { id: 'q3-d', text: 'I review every possible explanation but struggle to decide which variable actually needs to change.', result: 'D' },
     ],
   },
   {
@@ -133,46 +138,46 @@ export const QUESTIONS: FfaQuestion[] = [
     kind: 'scored',
     prompt: 'Which statement sounds most like your relationship with consistency?',
     answers: [
-      { id: 'q4-a', text: 'I am consistent when my schedule, routine, and environment remain relatively stable.', result: 'A' },
-      { id: 'q4-b', text: 'I am usually following the plan properly or trying to get back to following it properly.', result: 'B' },
-      { id: 'q4-c', text: 'I can stay consistent long after my body has started showing signs that something needs attention.', result: 'C' },
-      { id: 'q4-d', text: 'I can complete the actions, but I am not always confident they are the right actions for me.', result: 'D' },
+      { id: 'q4-a', text: 'I’m consistent when my schedule, environment, and routine remain fairly stable.', result: 'A' },
+      { id: 'q4-b', text: 'I’m usually following the plan properly or trying to get back to following it properly.', result: 'B' },
+      { id: 'q4-c', text: 'I’m very consistent with the things other people rely on me for. Fitness is what moves when my calendar fills up.', result: 'C' },
+      { id: 'q4-d', text: 'I can complete the actions, but I often second-guess whether they’re the right actions for me.', result: 'D' },
     ],
   },
   {
     id: 'q5',
     number: 5,
     kind: 'scored',
-    prompt: 'When your energy drops for several days, what do you tend to do?',
+    prompt: 'Your energy has been lower than usual for several days. What do you tend to do?',
     answers: [
-      { id: 'q5-a', text: 'Wait for my normal schedule or circumstances to return before rebuilding my rhythm.', result: 'A' },
-      { id: 'q5-b', text: 'Feel as if I have lost momentum and need to start fresh.', result: 'B' },
-      { id: 'q5-c', text: 'Continue as planned unless my energy becomes too low to ignore.', result: 'C' },
-      { id: 'q5-d', text: 'Consider several possible changes, but feel unsure which one would actually help.', result: 'D' },
+      { id: 'q5-a', text: 'I struggle to modify my usual routine and wait for my energy and schedule to feel normal again.', result: 'A' },
+      { id: 'q5-b', text: 'A few low-energy days make me feel like I’ve lost momentum and need a fresh start.', result: 'B' },
+      { id: 'q5-c', text: 'I use the energy I have for work and let fitness wait until I have more capacity.', result: 'C' },
+      { id: 'q5-d', text: 'I start considering sleep, food, training, stress, hormones, and several other possibilities without knowing which one deserves my attention.', result: 'D' },
     ],
   },
   {
     id: 'q7',
     number: 6,
     kind: 'scored',
-    prompt: 'You have three dinners, an event, or a weekend away coming up. What thought appears first?',
+    prompt: 'You have several dinners, an event, or a weekend away coming up. What thought appears first?',
     answers: [
-      { id: 'q7-a', text: 'My normal nutrition routine will not work, so my progress may have to pause.', result: 'A' },
-      { id: 'q7-b', text: 'I will enjoy it now and become more focused again afterward.', result: 'B' },
-      { id: 'q7-c', text: 'I will try to stay as controlled as possible, even if that makes the experience less enjoyable.', result: 'C' },
-      { id: 'q7-d', text: 'I know flexibility is possible, but I am unsure how to make the tradeoffs confidently.', result: 'D' },
+      { id: 'q7-a', text: 'I start trying to recreate the meals I normally eat because I’m not sure how to make progress without them.', result: 'A' },
+      { id: 'q7-b', text: 'I mentally write off those days and decide I’ll become focused again afterward.', result: 'B' },
+      { id: 'q7-c', text: 'I have too much else to think about that week, so nutrition becomes something I’ll deal with later.', result: 'C' },
+      { id: 'q7-d', text: 'I start researching menus, tracking strategies, and different ways to handle it, but still don’t feel sure what to do.', result: 'D' },
     ],
   },
   {
     id: 'q8',
     number: 7,
     kind: 'scored',
-    prompt: 'How do you decide that a workout was effective?',
+    prompt: 'How do you usually decide that a workout was effective?',
     answers: [
-      { id: 'q8-a', text: 'I completed the workout exactly as it was written.', result: 'A' },
-      { id: 'q8-b', text: 'Completing it made me feel as if I was finally back on track.', result: 'B' },
-      { id: 'q8-c', text: 'I worked hard and did not let myself ease off.', result: 'C' },
-      { id: 'q8-d', text: 'I followed the sets and reps, but I am not always sure what productive effort should feel like.', result: 'D' },
+      { id: 'q8-a', text: 'I completed it the way it was originally written.', result: 'A' },
+      { id: 'q8-b', text: 'Finishing it made me feel like I was properly back in my routine.', result: 'B' },
+      { id: 'q8-c', text: 'I managed to fit it into a day when work could easily have taken the time.', result: 'C' },
+      { id: 'q8-d', text: 'I followed the sets and reps, but I’m not always sure whether the effort was productive for my goal.', result: 'D' },
     ],
   },
   {
@@ -181,10 +186,10 @@ export const QUESTIONS: FfaQuestion[] = [
     kind: 'scored',
     prompt: 'You miss two workouts and eat differently than planned for several days. What are you most likely to do next?',
     answers: [
-      { id: 'q9-a', text: 'Try to recreate my normal routine, even if it does not fit my current schedule very well.', result: 'A' },
-      { id: 'q9-b', text: 'Decide the week is already off track and plan to begin again next week.', result: 'B' },
-      { id: 'q9-c', text: 'Try to make up for it by training harder, eating less, or being more disciplined.', result: 'C' },
-      { id: 'q9-d', text: 'Look at what happened, but feel unsure whether anything in the plan actually needs to change.', result: 'D' },
+      { id: 'q9-a', text: 'I try to recreate my normal routine, even when it doesn’t fit my current schedule very well.', result: 'A' },
+      { id: 'q9-b', text: 'I decide the week is already off track and plan to begin again next week.', result: 'B' },
+      { id: 'q9-c', text: 'I focus on everything work needs from me and tell myself I’ll return to my body goal when things settle down.', result: 'C' },
+      { id: 'q9-d', text: 'I look at what happened but feel unsure whether the plan needs to change or I simply need more time.', result: 'D' },
     ],
   },
   {
@@ -194,9 +199,9 @@ export const QUESTIONS: FfaQuestion[] = [
     prompt: 'When you receive a new fitness plan, what gives you the most confidence?',
     answers: [
       { id: 'q10-a', text: 'Knowing it includes options for different schedules, locations, and equipment.', result: 'A' },
-      { id: 'q10-b', text: 'Knowing one difficult week or unplanned meal cannot undo the process.', result: 'B' },
-      { id: 'q10-c', text: 'Knowing it accounts for my energy, stress, hunger, and recovery.', result: 'C' },
-      { id: 'q10-d', text: 'Understanding why each part is included and what evidence would justify changing it.', result: 'D' },
+      { id: 'q10-b', text: 'Knowing exactly how to continue after a missed workout, unexpected meal, or imperfect week.', result: 'B' },
+      { id: 'q10-c', text: 'Knowing it was built around my real workload and won’t disappear every time work becomes demanding.', result: 'C' },
+      { id: 'q10-d', text: 'Understanding why each part is included and what information would justify changing it.', result: 'D' },
     ],
   },
   {
@@ -206,9 +211,9 @@ export const QUESTIONS: FfaQuestion[] = [
     prompt: 'What is most likely to make you abandon an approach that had been working?',
     answers: [
       { id: 'q11-a', text: 'My life changes and the plan no longer fits.', result: 'A' },
-      { id: 'q11-b', text: 'I stop following it perfectly and feel as if I have lost the momentum.', result: 'B' },
-      { id: 'q11-c', text: 'I become exhausted, disconnected, or resentful of how much the approach asks from me.', result: 'C' },
-      { id: 'q11-d', text: 'My progress slows and I cannot confidently decide what to change.', result: 'D' },
+      { id: 'q11-b', text: 'I stop following it properly and feel like I’ve lost the momentum.', result: 'B' },
+      { id: 'q11-c', text: 'Work becomes demanding and fitness starts feeling like something I can deal with later.', result: 'C' },
+      { id: 'q11-d', text: 'My progress slows and I can’t confidently decide what to change.', result: 'D' },
     ],
   },
   {
@@ -217,10 +222,10 @@ export const QUESTIONS: FfaQuestion[] = [
     kind: 'scored',
     prompt: 'Six months from now, what would feel most freeing?',
     answers: [
-      { id: 'q12-a', text: 'Being able to travel or enter a busy season without losing my fitness.', result: 'A' },
-      { id: 'q12-b', text: 'No longer feeling as if I have to start over after an imperfect week.', result: 'B' },
-      { id: 'q12-c', text: 'Knowing when to push toward my goals and when my body genuinely needs something different.', result: 'C' },
-      { id: 'q12-d', text: 'Understanding my body well enough to make confident decisions when something changes.', result: 'D' },
+      { id: 'q12-a', text: 'Being able to travel or enter a busy period without losing my fitness.', result: 'A' },
+      { id: 'q12-b', text: 'No longer feeling like I have to start over after an imperfect week.', result: 'B' },
+      { id: 'q12-c', text: 'Having built a body I feel incredible in without waiting for my business to become less demanding.', result: 'C' },
+      { id: 'q12-d', text: 'Understanding my body well enough to make a confident decision whenever something changes.', result: 'D' },
     ],
   },
 ];
