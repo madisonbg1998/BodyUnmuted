@@ -594,7 +594,7 @@ export default function IntakePage() {
     return (
       <div className="flex flex-col md:flex-row" style={{ minHeight: '100vh', backgroundColor: '#fbf4e9' }}>
         <div className="w-full h-[260px] md:h-screen md:w-[34%] md:sticky md:top-0" style={{ position: 'relative', flexShrink: 0 }}>
-          <Image src={img('Madison-73.jpg')} alt="Madison smiling with arms raised outdoors in the mountains" fill priority sizes="(max-width: 768px) 100vw, 34vw" quality={90} style={{ objectFit: 'cover', objectPosition: '50% 30%' }} />
+          <Image src={img('Madison-73.jpg')} alt="Madison smiling with arms raised outdoors in the mountains" fill priority sizes="(max-width: 768px) 100vw, 34vw" quality={90} className="object-[50%_65%] md:object-[50%_30%]" style={{ objectFit: 'cover' }} />
         </div>
         <div className="w-full md:w-[58%] flex items-center justify-center" style={{ padding: '56px 24px' }}>
           <div style={{ width: '100%', maxWidth: '480px' }} className="quiz-fade-in">
@@ -617,7 +617,7 @@ export default function IntakePage() {
   return (
     <div className="flex flex-col md:flex-row" style={{ minHeight: '100vh', backgroundColor: '#fbf4e9' }}>
       <div className="w-full h-[260px] md:h-screen md:w-[34%] md:sticky md:top-0" style={{ position: 'relative', flexShrink: 0 }}>
-        <Image src={img('Madison-73.jpg')} alt="Madison smiling with arms raised outdoors in the mountains" fill priority sizes="(max-width: 768px) 100vw, 34vw" quality={90} style={{ objectFit: 'cover', objectPosition: '50% 30%' }} />
+        <Image src={img('Madison-73.jpg')} alt="Madison smiling with arms raised outdoors in the mountains" fill priority sizes="(max-width: 768px) 100vw, 34vw" quality={90} className="object-[50%_65%] md:object-[50%_30%]" style={{ objectFit: 'cover' }} />
       </div>
 
       <div className="w-full md:w-[58%]" style={{ padding: '56px 24px 90px' }}>

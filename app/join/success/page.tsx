@@ -89,8 +89,8 @@ export default async function JoinSuccessPage({
               marginBottom: '36px',
             }}
           >
-            Welcome to Body Unmuted. I&rsquo;ll personally reach out within 24 hours to get your 1:1 strategy call on
-            the calendar and start building your first month of programming.
+            Welcome to Body Unmuted. Check your inbox — I&rsquo;ve sent you an email with everything you need to
+            complete your onboarding and get your 1:1 strategy call on the calendar.
           </p>
           <Link href="/" className="btn-primary" style={{ padding: '14px 28px' }}>
             Back to the site
