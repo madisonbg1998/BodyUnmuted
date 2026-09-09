@@ -1,5 +1,5 @@
 import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
+import SiteFooter from "@/components/SiteFooter";
 
 export default function SiteLayout({
   children,
@@ -10,7 +10,7 @@ export default function SiteLayout({
     <>
       <Nav />
       <main>{children}</main>
-      <Footer />
+      <SiteFooter />
     </>
   );
 }

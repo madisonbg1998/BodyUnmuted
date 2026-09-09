@@ -24,7 +24,7 @@ export default function Nav() {
     <>
       {/* Desktop + Mobile bar */}
       <header
-        style={{ backgroundColor: '#525421', position: 'sticky', top: 0, zIndex: 10 }}
+        style={{ backgroundColor: '#525421', position: 'sticky', top: 0, zIndex: 50 }}
         className="h-[43px] md:h-[80px]"
       >
         <div
@@ -81,7 +81,7 @@ export default function Nav() {
             top: 0,
             left: 0,
             right: 0,
-            zIndex: 15,
+            zIndex: 60,
             backgroundColor: '#525421',
             padding: '20px 16px 32px',
             minHeight: '350px',

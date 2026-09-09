@@ -17,14 +17,198 @@
   --font-inter: var(--font-inter-sans), sans-serif;
 }
 
+:root {
+  --header-height-mobile: 43px;
+  --header-height-desktop: 80px;
+}
+
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   background-color: #fbf4e9;
   font-family: var(--font-inter-sans), sans-serif;
   color: #45220d;
+}
+
+/* ── Layered media sections ── */
+.media-section {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.media-section__background,
+.media-section__veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.media-section__background {
+  z-index: 0;
+}
+
+.media-section__veil {
+  z-index: 1;
+}
+
+.media-section__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Sticky narrative sequence ── */
+.sticky-sequence {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+}
+
+.sticky-scene {
+  position: sticky;
+  top: var(--header-height-mobile);
+  min-height: calc(100svh - var(--header-height-mobile));
+  overflow: clip;
+  z-index: 0;
+  background-color: #2d1506;
+}
+
+@media (min-width: 768px) {
+  .sticky-scene {
+    top: var(--header-height-desktop);
+    min-height: calc(100svh - var(--header-height-desktop));
+  }
+}
+
+.slide-over-surface {
+  position: relative;
+  z-index: 2;
+  background: #fbf4e9;
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -22px 60px rgba(45, 21, 6, 0.16);
+  padding-top: clamp(4rem, 9vw, 8rem);
+}
+
+@media (max-width: 767px) {
+  .sticky-scene {
+    position: relative;
+    top: auto;
+    min-height: auto;
+  }
+
+  .slide-over-surface {
+    border-radius: 18px 18px 0 0;
+    box-shadow: none;
+  }
+}
+
+/* Hero: taller than one viewport on desktop (not sticky — normal scroll),
+   with copy pinned to the bottom edge (see justify-end usage) so it lands
+   well clear of Madison's face. Plain width-based sizing throughout. */
+.hero-tall {
+  min-height: 100svh;
+}
+
+@media (min-width: 768px) {
+  .hero-tall {
+    min-height: 130svh;
+  }
+}
+
+.hero-pad-bottom {
+  padding: 0 20px clamp(24px, 7vw, 72px);
+}
+.hero-h1 {
+  font-size: clamp(70px, 12vw, 150px);
+}
+.hero-h2 {
+  font-size: clamp(30px, 5.5vw, 83px);
+  margin-top: clamp(32px, 5vw, 56px);
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+.hero-eyebrow {
+  font-size: clamp(15px, 1.6vw, 24px);
+  margin-bottom: 16px;
+}
+.hero-lead {
+  font-size: clamp(14px, 1.6vw, 22px);
+  margin-bottom: 20px;
+}
+.hero-note {
+  font-size: clamp(13px, 1.4vw, 19px);
+  margin-bottom: 32px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-scene {
+    position: relative;
+    top: auto;
+  }
+}
+
+/* ── Readable content surfaces ── */
+.surface-light {
+  background: rgba(251, 244, 233, 0.94);
+  color: #45220d;
+  border: 1px solid rgba(205, 170, 92, 0.35);
+}
+
+.surface-dark {
+  background: rgba(45, 21, 6, 0.9);
+  color: #fbf4e9;
+  border: 1px solid rgba(205, 170, 92, 0.48);
+}
+
+.surface-olive {
+  background: rgba(82, 84, 33, 0.94);
+  color: #fbf4e9;
+  border: 1px solid rgba(232, 238, 186, 0.3);
+}
+
+.problem-copy-surface {
+  background: rgba(251, 244, 233, 0.95);
+  color: #45220d;
+  border: 1px solid rgba(205, 170, 92, 0.42);
+  padding: clamp(2rem, 5vw, 4.5rem);
+  box-shadow: 0 24px 70px rgba(45, 21, 6, 0.18);
+}
+
+.testimonial-card {
+  background: rgba(45, 21, 6, 0.92);
+  color: #fbf4e9;
+  border: 1px solid rgba(205, 170, 92, 0.5);
+  border-radius: 6px;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  box-shadow: 0 20px 50px rgba(45, 21, 6, 0.22);
+}
+
+.statement-panel {
+  background: rgba(251, 244, 233, 0.94);
+  border: 1px solid rgba(82, 84, 33, 0.2);
+  padding: clamp(2.5rem, 6vw, 5rem);
+  max-width: 850px;
+  margin-inline: auto;
+}
+
+.gold-frame {
+  border: 1px solid rgba(205, 170, 92, 0.6);
+  padding: 6px;
+}
+
+.gold-offset-line {
+  position: relative;
+}
+
+.gold-offset-line::after {
+  content: '';
+  position: absolute;
+  inset: 14px -14px -14px 14px;
+  border: 1px solid rgba(205, 170, 92, 0.55);
+  pointer-events: none;
+  z-index: -1;
 }
 
 input:focus,
@@ -73,6 +257,30 @@ select:focus {
   animation: quiz-fade-in 0.25s ease-out both;
 }
 
+.btn-primary,
+.btn-copper,
+.btn-olive-light,
+.btn-yellow-green,
+.btn-secondary {
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+.btn-primary:hover,
+.btn-copper:hover,
+.btn-olive-light:hover,
+.btn-yellow-green:hover,
+.btn-secondary:hover {
+  transform: translateY(-2px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary:hover,
+  .btn-copper:hover,
+  .btn-olive-light:hover,
+  .btn-yellow-green:hover,
+  .btn-secondary:hover {
+    transform: none;
+  }
+}
+
 .btn-primary {
   display: inline-block;
   background-color: #525421;
@@ -88,7 +296,6 @@ select:focus {
   border: 0px solid #2d1506;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.5s, border 0.5s;
 }
 .btn-primary:hover {
   background-color: #45220d;
@@ -161,7 +368,6 @@ select:focus {
   border: 2px solid #fbf4e9;
   text-decoration: none;
   cursor: pointer;
-  transition: border-color 0.5s, color 0.5s;
 }
 .btn-secondary:hover {
   border-color: rgba(45,21,6,0.7);
