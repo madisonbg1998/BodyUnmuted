@@ -1,5 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import Footer from '@/components/Footer';
+import MediaSection from '@/components/MediaSection';
+import StickyChapter from '@/components/StickyChapter';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
@@ -19,13 +22,6 @@ const Photo = ({
   </div>
 );
 
-const BgPhoto = ({ src, alt, overlay }: { src: string; alt: string; overlay: string }) => (
-  <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-    <Image src={src} alt={alt} fill sizes="100vw" style={{ objectFit: 'cover' }} />
-    <div style={{ position: 'absolute', inset: 0, background: overlay }} />
-  </div>
-);
-
 const eyebrowItalic: React.CSSProperties = {
   fontFamily: 'var(--font-ibm-plex-sans), sans-serif',
   fontStyle: 'italic',
@@ -37,12 +33,17 @@ const eyebrowItalic: React.CSSProperties = {
 const bodyP: React.CSSProperties = {
   fontFamily: 'var(--font-inter-sans), sans-serif',
   fontSize: 'clamp(15px, 1.7vw, 20px)',
-  lineHeight: '1.5',
+  lineHeight: '1.6',
 };
+
+const questionVeil =
+  'linear-gradient(90deg, rgba(45,21,6,0.9) 0%, rgba(45,21,6,0.72) 56%, rgba(45,21,6,0.26) 100%)';
+const standardVeil =
+  'linear-gradient(90deg, rgba(45,21,6,0.88) 0%, rgba(45,21,6,0.7) 55%, rgba(45,21,6,0.28) 100%)';
 
 function TestimonialCard({ quote, body, name }: { quote: string; body: string; name: string }) {
   return (
-    <div style={{ backgroundColor: 'rgba(82,84,33,0.55)', borderRadius: '4px', padding: '32px' }}>
+    <div className="testimonial-card">
       <h3
         style={{
           fontFamily: 'var(--font-instrument-serif), serif',
@@ -55,7 +56,7 @@ function TestimonialCard({ quote, body, name }: { quote: string; body: string; n
       >
         &ldquo;{quote}&rdquo;
       </h3>
-      <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: '15px', lineHeight: '1.5', marginBottom: '16px' }}>
+      <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: '15px', lineHeight: '1.6', marginBottom: '16px' }}>
         {body}
       </p>
       <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: '14px' }}>&mdash;{name}</p>
@@ -66,90 +67,129 @@ function TestimonialCard({ quote, body, name }: { quote: string; body: string; n
 export default function About() {
   return (
     <>
-      {/* ── HERO — Meet Madison ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '60px 20px 80px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', overflow: 'hidden', marginBottom: '32px' }}>
-            <h1
-              style={{
-                fontFamily: 'var(--font-instrument-serif), serif',
-                color: '#7f8b32',
-                fontSize: 'clamp(60px, 14.5vw, 180px)',
-                lineHeight: '0.85',
-                fontWeight: 400,
-              }}
-            >
-              Meet Madison
-            </h1>
-          </div>
+      {/* ── Meet Madison — normal flow, not pinned: a sticky pin here forced the box to
+          exactly one viewport, which was clipping the bottom of the portrait (her feet)
+          the moment the box needed to be tall enough for a bigger photo. ── */}
+      <div style={{ backgroundColor: '#fbf4e9', position: 'relative' }}>
+        <div
+          aria-hidden="true"
+          style={{ position: 'absolute', top: 0, left: 0, width: '280px', maxWidth: '40vw', aspectRatio: '1/1', opacity: 0.1, pointerEvents: 'none' }}
+        >
+          <Image src={img('light-background.png')} alt="" fill sizes="280px" style={{ objectFit: 'cover', objectPosition: 'top left' }} />
+        </div>
 
-          <div className="flex flex-col md:flex-row items-center gap-6 mb-10">
-            <div className="hidden md:block md:w-[20%] text-right">
-              <p className="subheading" style={{ color: '#45220d', fontSize: '14px', lineHeight: '2.2' }}>
-                founder
+        <div style={{ position: 'relative', padding: 'clamp(48px, 8vw, 96px) 20px clamp(64px, 10vw, 120px)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: 'clamp(28px, 4vw, 44px)' }}>
+              <h1
+                style={{
+                  fontFamily: 'var(--font-instrument-serif), serif',
+                  color: '#7f8b32',
+                  fontSize: 'clamp(56px, 13vw, 170px)',
+                  lineHeight: '0.85',
+                  fontWeight: 400,
+                }}
+              >
+                Meet Madison
+              </h1>
+            </div>
+
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="hidden md:block md:w-[26%] text-right">
+                <p className="identity-label">
+                  Founder
+                  <br />
+                  Fitness coach
+                  <br />
+                  Ex-data scientist
+                </p>
+              </div>
+
+              <div className="w-full md:w-[34%] max-w-[420px] mx-auto gold-offset-line">
+                <Photo src={img('BO1A8475.jpg')} alt="Madison laughing while opening her blazer" aspect="0.72" />
+              </div>
+
+              <div className="hidden md:block md:w-[26%] text-left">
+                <p className="identity-label">
+                  Ex-cheese monger
+                  <br />
+                  Wine enthusiast
+                  <br />
+                  World traveler
+                </p>
+              </div>
+            </div>
+
+            <div className="md:hidden flex justify-between mt-6 px-4">
+              <p className="identity-label" style={{ fontSize: '0.62rem' }}>
+                Founder
                 <br />
-                fitness coach
+                Fitness coach
                 <br />
-                ex-data scientist
+                Ex-data scientist
+              </p>
+              <p className="identity-label" style={{ fontSize: '0.62rem', textAlign: 'right' }}>
+                Ex-cheese monger
+                <br />
+                Wine enthusiast
+                <br />
+                World traveler
               </p>
             </div>
-
-            <div className="w-full md:w-[36%] max-w-[400px] mx-auto">
-              <Photo src={img('BO1A8475.jpg')} alt="Madison laughing while opening her blazer" aspect="0.72" />
-            </div>
-
-            <div className="hidden md:block md:w-[20%] text-left">
-              <p className="subheading" style={{ color: '#45220d', fontSize: '14px', lineHeight: '2.2' }}>
-                ex-cheese monger
-                <br />
-                wine enthusiast
-                <br />
-                world traveler
-              </p>
-            </div>
-          </div>
-
-          <div className="md:hidden flex justify-between mb-8 px-4">
-            <p className="subheading" style={{ color: '#45220d', fontSize: '11px', lineHeight: '1.8' }}>
-              founder<br />fitness coach<br />ex-data scientist
-            </p>
-            <p className="subheading" style={{ color: '#45220d', fontSize: '11px', lineHeight: '1.8', textAlign: 'right' }}>
-              ex-cheese monger<br />wine enthusiast<br />world traveler
-            </p>
-          </div>
-
-          <div style={{ maxWidth: '820px', margin: '0 auto', textAlign: 'center' }}>
-            <p style={{ ...bodyP, color: '#45220d', marginBottom: '16px' }}>
-              For a long time, I got results by becoming very good at pushing past my body.
-            </p>
-            <p style={{ ...bodyP, color: '#45220d', marginBottom: '16px' }}>
-              I was hard on myself. I followed the rules. I treated hunger, exhaustion, and anything else my body
-              tried to communicate as something to control, manage, or overcome.
-            </p>
-            <p style={{ ...bodyP, color: '#45220d', marginBottom: '16px' }}>And, honestly, some of it worked.</p>
-            <p style={{ ...bodyP, color: '#45220d' }}>
-              I changed my body. I built discipline. From the outside, it probably looked like proof that this was
-              exactly how transformation was supposed to happen.
-            </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── "The pursuit had become another cage..." ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '0 20px 60px' }}>
-        <div style={{ maxWidth: '760px', margin: '0 auto', textAlign: 'center' }}>
-          <p style={{ ...eyebrowItalic, color: '#7f8b32', fontSize: 'clamp(16px, 1.9vw, 24px)', fontWeight: 500, lineHeight: '1.4' }}>
-            The pursuit had become another cage. One made of rules, pressure, and the quiet belief that my body would
-            only give me what I wanted if I was hard enough on her.
+      {/* ── Opening story + "the pursuit had become another cage" — one combined
+          cocoa pattern chapter (dark). Both beats sit inside the same opaque cream
+          reading card, kept off the busy plaster texture. ── */}
+      <MediaSection backgroundSrc={img('brown-background.png')} contentStyle={{ padding: 'clamp(72px, 10vw, 112px) 20px' }}>
+        <div className="problem-copy-surface" style={{ maxWidth: '740px', margin: '0 auto' }}>
+          <p style={{ fontFamily: 'var(--font-domine-serif), serif', color: '#2d1506', fontSize: 'clamp(21px, 2.6vw, 28px)', lineHeight: '1.6', fontWeight: 500, marginBottom: '28px' }}>
+            For a long time, I got results by becoming very good at pushing past my body.
+          </p>
+          <p style={{ ...bodyP, color: '#45220d', lineHeight: '1.75', marginBottom: '28px' }}>
+            I was hard on myself. I followed the rules. I treated hunger, exhaustion, and anything else my body
+            tried to communicate as something to control, manage, or overcome.
+          </p>
+          <p
+            style={{
+              fontFamily: 'var(--font-instrument-serif), serif',
+              fontStyle: 'italic',
+              color: '#ce965a',
+              fontSize: 'clamp(20px, 2.3vw, 26px)',
+              marginBottom: '28px',
+            }}
+          >
+            And, honestly, some of it worked.
+          </p>
+          <p style={{ ...bodyP, color: '#45220d', lineHeight: '1.75', marginBottom: '32px' }}>
+            <strong style={{ fontWeight: 700, color: '#2d1506' }}>I changed my body. I built discipline.</strong>{' '}
+            From the outside, it probably looked like proof that this was exactly how transformation was supposed to
+            happen.
+          </p>
+          <p
+            style={{
+              fontFamily: 'var(--font-instrument-serif), serif',
+              fontStyle: 'italic',
+              color: '#45220d',
+              fontSize: 'clamp(18px, 2vw, 24px)',
+              lineHeight: '1.4',
+              fontWeight: 400,
+            }}
+          >
+            But the pursuit had become another cage. One made of rules, pressure, and the quiet belief that my body
+            would only give me what I wanted if I was hard enough on her.
           </p>
         </div>
-      </section>
+      </MediaSection>
 
-      {/* ── "At the same time, I was trying to build a life around freedom." ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '20px 20px 80px' }}>
+      {/* ── "At the same time, I was trying to build a life around freedom." — plain
+          cream chapter with a gold-framed inset photo (not a photo background). ── */}
+      <section style={{ backgroundColor: '#fbf4e9', padding: 'clamp(72px, 10vw, 112px) 20px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div className="flex flex-col md:flex-row gap-10 items-start">
-            <div className="w-full md:w-[55%]">
+          <div className="flex flex-col md:flex-row gap-14 items-start">
+            <div className="w-full md:w-[52%]">
               <h2
                 style={{
                   fontFamily: 'var(--font-instrument-serif), serif',
@@ -180,95 +220,132 @@ export default function About() {
                 And that brought me to a question I wasn&apos;t entirely sure I could answer&hellip;
               </p>
             </div>
-            <div className="w-full md:w-[45%]">
-              <Photo src={img('madison-31.jpg')} alt="Madison outdoors in the mountains, arms raised to the sky" aspect="0.75" />
+            <div className="w-full md:w-[42%] gold-frame">
+              <Photo src={img('madison-31.jpg')} alt="Madison outdoors in the mountains, arms raised to the sky" aspect="0.8" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── dark quote: "Could I help women..." ── */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '100px 20px' }} className="min-h-[380px] flex items-center">
-        <BgPhoto src={img('BO1A8389.jpg')} alt="Balcony architecture, softly lit" overlay="rgba(45,21,6,0.8)" />
-        <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <h2
-            style={{
-              fontFamily: 'var(--font-instrument-serif), serif',
-              color: '#fbf4e9',
-              fontSize: 'clamp(24px, 3.4vw, 42px)',
-              lineHeight: '1.25',
-              fontWeight: 400,
-            }}
+      {/* ── STICKY CHAPTER 2: central question pinned, proof chapter slides over it ── */}
+      <StickyChapter
+        scene={
+          <MediaSection
+            backgroundSrc={img('BO1A8389.jpg')}
+            objectPosition="50% 4%"
+            veil={questionVeil}
+            className="sticky-scene flex items-center"
+            contentClassName="w-full"
+            contentStyle={{ padding: 'clamp(32px, 6vw, 64px) 20px' }}
           >
-            Could I help women build muscle, become stronger, and truly transform their bodies without asking them
-            to override, distrust, or punish them&mdash;or make their lives smaller in pursuit of the results?
-          </h2>
-        </div>
-      </section>
-
-      {/* ── "Part of me was afraid the answer might be no." ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '80px 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div className="flex flex-col md:flex-row gap-10 items-start">
-            <div className="w-full md:w-[35%] flex-shrink-0">
-              <Photo src={img('madison_wine_stellenbosch.jpg')} alt="Madison drinking wine in a garden at golden hour" aspect="0.7" />
-            </div>
-            <div className="w-full md:w-[65%]">
+            <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
               <h2
                 style={{
+                  maxWidth: '620px',
                   fontFamily: 'var(--font-instrument-serif), serif',
-                  color: '#7f8b32',
-                  fontSize: 'clamp(26px, 3.2vw, 40px)',
-                  lineHeight: '1.15',
+                  color: '#fbf4e9',
+                  fontSize: 'clamp(24px, 3.6vw, 44px)',
+                  lineHeight: '1.3',
                   fontWeight: 400,
-                  marginBottom: '24px',
+                  textAlign: 'left',
                 }}
               >
-                Part of me was afraid the answer might be no.
+                Could I help women build muscle, become stronger, and truly transform their bodies without asking
+                them to override, distrust, or punish them&mdash;or make their lives smaller in pursuit of the
+                results?
               </h2>
-              <p style={{ ...bodyP, color: '#2d1506', marginBottom: '24px' }}>
-                Maybe I could only take a kinder approach because I had already done so much of the work the hard
-                way. Maybe understanding and flexibility were things you earned after the transformation&mdash;not
-                things that could help create it.
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#7f8b32', fontWeight: 500, marginBottom: '12px' }}>
-                So Body Unmuted became more than a coaching philosophy.
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#7f8b32', fontWeight: 500, marginBottom: '12px' }}>
-                It became the thing I wanted to prove over and over again:
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#7f8b32', fontWeight: 500 }}>
-                That women CAN achieve incredible physical results from a place of knowledge, support, kindness, and
-                a much deeper relationship with their bodies.
-              </p>
+            </div>
+          </MediaSection>
+        }
+        surface={
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px 80px' }}>
+            <div className="flex flex-col md:flex-row gap-10 items-start">
+              <div className="w-full md:w-[35%] flex-shrink-0 gold-frame">
+                <Photo src={img('madison_wine_stellenbosch.jpg')} alt="Madison drinking wine in a garden at golden hour" aspect="0.7" />
+              </div>
+              <div className="w-full md:w-[65%]">
+                <h2
+                  style={{
+                    fontFamily: 'var(--font-instrument-serif), serif',
+                    color: '#7f8b32',
+                    fontSize: 'clamp(26px, 3.2vw, 40px)',
+                    lineHeight: '1.15',
+                    fontWeight: 400,
+                    marginBottom: '24px',
+                  }}
+                >
+                  Part of me was afraid the answer might be no.
+                </h2>
+                <p style={{ ...bodyP, color: '#2d1506', marginBottom: '28px' }}>
+                  Maybe I could only take a kinder approach because I had already done so much of the work the hard
+                  way. Maybe understanding and flexibility were things you earned after the transformation&mdash;not
+                  things that could help create it.
+                </p>
+                <p style={{ ...eyebrowItalic, color: '#7f8b32', fontStyle: 'normal', fontWeight: 500, marginBottom: '8px' }}>
+                  So Body Unmuted became more than a coaching philosophy.
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-instrument-serif), serif',
+                    fontStyle: 'italic',
+                    color: '#ce965a',
+                    fontSize: 'clamp(22px, 2.6vw, 32px)',
+                    lineHeight: '1.3',
+                    margin: '16px 0 24px',
+                  }}
+                >
+                  It became the thing I wanted to prove over and over again.
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-instrument-serif), serif',
+                    fontStyle: 'italic',
+                    color: '#45220d',
+                    fontSize: 'clamp(17px, 1.9vw, 22px)',
+                    lineHeight: '1.5',
+                    borderLeft: '3px solid #e8eeba',
+                    paddingLeft: '20px',
+                  }}
+                >
+                  That women CAN achieve incredible physical results from a place of knowledge, support, kindness,
+                  and a much deeper relationship with their bodies.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        }
+      />
 
-      {/* ── dark: kindness does not mean lowering the standard ── */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '100px 20px' }} className="min-h-[420px] flex items-center">
-        <BgPhoto src={img('BO1A8972.jpg')} alt="Aerial view of a Moroccan tiled pool" overlay="rgba(45,21,6,0.72)" />
-        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(18px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '20px' }}>
-            Because kindness does not mean lowering the standard.
-          </p>
-          <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(18px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '20px' }}>
-            Listening to your body does not mean doing whatever feels easiest.
-          </p>
-          <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(18px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '32px' }}>
-            And creating freedom does not mean abandoning structure.
-          </p>
-          <p style={{ ...eyebrowItalic, color: '#e8eeba', fontSize: 'clamp(15px, 1.9vw, 22px)', textTransform: 'none' }}>
-            It means understanding your body well enough to give her what she needs, building systems that can adapt
-            as your life changes, and pursuing your goals in a way that allows you to keep living while you reach
-            them.
-          </p>
+      {/* ── "Because kindness does not mean lowering the standard" — immersive pool chapter ── */}
+      <MediaSection
+        backgroundSrc={img('BO1A8972.jpg')}
+        objectPosition="50% 72%"
+        veil={standardVeil}
+        contentStyle={{ padding: 'clamp(80px, 12vw, 140px) 20px' }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '620px' }}>
+            <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(19px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '20px' }}>
+              Because kindness does not mean lowering the standard.
+            </p>
+            <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(19px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '20px' }}>
+              Listening to your body does not mean doing whatever feels easiest.
+            </p>
+            <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#fbf4e9', fontSize: 'clamp(19px, 2.4vw, 30px)', lineHeight: '1.4', fontWeight: 600, marginBottom: '32px' }}>
+              And creating freedom does not mean abandoning structure.
+            </p>
+            <p style={{ ...eyebrowItalic, color: '#e8eeba', textTransform: 'none' }}>
+              It means understanding your body well enough to give her what she needs, building systems that can
+              adapt as your life changes, and pursuing your goals in a way that allows you to keep living while you
+              reach them.
+            </p>
+          </div>
         </div>
-      </section>
+      </MediaSection>
 
-      {/* ── "Your body stops feeling like an unpredictable problem..." ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '80px 20px' }}>
+      {/* ── "Your body stops feeling like an unpredictable problem..." — plain cream
+          chapter with a gold-framed inset photo (not a photo background). ── */}
+      <section style={{ backgroundColor: '#fbf4e9', padding: 'clamp(72px, 10vw, 112px) 20px' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="flex flex-col md:flex-row gap-10 items-start">
             <div className="w-full md:w-[62%]">
@@ -279,40 +356,42 @@ export default function About() {
                   fontSize: 'clamp(24px, 2.8vw, 36px)',
                   lineHeight: '1.2',
                   fontWeight: 400,
-                  marginBottom: '24px',
+                  marginBottom: '28px',
                 }}
               >
                 Your body stops feeling like an unpredictable problem you have to manage and becomes something you
                 know how to care for, challenge, and trust.
               </h2>
-              <p style={{ ...bodyP, color: '#2d1506', marginBottom: '8px' }}>She:</p>
-              <ul style={{ ...bodyP, color: '#2d1506', paddingLeft: '22px', listStyleType: 'disc' }}>
-                <li style={{ marginBottom: '10px' }}>supports you while you build the business.</li>
-                <li style={{ marginBottom: '10px' }}>carries you onto every plane and into every room.</li>
+              <p style={{ ...bodyP, color: '#2d1506', marginBottom: '4px' }}>She:</p>
+              <ul className="body-support-list" style={{ ...bodyP, color: '#2d1506' }}>
+                <li>supports you while you build the business.</li>
+                <li>carries you onto every plane and into every room.</li>
                 <li>gets to be fully present for every part of the freedom you worked so hard to create.</li>
               </ul>
-              <p style={{ ...bodyP, color: '#2d1506', marginTop: '24px' }}>
+              <p style={{ ...bodyP, color: '#2d1506', marginTop: '28px' }}>
                 Because I don&apos;t only want women to build bodies that look incredible.
               </p>
-              <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#7f8b32', fontSize: 'clamp(20px, 2.4vw, 30px)', marginTop: '12px' }}>
+              <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#7f8b32', fontSize: 'clamp(22px, 2.6vw, 32px)', lineHeight: '1.3', marginTop: '14px' }}>
                 I want them to build bodies that feel really fucking good to live in.
               </p>
             </div>
-            <div className="w-full md:w-[38%]">
+            <div className="w-full md:w-[38%] gold-frame">
               <Photo src={img('BO1A9394.jpg')} alt="Madison in an olive dress leaning against a carved wood door" aspect="0.7" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── The Freedom Method ── */}
-      <section style={{ background: 'linear-gradient(to bottom, #efdfc3 0%, #e8eeba 100%)', padding: '80px 20px' }}>
+      {/* ── The Freedom Method — dark cocoa pattern chapter (reusing brown-background.png;
+          non-adjacent to the opening story's use of it, so no two pattern assets ever
+          touch). Principle cards stay opaque cream on top for readability. ── */}
+      <MediaSection backgroundSrc={img('brown-background.png')} contentStyle={{ padding: 'clamp(80px, 10vw, 120px) 20px' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center', marginBottom: '56px' }}>
-          <p style={{ ...eyebrowItalic, color: '#45220d', marginBottom: '16px' }}>my philosophy: The Freedom Method</p>
+          <p style={{ ...eyebrowItalic, color: '#ce965a', marginBottom: '16px' }}>my philosophy: The Freedom Method</p>
           <h2
             style={{
               fontFamily: 'var(--font-instrument-serif), serif',
-              color: '#2d1506',
+              color: '#fbf4e9',
               fontSize: 'clamp(26px, 3.4vw, 42px)',
               lineHeight: '1.2',
               fontWeight: 400,
@@ -326,7 +405,7 @@ export default function About() {
             style={{
               fontFamily: 'var(--font-instrument-serif), serif',
               fontStyle: 'italic',
-              color: '#7f8b32',
+              color: '#e8eeba',
               fontSize: 'clamp(20px, 2.6vw, 32px)',
             }}
           >
@@ -334,9 +413,12 @@ export default function About() {
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-10" style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <div className="w-full md:w-1/3">
-            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '28px', marginBottom: '12px' }}>
+        <div className="flex flex-col md:flex-row gap-6" style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div className="w-full md:w-1/3 method-principle">
+            <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#ce965a', fontSize: '15px', letterSpacing: '0.08em', marginBottom: '8px' }}>
+              01
+            </p>
+            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '26px', marginBottom: '12px' }}>
               understand your body
             </h3>
             <p style={{ ...bodyP, color: '#45220d', fontSize: '16px' }}>
@@ -345,8 +427,11 @@ export default function About() {
               depending on another plan or expert to tell you what to do.
             </p>
           </div>
-          <div className="w-full md:w-1/3">
-            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '28px', marginBottom: '12px' }}>
+          <div className="w-full md:w-1/3 method-principle">
+            <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#ce965a', fontSize: '15px', letterSpacing: '0.08em', marginBottom: '8px' }}>
+              02
+            </p>
+            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '26px', marginBottom: '12px' }}>
               think differently
             </h3>
             <p style={{ ...bodyP, color: '#45220d', fontSize: '16px' }}>
@@ -355,8 +440,11 @@ export default function About() {
               and capacity inside your life.
             </p>
           </div>
-          <div className="w-full md:w-1/3">
-            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '28px', marginBottom: '12px' }}>
+          <div className="w-full md:w-1/3 method-principle">
+            <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#ce965a', fontSize: '15px', letterSpacing: '0.08em', marginBottom: '8px' }}>
+              03
+            </p>
+            <h3 style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#2d1506', fontSize: '26px', marginBottom: '12px' }}>
               Live Bigger
             </h3>
             <p style={{ ...bodyP, color: '#45220d', fontSize: '16px' }}>
@@ -366,20 +454,28 @@ export default function About() {
           </div>
         </div>
 
-        <div style={{ textAlign: 'center', marginTop: '56px', maxWidth: '760px', marginLeft: 'auto', marginRight: 'auto' }}>
-          <p style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: 'clamp(20px, 2.4vw, 30px)', lineHeight: '1.3', marginBottom: '16px' }}>
-            The point of fitness isn&rsquo;t just to give you a smaller waist.
-          </p>
-          <p style={{ ...eyebrowItalic, color: '#7f8b32', textTransform: 'none' }}>
-            because changing your body is part of the work. changing the way you experience your life is the point.
+        <div style={{ textAlign: 'center', marginTop: '64px', maxWidth: '700px', marginLeft: 'auto', marginRight: 'auto' }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-instrument-serif), serif',
+              fontStyle: 'italic',
+              color: '#e8eeba',
+              fontSize: 'clamp(22px, 2.8vw, 34px)',
+              lineHeight: '1.35',
+            }}
+          >
+            The point of fitness isn&rsquo;t just to give you a smaller waist. Changing the way you experience your
+            life is the point.
           </p>
         </div>
-      </section>
+      </MediaSection>
 
-      {/* ── origin story ── */}
-      <section style={{ backgroundColor: '#fbf4e9', padding: '80px 20px' }}>
-        <div style={{ maxWidth: '820px', margin: '0 auto' }}>
-          <p style={{ ...eyebrowItalic, color: '#ce965a', textTransform: 'none', textAlign: 'center', marginBottom: '32px' }}>
+      {/* ── Origin story — solid tan (light), no pattern. Sits between the Freedom
+          Method's cocoa pattern and the testimonials' olive pattern, keeping the two
+          pattern assets from ever touching. ── */}
+      <section style={{ backgroundColor: '#efdfc3', padding: 'clamp(72px, 10vw, 112px) 20px' }}>
+        <div className="origin-story-surface">
+          <p style={{ ...eyebrowItalic, color: '#ce965a', textTransform: 'none', marginBottom: '32px' }}>
             I always get asked how I got into fitness, so here&apos;s that story&hellip;
           </p>
           <p style={{ ...bodyP, color: '#2d1506', marginBottom: '20px' }}>
@@ -389,7 +485,17 @@ export default function About() {
             felt like every random workout and &ldquo;healthy&rdquo; approach under the sun, only to get
             approximately nowhere.
           </p>
-          <p style={{ ...bodyP, color: '#2d1506', marginBottom: '20px' }}>
+          <p
+            style={{
+              fontFamily: 'var(--font-instrument-serif), serif',
+              fontStyle: 'italic',
+              color: '#7f8b32',
+              fontSize: 'clamp(19px, 2.1vw, 25px)',
+              lineHeight: '1.5',
+              marginTop: '40px',
+              marginBottom: '20px',
+            }}
+          >
             I didn&apos;t feel like guessing anymore and wanted someone to just show me what works.
           </p>
           <p style={{ ...bodyP, color: '#2d1506', marginBottom: '20px' }}>
@@ -400,21 +506,24 @@ export default function About() {
             The results changed so much more than my body. My confidence skyrocketed, I felt strong and capable, and
             I finally understood how to create results without constantly guessing.
           </p>
-          <p style={{ ...bodyP, color: '#2d1506', marginBottom: '20px' }}>
+          <p style={{ ...bodyP, color: '#2d1506', marginTop: '40px', marginBottom: '20px' }}>
             The transformation was so powerful that I wanted other women to experience it too, so I earned my NASM
             certification and became a coach. Turns out, the quiet nerdy girl didn&rsquo;t disappear, she just became
             a fitness nerd.
           </p>
-          <p style={{ ...bodyP, color: '#7f8b32', fontStyle: 'italic' }}>
+          <p style={{ ...bodyP, color: '#7f8b32', fontStyle: 'italic', marginTop: '32px' }}>
             These are still the same principles that form the foundation of how I coach transformations today.
           </p>
         </div>
       </section>
 
-      {/* ── testimonials ── */}
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '80px 20px' }}>
-        <BgPhoto src={img('BO1A9059.jpg')} alt="Green ceramic pot with a fern on a bed" overlay="rgba(82,84,33,0.72)" />
-        <div style={{ maxWidth: '1200px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+      {/* ── Testimonials — olive botanical signature chapter ── */}
+      <MediaSection
+        backgroundSrc={img('dark-green-background.png')}
+        veil="linear-gradient(180deg, rgba(45,21,6,0.28) 0%, rgba(45,21,6,0.46) 100%)"
+        contentStyle={{ padding: 'clamp(72px, 10vw, 112px) 20px' }}
+      >
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2
             style={{
               fontFamily: 'var(--font-instrument-serif), serif',
@@ -455,92 +564,99 @@ export default function About() {
             />
           </div>
         </div>
-      </section>
+      </MediaSection>
 
-      {/* ── closing: "What Body Unmuted means?" ── */}
-      <section style={{ background: 'linear-gradient(to bottom, #efdfc3 0%, #525421 100%)', padding: '80px 20px' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <p style={{ ...eyebrowItalic, color: '#2d1506', marginBottom: '12px' }}>what body unmuted means?</p>
-          <h2
-            style={{
-              fontFamily: 'var(--font-instrument-serif), serif',
-              fontStyle: 'italic',
-              color: '#525421',
-              fontSize: 'clamp(24px, 3vw, 38px)',
-              lineHeight: '1.2',
-              fontWeight: 400,
-              marginBottom: '32px',
-              maxWidth: '760px',
-            }}
-          >
-            We&rsquo;re taught to treat our bodies like inconveniences&hellip;
-          </h2>
-
-          <div className="flex flex-col md:flex-row gap-10 items-start">
-            <div className="w-full md:w-[32%] flex-shrink-0">
-              <Photo src={img('Madison-114.jpg')} alt="Madison with arm raised on a coastal cliff" aspect="0.68" />
-              <div style={{ marginTop: '20px' }}>
-                <Link
-                  href="/contact"
-                  className="inline-block"
+      {/* ── "What Body Unmuted means" — normal flow, not pinned: this closing
+          chapter's copy is too long to safely fit one viewport while pinned
+          (verified: it overflows the sticky box on common laptop window
+          heights, which would hide content the same way the homepage's
+          "And yet" chapter did before that was de-stickied). ── */}
+      <section
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(251,244,233,0.96) 0%, rgba(251,244,233,0.88) 50%, rgba(82,84,33,0.58) 100%)',
+        }}
+      >
+            <div style={{ padding: 'clamp(72px, 10vw, 112px) 20px' }}>
+              <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+                <p style={{ ...eyebrowItalic, color: '#2d1506', marginBottom: '12px' }}>what body unmuted means?</p>
+                <h2
                   style={{
-                    backgroundColor: '#2d1506',
-                    color: '#fbf4e9',
-                    fontFamily: 'var(--font-inter-sans), sans-serif',
-                    fontSize: '14px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    lineHeight: '1.8',
-                    padding: '10px 16px',
-                    borderRadius: '3px',
-                    textDecoration: 'none',
+                    fontFamily: 'var(--font-instrument-serif), serif',
+                    fontStyle: 'italic',
+                    color: '#525421',
+                    fontSize: 'clamp(22px, 2.8vw, 34px)',
+                    lineHeight: '1.2',
+                    fontWeight: 400,
+                    marginBottom: '24px',
+                    maxWidth: '700px',
                   }}
                 >
-                  learn more
-                </Link>
+                  We&rsquo;re taught to treat our bodies like inconveniences&hellip;
+                </h2>
+
+                <div className="flex flex-col md:flex-row gap-10 items-start">
+                  <div className="w-full md:w-[30%] flex-shrink-0 gold-frame">
+                    <Photo src={img('Madison-114.jpg')} alt="Madison with arm raised on a coastal cliff" aspect="0.75" />
+                  </div>
+
+                  <div className="w-full md:w-[70%]">
+                    <p style={{ ...bodyP, color: '#2d1506', marginBottom: '14px' }}>
+                      Problems to solve. Things to control and manage. Something to ignore so we can keep working,
+                      traveling, building, and pushing forward.
+                    </p>
+                    <p style={{ ...bodyP, color: '#2d1506', marginBottom: '14px' }}>
+                      But eventually, that disconnection catches up with us. Burnout. Exhaustion. Low energy. Fading
+                      confidence. A relationship with our body that makes it feel like she&rsquo;s working against
+                      us.
+                    </p>
+                    <p style={{ ...bodyP, color: '#45220d', fontStyle: 'italic', marginBottom: '10px' }}>
+                      But your body isn&rsquo;t in the way of the life you&rsquo;re building.
+                    </p>
+                    <p style={{ ...bodyP, color: '#45220d', fontStyle: 'italic', marginBottom: '14px' }}>
+                      She&rsquo;s the one helping you build it and the one experiencing everything your freedom makes
+                      possible.
+                    </p>
+                    <p style={{ ...bodyP, color: '#2d1506', marginBottom: '18px' }}>
+                      Body Unmuted is about learning to listen to her, understand her, care for her, and{' '}
+                      <em>unmute her</em> so you can move through your life with more energy, confidence, and
+                      capacity.
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-instrument-serif), serif',
+                        fontStyle: 'italic',
+                        color: '#525421',
+                        fontSize: 'clamp(19px, 2.2vw, 26px)',
+                        lineHeight: '1.4',
+                        marginBottom: '10px',
+                      }}
+                    >
+                      Your body isn&rsquo;t something to overcome.
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: 'var(--font-instrument-serif), serif',
+                        fontStyle: 'italic',
+                        color: '#2d1506',
+                        fontSize: 'clamp(22px, 2.8vw, 34px)',
+                        lineHeight: '1.3',
+                      }}
+                    >
+                      She&apos;s how you get to experience it all.
+                    </p>
+                    <div style={{ marginTop: '28px' }}>
+                      <Link href="/contact" className="btn-primary">
+                        learn more
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="w-full md:w-[68%]">
-              <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '20px' }}>
-                Problems to solve. Things to control and manage. Something to ignore so we can keep working,
-                traveling, building, and pushing forward.
-              </p>
-              <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '20px' }}>
-                But eventually, that disconnection catches up with us.
-              </p>
-              <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '20px' }}>
-                Burnout. Exhaustion. Low energy. Fading confidence. A relationship with our body that makes it feel
-                like she&rsquo;s working against us.
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#e8eeba', textTransform: 'none', marginBottom: '20px' }}>
-                But your body isn&rsquo;t in the way of the life you&rsquo;re building.
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#e8eeba', textTransform: 'none', marginBottom: '20px' }}>
-                She&rsquo;s the one helping you build it and the one experiencing everything your freedom makes
-                possible.
-              </p>
-              <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '20px' }}>
-                Body Unmuted is about learning to listen to her, understand her, care for her, and{' '}
-                <em>unmute her</em> so you can move through your life with more energy, confidence, and capacity.
-              </p>
-              <p style={{ ...eyebrowItalic, color: '#e8eeba', marginBottom: '16px' }}>
-                Your body isn&rsquo;t something to overcome.
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-instrument-serif), serif',
-                  fontStyle: 'italic',
-                  color: '#efdfc3',
-                  fontSize: 'clamp(24px, 3vw, 36px)',
-                }}
-              >
-                She&apos;s how you get to experience it all.
-              </p>
-            </div>
-          </div>
-        </div>
       </section>
+
+      <Footer />
     </>
   );
 }

@@ -1,0 +1,631 @@
+{
+  "id": "ba24bb96-37af-4465-8a28-b8784ee27a89",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.app_users": {
+      "name": "app_users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "adhara_customer_id": {
+          "name": "adhara_customer_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'member'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "app_users_adhara_customer_id_unique": {
+          "name": "app_users_adhara_customer_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "adhara_customer_id"
+          ]
+        },
+        "app_users_email_unique": {
+          "name": "app_users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "app_users_role_check": {
+          "name": "app_users_role_check",
+          "value": "\"app_users\".\"role\" in ('coach', 'member')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.client_snapshots": {
+      "name": "client_snapshots",
+      "schema": "",
+      "columns": {
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "goals": {
+          "name": "goals",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "starting_point": {
+          "name": "starting_point",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "client_snapshots_client_id_clients_id_fk": {
+          "name": "client_snapshots_client_id_clients_id_fk",
+          "tableFrom": "client_snapshots",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.clients": {
+      "name": "clients",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "coach_id": {
+          "name": "coach_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "member_user_id": {
+          "name": "member_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "clients_coach_email_unique": {
+          "name": "clients_coach_email_unique",
+          "columns": [
+            {
+              "expression": "coach_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "email",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"clients\".\"email\" is not null",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "clients_coach_id_app_users_id_fk": {
+          "name": "clients_coach_id_app_users_id_fk",
+          "tableFrom": "clients",
+          "tableTo": "app_users",
+          "columnsFrom": [
+            "coach_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "clients_member_user_id_app_users_id_fk": {
+          "name": "clients_member_user_id_app_users_id_fk",
+          "tableFrom": "clients",
+          "tableTo": "app_users",
+          "columnsFrom": [
+            "member_user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.life_events": {
+      "name": "life_events",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type_id": {
+          "name": "type_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "life_events_client_id_clients_id_fk": {
+          "name": "life_events_client_id_clients_id_fk",
+          "tableFrom": "life_events",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "life_events_type_id_check": {
+          "name": "life_events_type_id_check",
+          "value": "\"life_events\".\"type_id\" in ('travel', 'work', 'other')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.month_notes": {
+      "name": "month_notes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "roadmap_id": {
+          "name": "roadmap_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "month_index": {
+          "name": "month_index",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "goal": {
+          "name": "goal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {
+        "month_notes_roadmap_month_unique": {
+          "name": "month_notes_roadmap_month_unique",
+          "columns": [
+            {
+              "expression": "roadmap_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "month_index",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "month_notes_roadmap_id_roadmaps_id_fk": {
+          "name": "month_notes_roadmap_id_roadmaps_id_fk",
+          "tableFrom": "month_notes",
+          "tableTo": "roadmaps",
+          "columnsFrom": [
+            "roadmap_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.phases": {
+      "name": "phases",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "roadmap_id": {
+          "name": "roadmap_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type_id": {
+          "name": "type_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "color": {
+          "name": "color",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "border": {
+          "name": "border",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text_class": {
+          "name": "text_class",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_month": {
+          "name": "start_month",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_month": {
+          "name": "end_month",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "phases_roadmap_id_roadmaps_id_fk": {
+          "name": "phases_roadmap_id_roadmaps_id_fk",
+          "tableFrom": "phases",
+          "tableTo": "roadmaps",
+          "columnsFrom": [
+            "roadmap_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "phases_type_id_check": {
+          "name": "phases_type_id_check",
+          "value": "\"phases\".\"type_id\" in ('build', 'cut', 'maintenance', 'custom')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.roadmaps": {
+      "name": "roadmaps",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duration": {
+          "name": "duration",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "roadmaps_client_duration_unique": {
+          "name": "roadmaps_client_duration_unique",
+          "columns": [
+            {
+              "expression": "client_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "duration",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "roadmaps_client_id_clients_id_fk": {
+          "name": "roadmaps_client_id_clients_id_fk",
+          "tableFrom": "roadmaps",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "roadmaps_duration_check": {
+          "name": "roadmaps_duration_check",
+          "value": "\"roadmaps\".\"duration\" in (3, 6, 12)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.training_bounds": {
+      "name": "training_bounds",
+      "schema": "",
+      "columns": {
+        "client_id": {
+          "name": "client_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ceiling_days_per_week": {
+          "name": "ceiling_days_per_week",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "ceiling_session_length": {
+          "name": "ceiling_session_length",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "floor_days_per_week": {
+          "name": "floor_days_per_week",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "floor_session_length": {
+          "name": "floor_session_length",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "training_bounds_client_id_clients_id_fk": {
+          "name": "training_bounds_client_id_clients_id_fk",
+          "tableFrom": "training_bounds",
+          "tableTo": "clients",
+          "columnsFrom": [
+            "client_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

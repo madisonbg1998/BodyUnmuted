@@ -1,6 +1,8 @@
 import DashboardSidebar from '@/components/DashboardSidebar';
 import { getSessionToken, isAuthBypassEnabled } from '@/app/lib/adhara-auth';
 import { fetchPortalFeatures } from '@/app/lib/adhara-portal';
+import { verifySession } from '@/app/lib/dal';
+import { getOrCreateAppUser } from '@/app/lib/db/users';
 
 export default async function DashboardLayout({
   children,
@@ -10,11 +12,12 @@ export default async function DashboardLayout({
   // Only banner when we're actually bypassing — a real logged-in session
   // (even with AUTH_BYPASS set) should look and feel like the real thing.
   const isBypassing = isAuthBypassEnabled() && !(await getSessionToken());
-  const features = await fetchPortalFeatures();
+  const [features, { user }] = await Promise.all([fetchPortalFeatures(), verifySession()]);
+  const appUser = await getOrCreateAppUser(user);
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <DashboardSidebar features={features} />
+      <DashboardSidebar features={features} role={appUser.role as 'coach' | 'member'} />
       <main style={{ flex: 1, backgroundColor: '#fbf4e9' }}>
         {isBypassing && (
           <div

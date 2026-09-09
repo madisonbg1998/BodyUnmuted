@@ -96,6 +96,12 @@ const navItems: NavItem[] = [
   },
 ];
 
+const roadmapIcon = (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={iconStyle}>
+    <path d="M3 17c3-6 5-6 6-3s3 3 6-3 5-3 6 3" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const myContentItem = {
   label: 'My Content',
   icon: (
@@ -126,10 +132,24 @@ const comingSoonStaticItems = [
   },
 ];
 
-export default function DashboardSidebar({ features }: { features: PortalFeatures }) {
+export default function DashboardSidebar({
+  features,
+  role,
+}: {
+  features: PortalFeatures;
+  role: 'coach' | 'member';
+}) {
   const pathname = usePathname();
 
-  const availableNavItems = navItems.filter((item) => !item.featureFlag || features[item.featureFlag]);
+  const roadmapNavItem: NavItem =
+    role === 'coach'
+      ? { label: 'Roadmaps', href: '/dashboard/roadmaps', icon: roadmapIcon }
+      : { label: 'My Roadmap', href: '/dashboard/roadmap', icon: roadmapIcon };
+
+  const availableNavItems = [
+    ...navItems.filter((item) => !item.featureFlag || features[item.featureFlag]),
+    roadmapNavItem,
+  ];
   const disabledNavItems = navItems.filter((item) => item.featureFlag && !features[item.featureFlag]);
   const comingSoonItems = [myContentItem, ...disabledNavItems, ...comingSoonStaticItems];
 

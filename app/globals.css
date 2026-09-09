@@ -11,7 +11,27 @@
   --color-cream: #fbf4e9;
   --color-cream-off: #faf9f5;
 
+  /* Roadmap tool tokens — same brand hex values as above, under the names
+     ported from BU APP's phase/life-event presets (app/lib/roadmap/presets.ts). */
+  --color-cream-soft: #efdfc3;
+  --color-espresso: #2d1506;
+  --color-espresso-soft: #45220d;
+  --color-olive: #525421;
+  --color-olive-deep: #40421a;
+  --color-olive-soft: #7f8b32;
+  --color-sage: #e8eeba;
+  --color-sage-deep: #a3ac66;
+  --color-caramel: #ce965a;
+  --color-caramel-deep: #b17a3f;
+  --color-rust: #a4573a;
+  --color-rust-deep: #8a4630;
+  --color-stone: #8a7f6d;
+  --color-stone-deep: #6f6553;
+  --color-paper: #faf9f5;
+  --color-border-warm: #e4d8bf;
+
   --font-instrument: var(--font-instrument-serif), serif;
+  --font-display: var(--font-instrument-serif), serif;
   --font-domine: var(--font-domine-serif), serif;
   --font-ibm: var(--font-ibm-plex-sans), sans-serif;
   --font-inter: var(--font-inter-sans), sans-serif;
@@ -209,6 +229,48 @@ body {
   border: 1px solid rgba(205, 170, 92, 0.55);
   pointer-events: none;
   z-index: -1;
+}
+
+/* ── About page ── */
+.identity-label {
+  font-family: var(--font-ibm-plex-sans), sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: #45220d;
+}
+
+.method-principle {
+  background: rgba(251, 244, 233, 0.94);
+  color: #45220d;
+  border: 1px solid rgba(82, 84, 33, 0.22);
+  padding: clamp(2rem, 4vw, 3.25rem);
+  min-height: 100%;
+}
+
+.origin-story-surface {
+  width: min(900px, calc(100% - 2rem));
+  margin-inline: auto;
+  padding: clamp(2.5rem, 7vw, 6rem);
+  background: rgba(251, 244, 233, 0.96);
+  color: #45220d;
+  border: 1px solid rgba(205, 170, 92, 0.38);
+}
+
+.body-support-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.body-support-list li {
+  padding-block: 1rem;
+  border-top: 1px solid rgba(205, 170, 92, 0.34);
+}
+
+.body-support-list li:last-child {
+  border-bottom: 1px solid rgba(205, 170, 92, 0.34);
 }
 
 input:focus,

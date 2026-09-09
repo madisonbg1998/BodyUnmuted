@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: bodyunmuted
+      POSTGRES_PASSWORD: bodyunmuted
+      POSTGRES_DB: bodyunmuted
+    volumes:
+      - bodyunmuted_pgdata:/var/lib/postgresql/data
+
+volumes:
+  bodyunmuted_pgdata:
