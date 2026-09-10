@@ -13,11 +13,21 @@ export default async function DashboardLayout({
   // (even with AUTH_BYPASS set) should look and feel like the real thing.
   const isBypassing = isAuthBypassEnabled() && !(await getSessionToken());
   const [features, { user }] = await Promise.all([fetchPortalFeatures(), verifySession()]);
-  const appUser = await getOrCreateAppUser(user);
+
+  // The roadmap tool's DB is a separate dependency from Adhara. If it's
+  // unreachable or unconfigured, degrade to hiding the roadmap nav link
+  // rather than breaking every other dashboard page (courses, community,
+  // etc.) that has nothing to do with it.
+  let role: 'coach' | 'member' = 'member';
+  try {
+    role = (await getOrCreateAppUser(user)).role as 'coach' | 'member';
+  } catch (error) {
+    console.error('Roadmap DB unavailable, hiding roadmap nav link', error);
+  }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <DashboardSidebar features={features} role={appUser.role as 'coach' | 'member'} />
+      <DashboardSidebar features={features} role={role} />
       <main style={{ flex: 1, backgroundColor: '#fbf4e9' }}>
         {isBypassing && (
           <div

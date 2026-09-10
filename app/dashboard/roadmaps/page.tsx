@@ -2,9 +2,11 @@ import { redirect } from 'next/navigation';
 import { verifySession } from '@/app/lib/dal';
 import { getOrCreateAppUser } from '@/app/lib/db/users';
 import { getClientsForCoach, getClientWithData } from '@/app/lib/roadmaps';
+import type { RosterClient } from '@/app/lib/roadmap/types';
 import { RosterBar } from '@/components/roadmap/RosterBar';
 import { ClientEmailField } from '@/components/roadmap/ClientEmailField';
 import { RoadmapWorkspace } from '@/components/roadmap/RoadmapWorkspace';
+import { DbUnavailable } from '@/components/roadmap/DbUnavailable';
 
 const eyebrowStyle: React.CSSProperties = {
   fontFamily: 'var(--font-ibm-plex-sans), sans-serif',
@@ -17,13 +19,28 @@ const eyebrowStyle: React.CSSProperties = {
 
 export default async function RoadmapsPage({ searchParams }: { searchParams: Promise<{ client?: string }> }) {
   const { user } = await verifySession();
-  const appUser = await getOrCreateAppUser(user);
-  if (appUser.role !== 'coach') redirect('/dashboard/roadmap');
 
-  const clients = await getClientsForCoach(appUser.id);
-  const { client: clientParam } = await searchParams;
-  const activeClientId = clientParam && clients.some((c) => c.id === clientParam) ? clientParam : clients[0]?.id;
-  const activeClientWithData = activeClientId ? await getClientWithData(appUser.id, activeClientId) : null;
+  let dbUnavailable = false;
+  let role: 'coach' | 'member' = 'coach';
+  let clients: RosterClient[] = [];
+  let activeClientId: string | undefined;
+  let activeClientWithData: Awaited<ReturnType<typeof getClientWithData>> = null;
+
+  try {
+    const appUser = await getOrCreateAppUser(user);
+    role = appUser.role as 'coach' | 'member';
+    if (role === 'coach') {
+      clients = await getClientsForCoach(appUser.id);
+      const { client: clientParam } = await searchParams;
+      activeClientId = clientParam && clients.some((c) => c.id === clientParam) ? clientParam : clients[0]?.id;
+      activeClientWithData = activeClientId ? await getClientWithData(appUser.id, activeClientId) : null;
+    }
+  } catch (error) {
+    dbUnavailable = true;
+    console.error('Roadmap DB unavailable', error);
+  }
+
+  if (!dbUnavailable && role !== 'coach') redirect('/dashboard/roadmap');
 
   return (
     <div style={{ padding: '48px 48px 64px' }}>
@@ -45,29 +62,33 @@ export default async function RoadmapsPage({ searchParams }: { searchParams: Pro
         </p>
       </div>
 
-      <div className="flex flex-col gap-5">
-        <RosterBar clients={clients} activeClientId={activeClientId ?? ''} />
+      {dbUnavailable ? (
+        <DbUnavailable />
+      ) : (
+        <div className="flex flex-col gap-5">
+          <RosterBar clients={clients} activeClientId={activeClientId ?? ''} />
 
-        {activeClientWithData ? (
-          <>
-            <ClientEmailField
-              key={`email-${activeClientWithData.client.id}`}
-              clientId={activeClientWithData.client.id}
-              email={activeClientWithData.client.email}
-              linked={activeClientWithData.client.linked}
-            />
-            <RoadmapWorkspace
-              key={`workspace-${activeClientWithData.client.id}`}
-              clientId={activeClientWithData.client.id}
-              initialData={activeClientWithData.data}
-            />
-          </>
-        ) : (
-          <p className="rounded-md border border-dashed border-border-warm p-8 text-center text-sm text-stone">
-            Add your first client above to start building a roadmap.
-          </p>
-        )}
-      </div>
+          {activeClientWithData ? (
+            <>
+              <ClientEmailField
+                key={`email-${activeClientWithData.client.id}`}
+                clientId={activeClientWithData.client.id}
+                email={activeClientWithData.client.email}
+                linked={activeClientWithData.client.linked}
+              />
+              <RoadmapWorkspace
+                key={`workspace-${activeClientWithData.client.id}`}
+                clientId={activeClientWithData.client.id}
+                initialData={activeClientWithData.data}
+              />
+            </>
+          ) : (
+            <p className="rounded-md border border-dashed border-border-warm p-8 text-center text-sm text-stone">
+              Add your first client above to start building a roadmap.
+            </p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

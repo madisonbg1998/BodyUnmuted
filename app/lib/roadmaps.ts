@@ -1,6 +1,6 @@
 import 'server-only';
 import { and, eq } from 'drizzle-orm';
-import { db } from './db/client';
+import { getDb } from './db/client';
 import { appUsers, clientSnapshots, clients, lifeEvents, monthNotes, phases, roadmaps, trainingBounds } from './db/schema';
 import type { ClientData, Duration, LifeEvent, Phase, RoadmapsByDuration, RosterClient } from './roadmap/types';
 
@@ -16,6 +16,7 @@ function toRosterClient(row: typeof clients.$inferSelect): RosterClient {
 }
 
 async function assertOwnsClient(coachId: string, clientId: string): Promise<void> {
+  const db = getDb();
   const [row] = await db
     .select({ id: clients.id })
     .from(clients)
@@ -24,6 +25,7 @@ async function assertOwnsClient(coachId: string, clientId: string): Promise<void
 }
 
 async function assembleClientData(clientId: string): Promise<ClientData> {
+  const db = getDb();
   const [snapshotRow] = await db.select().from(clientSnapshots).where(eq(clientSnapshots.clientId, clientId));
   const [boundsRow] = await db.select().from(trainingBounds).where(eq(trainingBounds.clientId, clientId));
   const roadmapRows = await db.select().from(roadmaps).where(eq(roadmaps.clientId, clientId));
@@ -83,6 +85,7 @@ async function assembleClientData(clientId: string): Promise<ClientData> {
 }
 
 export async function getClientsForCoach(coachId: string): Promise<RosterClient[]> {
+  const db = getDb();
   const rows = await db.select().from(clients).where(eq(clients.coachId, coachId)).orderBy(clients.createdAt);
   return rows.map(toRosterClient);
 }
@@ -91,6 +94,7 @@ export async function getClientWithData(
   coachId: string,
   clientId: string
 ): Promise<{ client: RosterClient; data: ClientData } | null> {
+  const db = getDb();
   const [row] = await db.select().from(clients).where(and(eq(clients.id, clientId), eq(clients.coachId, coachId)));
   if (!row) return null;
   return { client: toRosterClient(row), data: await assembleClientData(clientId) };
@@ -99,12 +103,14 @@ export async function getClientWithData(
 export async function getClientForMember(
   memberUserId: string
 ): Promise<{ client: RosterClient; data: ClientData } | null> {
+  const db = getDb();
   const [row] = await db.select().from(clients).where(eq(clients.memberUserId, memberUserId));
   if (!row) return null;
   return { client: toRosterClient(row), data: await assembleClientData(row.id) };
 }
 
 export async function createClient(coachId: string, name: string, email?: string | null): Promise<RosterClient> {
+  const db = getDb();
   const normalizedEmail = email?.trim().toLowerCase() || null;
 
   return db.transaction(async (tx) => {
@@ -131,6 +137,7 @@ export async function createClient(coachId: string, name: string, email?: string
 }
 
 export async function renameClient(coachId: string, clientId: string, name: string): Promise<void> {
+  const db = getDb();
   await db
     .update(clients)
     .set({ name: name.trim(), updatedAt: new Date() })
@@ -138,6 +145,7 @@ export async function renameClient(coachId: string, clientId: string, name: stri
 }
 
 export async function updateClientEmail(coachId: string, clientId: string, email: string | null): Promise<void> {
+  const db = getDb();
   const normalizedEmail = email?.trim().toLowerCase() || null;
   await db
     .update(clients)
@@ -146,6 +154,7 @@ export async function updateClientEmail(coachId: string, clientId: string, email
 }
 
 export async function deleteClient(coachId: string, clientId: string): Promise<void> {
+  const db = getDb();
   await db.delete(clients).where(and(eq(clients.id, clientId), eq(clients.coachId, coachId)));
 }
 
@@ -163,6 +172,7 @@ export async function deleteClient(coachId: string, clientId: string): Promise<v
  * until the next page load.
  */
 export async function saveClientData(coachId: string, clientId: string, data: ClientData): Promise<void> {
+  const db = getDb();
   await assertOwnsClient(coachId, clientId);
 
   await db.transaction(async (tx) => {

@@ -3,6 +3,7 @@ import { verifySession } from '@/app/lib/dal';
 import { getOrCreateAppUser } from '@/app/lib/db/users';
 import { getClientForMember } from '@/app/lib/roadmaps';
 import { RoadmapWorkspace } from '@/components/roadmap/RoadmapWorkspace';
+import { DbUnavailable } from '@/components/roadmap/DbUnavailable';
 
 const eyebrowStyle: React.CSSProperties = {
   fontFamily: 'var(--font-ibm-plex-sans), sans-serif',
@@ -15,10 +16,21 @@ const eyebrowStyle: React.CSSProperties = {
 
 export default async function MyRoadmapPage() {
   const { user } = await verifySession();
-  const appUser = await getOrCreateAppUser(user);
-  if (appUser.role === 'coach') redirect('/dashboard/roadmaps');
 
-  const clientWithData = await getClientForMember(appUser.id);
+  let dbUnavailable = false;
+  let role: 'coach' | 'member' = 'member';
+  let clientWithData: Awaited<ReturnType<typeof getClientForMember>> = null;
+
+  try {
+    const appUser = await getOrCreateAppUser(user);
+    role = appUser.role as 'coach' | 'member';
+    if (role === 'member') clientWithData = await getClientForMember(appUser.id);
+  } catch (error) {
+    dbUnavailable = true;
+    console.error('Roadmap DB unavailable', error);
+  }
+
+  if (!dbUnavailable && role === 'coach') redirect('/dashboard/roadmaps');
 
   return (
     <div style={{ padding: '48px 48px 64px' }}>
@@ -40,7 +52,9 @@ export default async function MyRoadmapPage() {
         </p>
       </div>
 
-      {clientWithData ? (
+      {dbUnavailable ? (
+        <DbUnavailable />
+      ) : clientWithData ? (
         <RoadmapWorkspace clientId={clientWithData.client.id} initialData={clientWithData.data} readOnly />
       ) : (
         <p className="rounded-md border border-dashed border-border-warm p-8 text-center text-sm text-stone">

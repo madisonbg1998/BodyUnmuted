@@ -1,7 +1,7 @@
 import 'server-only';
 import { sql } from 'drizzle-orm';
 import type { AdharaCustomer } from '../adhara-auth';
-import { db } from './client';
+import { getDb } from './client';
 import { appUsers, clients } from './schema';
 
 export type AppUser = typeof appUsers.$inferSelect;
@@ -32,6 +32,7 @@ function resolveRole(customer: AdharaCustomer, email: string): 'coach' | 'member
  * added the roster entry or the member signed up first.
  */
 export async function getOrCreateAppUser(customer: AdharaCustomer): Promise<AppUser> {
+  const db = getDb();
   const email = customer.email.trim().toLowerCase();
   const role = resolveRole(customer, email);
 
