@@ -307,7 +307,7 @@ export default function WorkshopPage() {
                   <RegisterCaption />
                 </div>
                 <div className="gold-frame">
-                  <Photo src={img('unnamed.jpg')} alt="Madison laughing on a cream couch" aspect="0.85" position="50% 22%" />
+                  <Photo src={img('unnamed.jpg')} alt="Madison laughing on a cream couch" aspect="0.85" position="50% 38%" />
                 </div>
               </div>
             </div>
@@ -543,7 +543,7 @@ export default function WorkshopPage() {
         bg="#efdfc3"
       />
 
-      <section style={{ backgroundColor: '#fbf4e9', padding: '0 20px clamp(64px, 9vw, 96px)', textAlign: 'center' }}>
+      <section style={{ backgroundColor: '#fbf4e9', padding: 'clamp(56px, 8vw, 88px) 20px', textAlign: 'center' }}>
         <LumaBtn bg="#525421" color="#fbf4e9">
           Save My Free Spot
         </LumaBtn>
