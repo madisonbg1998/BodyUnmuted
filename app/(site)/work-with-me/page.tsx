@@ -310,6 +310,7 @@ export default function WorkWithMe() {
             backgroundSrc={img('BO1A8336.jpg')}
             priority
             objectPosition="50% 30%"
+            mobileObjectPosition="30% 30%"
             veil="linear-gradient(180deg, rgba(45,21,6,0.05) 0%, rgba(45,21,6,0.12) 40%, rgba(45,21,6,0.58) 76%, rgba(45,21,6,0.85) 100%)"
             className="sticky-scene hero-mobile-tall flex flex-col justify-end"
             contentClassName="w-full"

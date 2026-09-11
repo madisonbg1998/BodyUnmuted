@@ -71,6 +71,15 @@ body {
   z-index: 0;
 }
 
+/* Lets a MediaSection pass a different crop for narrow/tall mobile boxes via
+   the mobileObjectPosition prop, without affecting any caller that doesn't
+   set it (the custom property always defaults to the desktop value). */
+@media (max-width: 767px) {
+  .media-section__bg-img {
+    object-position: var(--media-mobile-object-position) !important;
+  }
+}
+
 .media-section__veil {
   z-index: 1;
 }
@@ -519,5 +528,50 @@ select:focus {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
+  }
+}
+
+/* ── Workshop persistent registration reminder ── */
+.workshop-reg-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: rgba(45, 21, 6, 0.97);
+  border-top: 1px solid rgba(205, 170, 92, 0.4);
+  transition: transform 220ms ease;
+}
+
+.workshop-reg-bar--desktop {
+  display: none;
+  top: var(--header-height-desktop);
+  transform: translateY(-130%);
+}
+
+.workshop-reg-bar--mobile {
+  display: flex;
+  bottom: 0;
+  border-top: 1px solid rgba(205, 170, 92, 0.4);
+  border-bottom: none;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  transform: translateY(130%);
+}
+
+.workshop-reg-bar.is-visible {
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .workshop-reg-bar--desktop {
+    display: block;
+  }
+  .workshop-reg-bar--mobile {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workshop-reg-bar {
+    transition: none;
   }
 }

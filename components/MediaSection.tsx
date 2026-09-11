@@ -6,6 +6,11 @@ type MediaSectionProps = {
   priority?: boolean;
   sizes?: string;
   objectPosition?: string;
+  /** Overrides objectPosition below 768px only (e.g. a crop that centers the
+   * subject on desktop needs a different slice once the box goes narrow and
+   * tall on mobile). Defaults to `objectPosition` when omitted, so existing
+   * callers are unaffected. */
+  mobileObjectPosition?: string;
   as?: 'section' | 'div';
   id?: string;
   className?: string;
@@ -25,6 +30,7 @@ export default function MediaSection({
   priority = false,
   sizes = '100vw',
   objectPosition = 'center',
+  mobileObjectPosition,
   as = 'section',
   id,
   className = '',
@@ -42,7 +48,14 @@ export default function MediaSection({
           alt=""
           fill
           sizes={sizes}
-          style={{ objectFit: 'cover', objectPosition }}
+          className="media-section__bg-img"
+          style={
+            {
+              objectFit: 'cover',
+              objectPosition,
+              '--media-mobile-object-position': mobileObjectPosition || objectPosition,
+            } as React.CSSProperties
+          }
           priority={priority}
         />
       </div>
