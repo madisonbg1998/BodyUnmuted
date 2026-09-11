@@ -123,6 +123,14 @@ body {
     border-radius: 18px 18px 0 0;
     box-shadow: none;
   }
+
+  /* Mobile sticky-scenes otherwise shrink to fit their (short) copy block,
+     which forces object-fit: cover to crop in tight on a wide photo —
+     tall enough here keeps the subject's face clear of the bottom-anchored
+     text instead of the two colliding. */
+  .sticky-scene.hero-mobile-tall {
+    min-height: 88svh;
+  }
 }
 
 /* Hero: taller than one viewport on desktop (not sticky — normal scroll),
