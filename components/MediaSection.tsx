@@ -7,6 +7,7 @@ type MediaSectionProps = {
   sizes?: string;
   objectPosition?: string;
   as?: 'section' | 'div';
+  id?: string;
   className?: string;
   style?: React.CSSProperties;
   contentClassName?: string;
@@ -25,6 +26,7 @@ export default function MediaSection({
   sizes = '100vw',
   objectPosition = 'center',
   as = 'section',
+  id,
   className = '',
   style,
   contentClassName = '',
@@ -33,7 +35,7 @@ export default function MediaSection({
 }: MediaSectionProps) {
   const Tag = as;
   return (
-    <Tag className={`media-section ${className}`} style={style}>
+    <Tag id={id} className={`media-section ${className}`} style={style}>
       <div className="media-section__background" aria-hidden="true">
         <Image
           src={backgroundSrc}

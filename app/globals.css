@@ -323,14 +323,16 @@ select:focus {
 .btn-copper,
 .btn-olive-light,
 .btn-yellow-green,
-.btn-secondary {
+.btn-secondary,
+.luxe-button {
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 220ms ease, border-color 220ms ease, color 220ms ease;
 }
 .btn-primary:hover,
 .btn-copper:hover,
 .btn-olive-light:hover,
 .btn-yellow-green:hover,
-.btn-secondary:hover {
+.btn-secondary:hover,
+.luxe-button:hover {
   transform: translateY(-2px);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -338,9 +340,27 @@ select:focus {
   .btn-copper:hover,
   .btn-olive-light:hover,
   .btn-yellow-green:hover,
-  .btn-secondary:hover {
+  .btn-secondary:hover,
+  .luxe-button:hover {
     transform: none;
   }
+}
+
+.luxe-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0.85rem 1.4rem;
+  border-radius: 2px;
+  border: 1px solid currentColor;
+  font-family: var(--font-ibm-plex-sans), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .btn-primary {

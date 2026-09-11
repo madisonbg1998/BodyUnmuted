@@ -2,12 +2,12 @@
 import { usePathname } from 'next/navigation';
 import Footer from './Footer';
 
-const ROUTES_WITH_OWN_FOOTER = ['/', '/about'];
+const ROUTES_WITH_OWN_FOOTER = ['/', '/about', '/work-with-me'];
 
 /**
- * The homepage and about page render Footer themselves as the slide-over
- * surface of their final sticky chapter, so the layout-level footer is
- * suppressed there to avoid a duplicate.
+ * The homepage, about page, and membership page render Footer themselves as
+ * the slide-over surface of their final sticky chapter, so the layout-level
+ * footer is suppressed there to avoid a duplicate.
  */
 export default function SiteFooter() {
   const pathname = usePathname();

@@ -5,7 +5,7 @@ import { useState } from 'react';
 const faqs = [
   {
     q: 'Do I have to be an entrepreneur?',
-    a: "No. many of the women I serve are founders because they're intentionally building freedom-first lives. But you don't need to own a business. If you're looking for a way to build the body you want without organizing your life around fitness, you'll fit right in.",
+    a: "No. Many of the women I serve are founders because they're intentionally building freedom-first lives. But you don't need to own a business. If you're looking for a way to build the body you want without organizing your life around fitness, you'll fit right in.",
   },
   {
     q: 'Do I have to travel full-time?',
@@ -34,6 +34,26 @@ const faqs = [
   {
     q: "What if I don't want my whole life to revolve around fitness?",
     a: "Neither do I. That's exactly the point. I want fitness to support your life, not become your life.",
+  },
+  {
+    q: 'What happens after I pay my deposit?',
+    a: "You'll receive an email with your onboarding questionnaire and a link to schedule your private strategy session. That gives us what we need to start building your transformation roadmap and customized programming.",
+  },
+  {
+    q: 'What will I be charged?',
+    a: "You'll pay a $100 deposit when you reserve your spot. That deposit is applied to your first month. The remaining $233 will be charged on October 5. Your next $333 monthly payment will be charged November 5, with future payments continuing monthly on the fifth.",
+  },
+  {
+    q: 'Is my founding rate locked in?',
+    a: 'Yes. Enroll before October 5 and your $333 monthly rate remains locked in for as long as you stay continuously enrolled.',
+  },
+  {
+    q: 'When will I receive my training and nutrition programming?',
+    a: "Your personalized programming will be ready within one week of your private strategy session. If you enroll by October 1, you should be ready to begin when Body Unmuted opens on October 5.",
+  },
+  {
+    q: 'When do I receive access to the community and Body Literacy curriculum?',
+    a: 'Community, coaching space, and curriculum access begin October 5, 2026.',
   },
 ];
 

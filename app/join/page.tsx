@@ -131,7 +131,7 @@ export default function JoinPage() {
           >
             &ldquo;You didn&rsquo;t build your life to choose between your freedom and the body you want.&rdquo;
           </p>
-          <p style={{ ...eyebrow, color: '#e8eeba' }}>Founding Member Pricing &mdash; First 5 Only</p>
+          <p style={{ ...eyebrow, color: '#e8eeba' }}>Founding Member Pricing &mdash; Ends October 5</p>
         </div>
       </div>
 
