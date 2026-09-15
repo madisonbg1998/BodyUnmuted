@@ -519,7 +519,7 @@ export default function WorkshopPage() {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="flex flex-col md:flex-row gap-14 items-center">
             <div className="w-full md:w-[42%] gold-frame">
-              <Photo src={img('madison-balcony.png')} alt="Madison laughing on a wrought-iron balcony" aspect="1.01" />
+              <Photo src={img('Madison-114.jpg')} alt="Madison with arm raised on a coastal cliff" aspect="0.9" position="50% 52%" />
             </div>
             <div className="w-full md:w-[58%]">
               <h2
