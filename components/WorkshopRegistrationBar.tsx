@@ -54,7 +54,7 @@ export default function WorkshopRegistrationBar() {
     <>
       <div className={`workshop-reg-bar workshop-reg-bar--desktop${visible ? ' is-visible' : ''}`} aria-hidden={!visible}>
         <div style={barContentStyle}>
-          <p style={{ ...detailStyle, margin: 0 }}>Free One-Day Live Workshop | September 30</p>
+          <p style={{ ...detailStyle, margin: 0 }}>Free One-Day Live Workshop | October 12</p>
           <a href={LUMA_URL} target="_blank" rel="noopener noreferrer" className="luxe-button" style={{ backgroundColor: '#fbf4e9', color: '#2d1506' }}>
             Save My Free Spot
           </a>
@@ -63,7 +63,7 @@ export default function WorkshopRegistrationBar() {
 
       <div className={`workshop-reg-bar workshop-reg-bar--mobile${visible ? ' is-visible' : ''}`} aria-hidden={!visible}>
         <div style={{ ...barContentStyle, padding: '10px 16px' }}>
-          <p style={{ ...detailStyle, margin: 0, fontSize: '11px' }}>Free Workshop | Sept 30</p>
+          <p style={{ ...detailStyle, margin: 0, fontSize: '11px' }}>Free Workshop | Oct 12</p>
           <a
             href={LUMA_URL}
             target="_blank"

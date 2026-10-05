@@ -188,7 +188,7 @@ export default function WorkshopPage() {
                     business you built.
                   </p>
                   <p style={{ ...eyebrow, color: '#525421', fontWeight: 700, marginBottom: '28px', textAlign: 'left' }}>
-                    September 30 | Live Online
+                    October 12 | Live Online
                   </p>
                   <LumaBtn bg="#2d1506" color="#fbf4e9">
                     Save My Free Spot
@@ -458,7 +458,7 @@ export default function WorkshopPage() {
               <p style={{ fontFamily: 'var(--font-ibm-plex-sans), sans-serif', fontWeight: 700, color: '#45220d', fontSize: '15px', marginBottom: '4px' }}>
                 Founders, Your Fitness Plan Is F***d <em style={{ fontStyle: 'italic', color: '#ce965a' }}>(Respectfully.)</em>
               </p>
-              <p style={{ ...eyebrow, color: '#525421', fontWeight: 700, marginBottom: '20px' }}>September 30 | Live Online</p>
+              <p style={{ ...eyebrow, color: '#525421', fontWeight: 700, marginBottom: '20px' }}>October 12 | Live Online</p>
               <p style={{ ...bodyP, color: '#45220d', fontSize: '15px', marginBottom: '24px' }}>
                 Bring the approach you have now. We&rsquo;ll figure out what needs to change, and how to make it
                 support your life and your business. Because you aren&rsquo;t crazy or &lsquo;undisciplined&rsquo;.
