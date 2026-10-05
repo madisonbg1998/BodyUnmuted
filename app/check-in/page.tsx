@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-type FieldType = 'text' | 'email' | 'textarea' | 'number' | 'radio' | 'checkbox' | 'scale' | 'numberOrSkip' | 'photo';
+type FieldType = 'text' | 'email' | 'textarea' | 'number' | 'radio' | 'checkbox' | 'scale' | 'numberOrSkip' | 'confirm';
 
 type FieldValue = string | string[] | undefined;
 
@@ -26,6 +26,7 @@ interface FieldDef {
   scaleMax?: number;
   scaleLabels?: [string, string];
   skipLabel?: string;
+  confirmLabel?: string;
   followUp?: FollowUp;
 }
 
@@ -216,15 +217,16 @@ const STEPS: StepDef[] = [
       {
         id: 'progress_photos',
         label: "Please share this month's progress photos, if photos are part of your agreed tracking approach.",
-        type: 'photo',
-        help: 'Front, side, and back. Aim for similar lighting, clothing, camera position, and time of day to your previous photos. No need to include your face. Paste a link to where you’ve uploaded them (Google Drive, Dropbox, iCloud, etc.).',
-        skipLabel: 'Skipping this month',
+        type: 'confirm',
+        help: 'Front, side, and back. Aim for similar lighting, clothing, camera position, and time of day to your previous photos. No need to include your face.',
+        confirmLabel: 'Added to Trainerize',
       },
       {
         id: 'weight_measurements',
-        label: "If we're tracking body weight or measurements, please share this month's agreed check-in data.",
-        type: 'textarea',
-        help: "Use your recorded averages where available and include units. If these are already in your coaching app, you don't need to enter them again.",
+        label: "If we're tracking body weight or measurements, please confirm this month's data has been shared.",
+        type: 'confirm',
+        help: "Use your recorded averages where available. If these are already in your coaching app, you don't need to enter them again.",
+        confirmLabel: 'Shared to Trainerize (if needed)',
       },
       {
         id: 'changes_beyond_numbers',
@@ -501,15 +503,15 @@ function Field({
         </div>
       )}
 
-      {(field.type === 'numberOrSkip' || field.type === 'photo') && (
+      {field.type === 'numberOrSkip' && (
         <div>
           <input
             type="text"
-            inputMode={field.type === 'numberOrSkip' ? 'numeric' : undefined}
+            inputMode="numeric"
             value={isSkipped ? '' : (value as string) || ''}
             onChange={(e) => onChange(e.target.value)}
             disabled={isSkipped}
-            placeholder={field.type === 'numberOrSkip' ? 'e.g. 8,200' : 'Link to your photos'}
+            placeholder="e.g. 8,200"
             style={{ ...inputStyle, opacity: isSkipped ? 0.5 : 1 }}
           />
           {field.skipLabel && (
@@ -524,6 +526,18 @@ function Field({
             </label>
           )}
         </div>
+      )}
+
+      {field.type === 'confirm' && field.confirmLabel && (
+        <label style={optionLabelStyle(value === field.confirmLabel)}>
+          <input
+            type="checkbox"
+            checked={value === field.confirmLabel}
+            onChange={() => onChange(value === field.confirmLabel ? '' : field.confirmLabel!)}
+            style={{ width: '16px', height: '16px', accentColor: '#ce965a' }}
+          />
+          {field.confirmLabel}
+        </label>
       )}
 
       {field.followUp && field.followUp.showWhen(value) && (
