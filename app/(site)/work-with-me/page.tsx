@@ -1106,7 +1106,7 @@ export default function WorkWithMe() {
                 Here&rsquo;s what happens when you say yes.
               </h2>
               <p style={{ ...bodyP, color: '#45220d', textAlign: 'left' }}>
-                From your deposit to your first day inside Body Unmuted, here is exactly what to expect.
+                From the moment you join to your first day inside Body Unmuted, here is exactly what to expect.
               </p>
             </div>
             <div className="w-full md:w-[40%]">
@@ -1116,7 +1116,7 @@ export default function WorkWithMe() {
 
           <div className="flex flex-col md:flex-row md:gap-8">
             <TimelineStep n="01" title="Reserve Your Founding Spot">
-              Pay the $100 deposit. It will be applied to your first month inside Body Unmuted.
+              Pay $333 to lock in your founding rate. You&rsquo;re in immediately.
             </TimelineStep>
             <TimelineStep n="02" title="Complete Your Onboarding">
               You&rsquo;ll immediately receive an email with your onboarding questionnaire and a link to schedule
@@ -1129,13 +1129,12 @@ export default function WorkWithMe() {
             </TimelineStep>
             <TimelineStep n="04" title="Receive Your Custom Programming">
               Your personalized training and nutrition programming will be delivered within one week of your
-              strategy session. Enroll by October 1 and you should be ready to begin when Body Unmuted opens on
-              October 5.
+              strategy session.
             </TimelineStep>
             <TimelineStep n="05" title="Enter Body Unmuted">
-              On October 5, you&rsquo;ll receive access to the community, coaching space, and Body Literacy
-              curriculum. Your programming, progress, feedback, and real life will continue guiding future
-              adjustments.
+              Body Unmuted is open now, so you&rsquo;ll get access to the community, coaching space, and Body
+              Literacy curriculum as soon as you join. Your programming, progress, feedback, and real life will
+              continue guiding future adjustments.
             </TimelineStep>
           </div>
         </div>
@@ -1167,14 +1166,10 @@ export default function WorkWithMe() {
               $333/month
             </span>
           </div>
-          <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '4px' }}>Reserve your spot today with a $100 deposit.</p>
-          <p style={{ ...bodyP, color: '#e8eeba', marginBottom: '24px' }}>
-            Your deposit is applied to your first month. The remaining $233 will be charged on October 5, followed by
-            $333 monthly beginning November 5.
-          </p>
+          <p style={{ ...bodyP, color: '#fbf4e9', marginBottom: '4px' }}>Pay $333 and you&rsquo;re in, today.</p>
           <p style={{ ...bodyP, color: '#e8eeba', marginBottom: '36px' }}>
-            Enroll before October 5 and your $333 founding rate remains locked in for as long as you stay a member.
-            New-member pricing increases to $555 per month on October 5.
+            Enroll before October 16 and your $333 founding rate remains locked in for as long as you stay a member.
+            New-member pricing increases to $555 per month on October 16.
           </p>
           <Btn href="/join" bg="#fbf4e9" color="#2d1506">
             Reserve My Founding Spot
@@ -1250,8 +1245,7 @@ export default function WorkWithMe() {
                   without taking over your life.
                 </p>
                 <p style={{ ...eyebrow, color: '#e8eeba', marginBottom: '28px', textAlign: 'left' }}>
-                  Reserve your founding member spot with a $100 deposit before the rate increases from $333 to $555
-                  on October 5.
+                  Join at $333/month before the rate increases to $555 on October 16.
                 </p>
                 <Btn href="/join" bg="#e8eeba" color="#2d1506">
                   Secure My Founding Rate

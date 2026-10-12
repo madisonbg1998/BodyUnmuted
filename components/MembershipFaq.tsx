@@ -36,24 +36,24 @@ const faqs = [
     a: "Neither do I. That's exactly the point. I want fitness to support your life, not become your life.",
   },
   {
-    q: 'What happens after I pay my deposit?',
+    q: 'What happens after I join?',
     a: "You'll receive an email with your onboarding questionnaire and a link to schedule your private strategy session. That gives us what we need to start building your transformation roadmap and customized programming.",
   },
   {
     q: 'What will I be charged?',
-    a: "You'll pay a $100 deposit when you reserve your spot. That deposit is applied to your first month. The remaining $233 will be charged on October 5. Your next $333 monthly payment will be charged November 5, with future payments continuing monthly on the fifth.",
+    a: "You'll be charged $333 today, and $333 monthly after that for as long as you stay a member.",
   },
   {
     q: 'Is my founding rate locked in?',
-    a: 'Yes. Enroll before October 5 and your $333 monthly rate remains locked in for as long as you stay continuously enrolled.',
+    a: 'Yes. Enroll before October 16 and your $333 monthly rate remains locked in for as long as you stay continuously enrolled.',
   },
   {
     q: 'When will I receive my training and nutrition programming?',
-    a: "Your personalized programming will be ready within one week of your private strategy session. If you enroll by October 1, you should be ready to begin when Body Unmuted opens on October 5.",
+    a: "Your personalized programming will be ready within one week of your private strategy session.",
   },
   {
     q: 'When do I receive access to the community and Body Literacy curriculum?',
-    a: 'Community, coaching space, and curriculum access begin October 5, 2026.',
+    a: "Body Unmuted is open now, so you'll get access to the community, coaching space, and curriculum as soon as you join.",
   },
 ];
 
