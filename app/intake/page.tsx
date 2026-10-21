@@ -1,11 +1,14 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
 const img = (name: string) => `/Body%20Unmuted%20Brand%20Images/${name}`;
 
-type FieldType = 'text' | 'email' | 'number' | 'textarea' | 'radio' | 'checkbox' | 'dropdown' | 'rating' | 'cta';
+const SCHEDULE_CALL_URL = 'https://calendar.app.google/myySAkhNztGR19uf6';
+const DRAFT_STORAGE_KEY = 'bu_intake_draft_v1';
+
+type FieldType = 'text' | 'email' | 'number' | 'textarea' | 'radio' | 'checkbox' | 'dropdown' | 'rating';
 
 interface FieldDef {
   id: string;
@@ -17,8 +20,6 @@ interface FieldDef {
   options?: string[];
   min?: string;
   max?: string;
-  url?: string;
-  buttonText?: string;
 }
 
 interface StepDef {
@@ -265,14 +266,6 @@ const STEPS: StepDef[] = [
       { id: 'disliked_movements', label: "Are there any movements or exercises you can't do or really dislike?", type: 'textarea', placeholder: 'None, or describe...' },
       { id: 'other_exercise', label: 'Do you do any other exercise outside of your training sessions?', type: 'textarea', help: "Walking, yoga, swimming, sport, cycling — anything that's part of your regular routine.", placeholder: 'Nothing else, or describe...' },
       { id: 'anything_else', label: "Is there anything else you'd like me to know before we get started?", type: 'textarea', help: "Anything this form didn't cover that feels important. The floor is yours.", placeholder: 'Nothing else...' },
-      {
-        id: 'schedule_call_cta',
-        label: 'Schedule your 1:1 strategy call',
-        type: 'cta',
-        help: "Once you've submitted this, grab a time on my calendar so we can go over everything together.",
-        url: 'https://calendar.app.google/myySAkhNztGR19uf6',
-        buttonText: 'Book Your Strategy Call',
-      },
     ],
   },
 ];
@@ -351,32 +344,6 @@ function Stepper({ current, total }: { current: number; total: number }) {
 }
 
 function Field({ field, value, onChange }: { field: FieldDef; value: string | string[] | undefined; onChange: (v: string | string[]) => void }) {
-  if (field.type === 'cta') {
-    return (
-      <div
-        style={{
-          marginBottom: '32px',
-          backgroundColor: '#faf1e3',
-          border: '1px solid rgba(206,150,90,0.35)',
-          borderRadius: '10px',
-          padding: '28px',
-        }}
-      >
-        <p style={{ ...labelStyle, marginBottom: '8px' }}>{field.label}</p>
-        {field.help && <p style={{ ...helpStyle, marginBottom: '18px' }}>{field.help}</p>}
-        <a
-          href={field.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-primary"
-          style={{ display: 'inline-block', textDecoration: 'none' }}
-        >
-          {field.buttonText || 'Book Now'}
-        </a>
-      </div>
-    );
-  }
-
   return (
     <div style={{ marginBottom: '32px' }}>
       <label style={labelStyle} htmlFor={field.id}>
@@ -531,12 +498,84 @@ function Field({ field, value, onChange }: { field: FieldDef; value: string | st
   );
 }
 
+function ScheduleCallModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="schedule-call-heading"
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        inset: 0,
+        backgroundColor: 'rgba(45,21,6,0.55)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px',
+        zIndex: 100,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '440px',
+          backgroundColor: '#fbf4e9',
+          borderRadius: '12px',
+          padding: 'clamp(28px, 5vw, 40px)',
+          boxShadow: '0 24px 64px rgba(45,21,6,0.35)',
+        }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          style={{
+            position: 'absolute',
+            top: '14px',
+            right: '14px',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: 'rgba(45,21,6,0.5)',
+            fontSize: '22px',
+            lineHeight: 1,
+            padding: '6px',
+          }}
+        >
+          &times;
+        </button>
+        <p style={{ fontFamily: 'var(--font-instrument-serif), serif', fontStyle: 'italic', color: '#ce965a', fontSize: 'clamp(18px, 2vw, 22px)', marginBottom: '12px' }}>
+          You&rsquo;re in.
+        </p>
+        <h2
+          id="schedule-call-heading"
+          style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: 'clamp(26px, 3.4vw, 32px)', lineHeight: '1.15', fontWeight: 400, marginBottom: '14px' }}
+        >
+          Last step: grab your strategy call.
+        </h2>
+        <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#45220d', fontSize: '15px', lineHeight: '1.6', marginBottom: '26px' }}>
+          Your intake is submitted. Now pick a time on my calendar so we can go over everything together.
+        </p>
+        <a href={SCHEDULE_CALL_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-block', textDecoration: 'none' }}>
+          Book Your Strategy Call
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export default function IntakePage() {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [resumedDraft, setResumedDraft] = useState(false);
+  const hasHydrated = useRef(false);
 
   const step = STEPS[stepIndex];
   const isFirst = stepIndex === 0;
@@ -547,6 +586,40 @@ export default function IntakePage() {
     for (let i = 0; i < stepIndex; i++) n += STEPS[i].fields.length;
     return n;
   }, [stepIndex]);
+
+  // Restore a saved draft on first mount, if one exists for this browser.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_STORAGE_KEY);
+      if (raw) {
+        const draft = JSON.parse(raw) as { answers?: Answers; stepIndex?: number };
+        if (draft.answers && Object.keys(draft.answers).length > 0) {
+          // One-time hydration from localStorage, which only exists client-side —
+          // this can't be read during the initial render without risking a
+          // server/client markup mismatch, so it has to happen in an effect.
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setAnswers(draft.answers);
+          setStepIndex(typeof draft.stepIndex === 'number' ? draft.stepIndex : 0);
+          setResumedDraft(true);
+        }
+      }
+    } catch {
+      // Corrupt or inaccessible draft — just start fresh.
+    } finally {
+      hasHydrated.current = true;
+    }
+  }, []);
+
+  // Save progress after every change, once the initial draft restore has run
+  // (so we don't immediately overwrite a saved draft with the blank initial state).
+  useEffect(() => {
+    if (!hasHydrated.current) return;
+    try {
+      localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify({ answers, stepIndex }));
+    } catch {
+      // Storage unavailable (private browsing, quota) — not critical, fail silently.
+    }
+  }, [answers, stepIndex]);
 
   const updateField = useCallback((id: string, value: string | string[]) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -581,7 +654,13 @@ export default function IntakePage() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Something went wrong.');
+      try {
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
+      } catch {
+        // Not critical — the draft just lingers until it's naturally overwritten.
+      }
       setIsSubmitted(true);
+      setShowScheduleModal(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
@@ -604,12 +683,16 @@ export default function IntakePage() {
             <h1 style={{ fontFamily: 'var(--font-instrument-serif), serif', color: '#2d1506', fontSize: 'clamp(36px, 4.6vw, 52px)', lineHeight: '1.05', fontWeight: 400, marginBottom: '20px' }}>
               Thank you for submitting.
             </h1>
-            <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#45220d', fontSize: '17px', lineHeight: '1.6' }}>
+            <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: '#45220d', fontSize: '17px', lineHeight: '1.6', marginBottom: '28px' }}>
               I can&rsquo;t wait to chat deeper with you on our strategy call. I&rsquo;ll review your answers beforehand
               so we can make the most of our time together.
             </p>
+            <a href={SCHEDULE_CALL_URL} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-block', textDecoration: 'none' }}>
+              Book Your Strategy Call
+            </a>
           </div>
         </div>
+        {showScheduleModal && <ScheduleCallModal onClose={() => setShowScheduleModal(false)} />}
       </div>
     );
   }
@@ -629,6 +712,21 @@ export default function IntakePage() {
           <p style={{ fontFamily: 'var(--font-inter-sans), sans-serif', color: 'rgba(45,21,6,0.65)', fontSize: '15px', lineHeight: '1.5', marginBottom: '28px' }}>
             Take your time — there are no wrong answers. The more honest you are, the better I can support you.
           </p>
+
+          {resumedDraft && (
+            <p
+              style={{
+                ...helpStyle,
+                backgroundColor: '#faf1e3',
+                border: '1px solid rgba(206,150,90,0.35)',
+                borderRadius: '6px',
+                padding: '12px 16px',
+                marginBottom: '24px',
+              }}
+            >
+              Welcome back — we picked up right where you left off.
+            </p>
+          )}
 
           <Stepper current={stepIndex + 1} total={STEPS.length} />
 
