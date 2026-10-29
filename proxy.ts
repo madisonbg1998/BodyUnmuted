@@ -4,8 +4,23 @@ import { SESSION_TOKEN_COOKIE, isAuthBypassEnabled } from '@/app/lib/adhara-auth
 const protectedRoutes = ['/dashboard'];
 const authRoutes = ['/login', '/signup'];
 
+// Public marketing/funnel pages temporarily gated behind the under-construction
+// page while the program relaunches. Nothing here is deleted — this just
+// rewrites what's served at these URLs; the real page code underneath is
+// untouched and comes straight back the moment this list is cleared out.
+// Forms clients still use (contact, get-in-touch, survey, intake, check-in)
+// are deliberately left out of this list.
+const GATED_PATHS = new Set(['/', '/about', '/work-with-me', '/workshop', '/blog', '/quiz', '/quiz/preview', '/join', '/join/success']);
+
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (GATED_PATHS.has(pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/under-construction';
+    return NextResponse.rewrite(url);
+  }
+
   const hasSession = request.cookies.has(SESSION_TOKEN_COOKIE);
 
   const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
@@ -25,5 +40,18 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/signup'],
+  matcher: [
+    '/dashboard/:path*',
+    '/login',
+    '/signup',
+    '/',
+    '/about',
+    '/work-with-me',
+    '/workshop',
+    '/blog',
+    '/quiz',
+    '/quiz/preview',
+    '/join',
+    '/join/success',
+  ],
 };
